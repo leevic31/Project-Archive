@@ -1,12 +1,14 @@
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
+    QComboBox,
     QDialog,
     QFileDialog,
     QGridLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
+    QMessageBox,
     QPushButton,
     QTabWidget,
     QVBoxLayout,
@@ -16,9 +18,28 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
+import pyxl
+
 def get_file_name(path : str) -> str:
     return path[path.rfind("/") + 1:]
 
+def prompt_error(message, title="Error"):
+        messagebox = QMessageBox()
+        messagebox.setIcon(QMessageBox.Critical)
+        messagebox.setText(message)
+        messagebox.setStandardButtons(QMessageBox.Close)
+        messagebox.setWindowTitle(title)
+        messagebox.setWindowModality(Qt.ApplicationModal)
+        messagebox.exec_()
+
+def prompt_information(message, title="Notice"):
+        messagebox = QMessageBox()
+        messagebox.setIcon(QMessageBox.Information)
+        messagebox.setText(message)
+        messagebox.setStandardButtons(QMessageBox.Close)
+        messagebox.setWindowTitle(title)
+        messagebox.setWindowModality(Qt.ApplicationModal)
+        messagebox.exec_()
 
 class agencyWidget(QWidget):
     def __init__(self, parent):
@@ -55,7 +76,7 @@ class iCareNewTemplateWidget(QWidget):
 
         self.upload1 = QPushButton("Select Template")
         self.upload1.clicked.connect(self.file_select)
-        self.submit1 = QPushButton("Confirm Add New Template")
+        self.submit1 = QPushButton("Submit New Template")
         self.submit1.clicked.connect(self.submit_new_iCare_template)
 
         # add widgets
@@ -81,22 +102,18 @@ class iCareNewTemplateWidget(QWidget):
     def submit_new_iCare_template(self):
         template_name = self.iCare_template_name.text()
         if (not template_name):
-            d = QDialog()
-            d.setWindowTitle("Error")
-            d.setWindowModality(Qt.ApplicationModal)
-            d.exec_()
+            prompt_error("Please give a Template name")
             return
         if (not self.filepaths):
-            d = QDialog()
-            d.setWindowTitle("Error")
-            d.setWindowModality(Qt.ApplicationModal)
-            d.exec_()
+            prompt_error("Please select a Template file")
             return
 
         pyxl.add_new_template(template_name, self.filepaths[0])
+        prompt_information("New template: '{}' has been added"
+                            .format(template_name))
+
         self.iCare_template_name.setText("")
         self.filepaths = []
-
 
 class iCareUploadWidget(QWidget):
     def __init__(self):
@@ -110,18 +127,24 @@ class iCareUploadWidget(QWidget):
         self.layout.setColumnStretch(0, 1)
         self.layout.setColumnStretch(1, 3)
 
-        self.file_upload_label = QLabel("No File Chosen")
 
+        # widgets
+        self.iCare_combobox = QComboBox()
+        self.iCare_types = pyxl.get_iCare_template_names()
+        for iCare_type in self.iCare_types:
+            self.iCare_combobox.addItem(iCare_type)
+
+        self.file_upload_label = QLabel("No File Chosen")
         self.upload1 = QPushButton("Select Data")
         self.upload1.clicked.connect(self.file_select)
-
         self.submit1 = QPushButton("Submit Data")
         self.submit1.clicked.connect(self.submit_iCare_data)
 
-
-        self.layout.addWidget(self.upload1, 0, 0)
-        self.layout.addWidget(self.file_upload_label)
-        self.layout.addWidget(self.submit1, 1, 0)
+        self.layout.addWidget(QLabel("iCare format data for:"), 0, 0)
+        self.layout.addWidget(self.iCare_combobox, 0, 1)
+        self.layout.addWidget(self.upload1, 1, 0)
+        self.layout.addWidget(self.file_upload_label, 1, 1)
+        self.layout.addWidget(self.submit1, 2, 0)
         self.setLayout(self.layout)
 
     @pyqtSlot()
@@ -132,8 +155,7 @@ class iCareUploadWidget(QWidget):
 
         if dialog.exec_():
             self.filepaths = dialog.selectedFiles()
-            for path in self.filepaths:
-                self.file_upload_label.setText(get_file_name(path))
+            self.file_upload_label.setText(get_file_name(self.filepaths[0]))
 
     @pyqtSlot()
     def submit_iCare_data(self):
