@@ -49,11 +49,11 @@ def insert_data_for(template_name, file_name):
 
 
 if (__name__ == "__main__"):
-    if (sys.argc != 2):
-        print("usage: {} name file", sys.argv[0])
-        return 1
+    if (len(sys.argv) != 3):
+        print("usage: {} name file".format(sys.argv[0]))
+        sys.exit(1)
 
-    add_new_template(argv[1], argv[2])
+    add_new_template(sys.argv[1], sys.argv[2])
 
 
 #for i in range(1, sheet.max_row + 1):
