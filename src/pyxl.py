@@ -4,6 +4,16 @@ import openpyxl
 import openpyxl.utils
 import pymysql.cursors
 
+def get_db_connection():
+    # Connect to the database
+    connection = pymysql.connect(host='localhost',
+                                 user='shana',
+                                 password='zhaoji97',
+                                 db='c43',
+                             #    charset='utf8mb4',
+                                 cursorclass=pymysql.cursors.DictCursor)
+    return connection
+
 def add_new_template(name, file_name):
     book = openpyxl.load_workbook(filename=file_name,
                 read_only=True)
@@ -18,13 +28,7 @@ def add_new_template(name, file_name):
         print("{}: {}".format(cell, sheet[cell].value))
     fields = fields[:-1]
 
-    # Connect to the database
-    connection = pymysql.connect(host='localhost',
-                                 user='shana',
-                                 password='zhaoji97',
-                                 db='c43',
-                             #    charset='utf8mb4',
-                                 cursorclass=pymysql.cursors.DictCursor)
+    connection = get_db_connection()
 
     try:
         with connection.cursor() as cursor:
@@ -46,14 +50,31 @@ def insert_data_for(template_name, file_name):
     # make sure xlsx file has all columns
     pass
 
+def get_iCare_template_names():
+    connection = get_db_connection()
+    iCare_names = []
 
+    try:
+        with connection.cursor() as cursor:
+            # Create a new record
+            sql = "SELECT template_name from `Template`"
+            cursor.execute(sql)
+            iCare_names = [row['template_name'] for row in cursor]
+
+        # connection is not autocommit by default. So you must commit to save
+        # your changes.
+        connection.commit()
+    finally:
+        connection.close()
+
+    return iCare_names
 
 if (__name__ == "__main__"):
-    if (len(sys.argv) != 3):
-        print("usage: {} name file".format(sys.argv[0]))
-        sys.exit(1)
+    if (len(sys.argv) == 3):
+        add_new_template(sys.argv[1], sys.argv[2])
+    else:
+        print(get_iCare_template_names())
 
-    add_new_template(sys.argv[1], sys.argv[2])
 
 
 #for i in range(1, sheet.max_row + 1):
