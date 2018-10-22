@@ -95,8 +95,7 @@ class iCareNewTemplateWidget(QWidget):
 
         if dialog.exec_():
             self.filepaths = dialog.selectedFiles()
-            for path in self.filepaths:
-                self.file_upload_label.setText(get_file_name(path))
+            self.file_upload_label.setText(get_file_name(self.filepaths[0]))
 
     @pyqtSlot()
     def submit_new_iCare_template(self):
@@ -159,4 +158,8 @@ class iCareUploadWidget(QWidget):
 
     @pyqtSlot()
     def submit_iCare_data(self):
-        return
+
+        if (not self.filepaths):
+            prompt_error("Please select an xlsx file")
+            return
+

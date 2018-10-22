@@ -2,17 +2,17 @@ import sys
 
 import openpyxl
 import openpyxl.utils
-import pymysql.cursors
+import mysql.connector
 
 def get_db_connection():
-    # Connect to the database
-    connection = pymysql.connect(host='localhost',
-                                 user='shana',
-                                 password='zhaoji97',
-                                 db='c43',
-                             #    charset='utf8mb4',
-                                 cursorclass=pymysql.cursors.DictCursor)
-    return connection
+    mydb = mysql.connector.connect(
+                host='localhost',
+                database='c43',
+                user='shana',
+                password='zhaoji97'
+                )
+
+    return mydb
 
 def add_new_template(name, file_name):
     book = openpyxl.load_workbook(filename=file_name,
@@ -20,7 +20,7 @@ def add_new_template(name, file_name):
 
     sheet = book.active
 
-    row = 2
+    row = 3
     fields = ""
     for i in range(1, sheet.max_column + 1):
         cell = "{}{}".format(openpyxl.utils.get_column_letter(i), row)
@@ -31,10 +31,10 @@ def add_new_template(name, file_name):
     connection = get_db_connection()
 
     try:
-        with connection.cursor() as cursor:
-            # Create a new record
-            sql = "INSERT INTO `Template`(`template_name`, `template_fields`) VALUES (%s, %s)"
-            cursor.execute(sql, (name, fields))
+        cursor = connection.cursor()
+        # Create a new record
+        sql = "INSERT INTO `Template`(`template_name`, `template_fields`) VALUES (%s, %s)"
+        cursor.execute(sql, (name, fields))
 
         # connection is not autocommit by default. So you must commit to save
         # your changes.
@@ -55,11 +55,11 @@ def get_iCare_template_names():
     iCare_names = []
 
     try:
-        with connection.cursor() as cursor:
-            # Create a new record
-            sql = "SELECT template_name from `Template`"
-            cursor.execute(sql)
-            iCare_names = [row['template_name'] for row in cursor]
+        cursor = connection.cursor()
+        # Create a new record
+        sql = "SELECT template_name from `Template`"
+        cursor.execute(sql)
+        iCare_names = [template_name[0] for template_name in cursor]
 
         # connection is not autocommit by default. So you must commit to save
         # your changes.
