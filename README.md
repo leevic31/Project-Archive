@@ -14,8 +14,6 @@ Located under Deliverable_02/
 
 ### Dependencies
  - [openpyxl](https://bitbucket.org/openpyxl/openpyxl)
- - [pyodbc](https://github.com/mkleehammer/pyodbc)
-   - requires odbc drivers to be installed
-     - in this case, [myodbc](http://www.mysql.com/products/myodbc/) for MySQL
+ - [mysql-connector-python-rf](https://dev.mysql.com/doc/connector-python/en/connector-python-installation.html)
  - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)
 
