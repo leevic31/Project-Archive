@@ -19,27 +19,13 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
+from gui_helper import (
+    prompt_error,
+    prompt_information
+    )
 
 def get_file_name(path : str) -> str:
     return path[path.rfind("/") + 1:]
-
-def prompt_error(message, title="Error"):
-        messagebox = QMessageBox()
-        messagebox.setIcon(QMessageBox.Critical)
-        messagebox.setText(message)
-        messagebox.setStandardButtons(QMessageBox.Close)
-        messagebox.setWindowTitle(title)
-        messagebox.setWindowModality(Qt.ApplicationModal)
-        messagebox.exec_()
-
-def prompt_information(message, title="Notice"):
-        messagebox = QMessageBox()
-        messagebox.setIcon(QMessageBox.Information)
-        messagebox.setText(message)
-        messagebox.setStandardButtons(QMessageBox.Close)
-        messagebox.setWindowTitle(title)
-        messagebox.setWindowModality(Qt.ApplicationModal)
-        messagebox.exec_()
 
 class agencyWidget(QWidget):
     def __init__(self, parent):
