@@ -23,6 +23,7 @@ Located under Deliverable_03/
  - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_03/backlog/sprint02/execution.csv)
  - [sprint report](https://github.com/CSCC01/Team12/blob/master/Deliverable_03/backlog/sprint02/sprint_report_02.pdf)
 
+#### Instructions
  - source code located under Deliverable_03/src/
  - to run:
 ```
