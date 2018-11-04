@@ -41,7 +41,7 @@ class teqWidget(QWidget):
 #        self.tab_widget.addTab(self.tabs[0], "Add New Template")
 #        self.tab_widget.addTab(self.tabs[1], "Upload iCare Data")
 
-        self.tabs = [iCareNewTemplateWidget()]
+        self.tabs = [iCareNewQueryWidget()]
 
         self.tab_names = ["Add New Template"]
         for i in range(len(self.tabs)):
@@ -49,6 +49,41 @@ class teqWidget(QWidget):
 
         self.layout.addWidget(self.tab_widget)
         self.setLayout(self.layout)
+
+class iCareNewQueryWidget(QWidget):
+    def __init__(self):
+        super(QWidget, self).__init__()
+        self._setup_widget()
+
+    def _setup_widget(self):
+        self.query = QLineEdit(self)
+        self.label1 = QLabel("Query:")
+        self.submit1 = QPushButton("Execute Query")
+        self.submit1.clicked.connect(self.execute_query)
+        self.table1 = QTableWidget()
+
+        # set layouts
+        self.layout = QGridLayout(self)
+        self.layout.setColumnStretch(0, 3)
+
+        # add widgets
+        self.layout.addWidget(self.label1, 0, 0)
+        self.layout.addWidget(self.query, 1, 0)
+        self.layout.addWidget(self.submit1, 1, 1)
+        self.layout.addWidget(self.table1, 2, 0)
+        self.setLayout(self.layout)
+
+    @pyqtSlot()
+    def execute_query(self):
+        query = self.query.text()
+        if (len(query) == 0):
+            prompt_error("Please enter a query")
+            return
+        if (not query.endswith(";")):
+            query = query + ";"
+
+        print("Query:", query)
+        
 
 
 class iCareNewTemplateWidget(QWidget):

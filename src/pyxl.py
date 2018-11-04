@@ -75,46 +75,50 @@ def insert_data_for(template_name, file_name):
     # get a list of columns the template should have
 
     # make sure xlsx file has all columns
-
     connection = get_db_connection()
-    connection.autocommit = False
+    try:
 
-    cursor = connection.cursor()
+        connection.autocommit = False
 
-    sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
-            "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
-            config.database, template_name))
+        cursor = connection.cursor()
 
-    print("executing:", sql)
+        sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
+                "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
+                config.database, template_name))
 
-    cursor.execute(sql)
-    column = [column_name[0] for column_name in cursor]
-    print(column)
+        print("executing:", sql)
+
+        cursor.execute(sql)
+        column = [column_name[0] for column_name in cursor]
+        print(column)
 
 
-    book = openpyxl.load_workbook(filename = file_name, read_only = True)
-    sheet = book.active
+        book = openpyxl.load_workbook(filename = file_name, read_only = True)
+        sheet = book.active
 
-    values = [parse_row(sheet, column, i)
-                  for i in range(4, sheet.max_row + 1)]
+        values = [parse_row(sheet, column, i)
+                      for i in range(4, sheet.max_row + 1)]
 
-    column_names = ["`" + column_name + "`" for column_name in column]
-    column_formatted = ",".join(column_names)
+        column_names = ["`" + column_name + "`" for column_name in column]
+        column_formatted = ",".join(column_names)
 
-    tmp = "%s," * len(column_names)
-    sql = ("INSERT INTO `{}` ({}) VALUES ".format(template_name, column_formatted) +
-           "(" + ("%s," * len(column_names))[:-1] + ")"
-          )
+        tmp = "%s," * len(column_names)
+        sql = ("INSERT INTO `{}` ({}) VALUES ".format(template_name, column_formatted) +
+               "(" + ("%s," * len(column_names))[:-1] + ")"
+              )
 
-    print(sql)
+        print(sql)
 
-    cursor.execute("START TRANSACTION;")
-    for value in values:
-        print("Adding:", value)
-        cursor.execute(sql, value)
+        cursor.execute("START TRANSACTION;")
+        for value in values:
+            print("Adding:", value)
+            cursor.execute(sql, value)
 
-    cursor.execute("COMMIT;")
-    print("Data has been successfully added to the database");
+        cursor.execute("COMMIT;")
+        print("Data has been successfully added to the database")
+
+    finally:
+        connection.close()
 
 def get_iCare_template_names():
 
@@ -135,6 +139,16 @@ def get_iCare_template_names():
     except:
         print("Failed to connect to database")
         return []
+
+def execute_query(query):
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute(query)
+        return cursor
+    finally:
+        connection.close()
 
 if (__name__ == "__main__"):
     if (len(sys.argv) == 3):
