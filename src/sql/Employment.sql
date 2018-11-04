@@ -1,74 +1,74 @@
 CREATE TABLE `Employment`(
-	`A` varchar(255),
-	`B` BIGINT(8),
-	`C` varchar(255) NOT NULL,
-	`D` BIGINT(8) NOT NULL,
-	`E` DATE NOT NULL,
-	`F` char(6) NOT NULL,
-	`G` ENUM('Yes', 'No') NOT NULL,
-	`H` varchar(255),
-	`I` varchar(255) NOT NULL,
-	`J` varchar(255) NOT NULL,
-	`K` varchar(255) NOT NULL,
-	`L` varchar(255) NOT NULL,
-	`M` DATE,
-	`N` varchar(255) NOT NULL,
-	`O` varchar(255) NOT NULL,
-	`P` varchar(255),
-	`Q` varchar(255),
-	`R` varchar(255),
-	`S` varchar(255),
-	`T` varchar(255),
-	`U` varchar(255),
-	`V` DATE,
-	`W` DATE,
-	`X` varchar(255),
-	`Y` varchar(25),
-	`Z` varchar(255),
-	`AA` varchar(255),
-	`AB` varchar(255),
-	`AC` varchar(255),
-	`AD` ENUM('Yes', 'No'),
-	`AE` ENUM('Yes', 'No'),
-	`AF` ENUM('Yes', 'No'),
-	`AG` ENUM('Yes', 'No'),
-	`AH` ENUM('Yes', 'No'),
-	`AI` ENUM('Yes', 'No'),
-	`AJ` varchar(255),
-	`AK` DATE,
-	`AL` varchar(255),
-	`AM` DATE,
-	`AN` varchar(255),
-	`AO` DATE,
-	`AP` varchar(255),
-	`AQ` DATE,
-	`AR` varchar(255),
-	`AS` DATE,
-	`AT` ENUM('Yes', 'No'),
-	`AU` ENUM('Yes', 'No'),
-	`AV` varchar(40),
-	`AW` varchar(40),
-	`AX` varchar(40),
-	`AY` varchar(40),
-	`AZ` varchar(40),
-	`BA` varchar(40),
-	`BB` varchar(40),
-	`BC` varchar(40),
-	`BD` varchar(40),
-	`BE` varchar(40),
-	`BF` ENUM('Yes', 'No'),
-	`BG` ENUM('Yes', 'No'),
-	`BH` ENUM('Yes', 'No'),
-	`BI` varchar(255),
-	`BJ` varchar(255),
-	`BK` ENUM('Yes', 'No'),
-	`BL` varchar(255),
-	`BM` varchar(255),
-	`BN` ENUM('Yes', 'No'),
-	`BO` int unsigned,
-	`BP` int unsigned,
-	`BQ` varchar(255),
-
+	`A` varchar(255),		-- Processing Details
+	`B` BIGINT(8),			-- Update Record ID
+	`C` varchar(255) NOT NULL,	-- Unique Identifier
+	`D` BIGINT(8) NOT NULL,		-- Unique Identifier Value
+	`E` DATE NOT NULL,		-- Date of Birth (YYYY-MM-DD)
+	`F` char(6) NOT NULL,		-- Postal Code where the service was received
+	`G` ENUM('Yes', 'No') NOT NULL,	-- Registration in an employment intervention
+	`H` varchar(255),		-- A referral to
+	`I` varchar(255) NOT NULL,	-- Language of Service
+	`J` varchar(255) NOT NULL,	-- Official Language of Preference
+	`K` varchar(255) NOT NULL,	-- Type of Institution/Organization Where Client Received Services
+	`L` varchar(255) NOT NULL,	-- Referred By
+	`M` DATE,			-- Referral Date (YYYY-MM-DD)
+	`N` varchar(255) NOT NULL,	-- Employment Status
+	`O` varchar(255) NOT NULL,	-- Education Status
+	`P` varchar(255),		-- Occupation in Canada
+	`Q` varchar(255),		-- Intended Occupation
+	`R` varchar(255),		-- Intervention Type
+	`S` varchar(255),		-- Long Term Intervention: Intervention Received
+	`T` varchar(255),		-- Long Term Intervention: Status of Intervention
+	`U` varchar(255),		-- Long Term Intervention: Reason For Leaving Intervention
+	`V` DATE,			-- Long Term Intervention: Start Date (YYYY-MM-DD)
+	`W` DATE,			-- Long Term Intervention: End Date (YYYY-MM-DD)
+	`X` varchar(255),		-- Long Term Intervention: Size of Employer
+	`Y` varchar(25),		-- Long Term Intervention: Placement Was
+	`Z` varchar(255),		-- Long Term Intervention: Hours Per Week
+	`AA` varchar(255),		-- Long Term Intervention: Client Met Mentor Regularly at
+	`AB` varchar(255),		-- Long Term Intervention: Average Hours/Week in Contact with Mentor
+	`AC` varchar(255),		-- Long Term Intervention: Profession/Trade For Which Services Were Received
+	`AD` ENUM('Yes', 'No'),		-- Was Essential Skills and Aptitude Training Received as Part of this Service?
+	`AE` ENUM('Yes', 'No'),		-- Computer skills
+	`AF` ENUM('Yes', 'No'),		-- Document Use
+	`AG` ENUM('Yes', 'No'),		-- Interpersonal Skills and Workplace Culture
+	`AH` ENUM('Yes', 'No'),		-- Leadership Training
+	`AI` ENUM('Yes', 'No'),		-- Numeracy
+	`AJ` varchar(255),		-- Short Term Intervention: Service Received
+	`AK` DATE,			-- Short Term Intervention: Date (YYYY-MM-DD)
+	`AL` varchar(255),		-- Short Term Intervention: Service Received
+	`AM` DATE,			-- Short Term Intervention: Date (YYYY-MM-DD)
+	`AN` varchar(255),		-- Short Term Intervention: Service Received
+	`AO` DATE,			-- Short Term Intervention: Date (YYYY-MM-DD)
+	`AP` varchar(255),		-- Short Term Intervention: Service Received
+	`AQ` DATE,			-- Short Term Intervention: Date (YYYY-MM-DD)
+	`AR` varchar(255),		-- Short Term Intervention: Service Received
+	`AS` DATE,			-- Short Term Intervention: Date (YYYY-MM-DD)
+	`AT` ENUM('Yes', 'No'),		-- Support Services Received
+	`AU` ENUM('Yes', 'No'),		-- Care for Newcomer Children
+	`AV` varchar(40),		-- Child 1: Age
+	`AW` varchar(40),		-- Child 1: Type of Care
+	`AX` varchar(40),		-- Child 2: Age
+	`AY` varchar(40),		-- Child 2: Type of Care
+	`AZ` varchar(40),		-- Child 3: Age
+	`BA` varchar(40),		-- Child 3: Type of Care
+	`BB` varchar(40),		-- Child 4: Age
+	`BC` varchar(40),		-- Child 4: Type of Care
+	`BD` varchar(40),		-- Child 5: Age
+	`BE` varchar(40),		-- Child 5: Type of Care
+	`BF` ENUM('Yes', 'No'),		-- Transportation
+	`BG` ENUM('Yes', 'No'),		-- Provisions for Disabilities
+	`BH` ENUM('Yes', 'No'),		-- Translation
+	`BI` varchar(255),		-- Between
+	`BJ` varchar(255),		-- And
+	`BK` ENUM('Yes', 'No'),		-- Interpretation
+	`BL` varchar(255),		-- Between
+	`BM` varchar(255),		-- And
+	`BN` ENUM('Yes', 'No'),		-- Crisis Counselling
+	`BO` int unsigned,		-- Time Spent With Client/Addressing Client's Employment Needs: Hours
+	`BP` int unsigned,		-- Time Spent With Client/Addressing Client's Employment Needs: Minutes
+	`BQ` varchar(255),		-- Reason for update
+		-- 
 	PRIMARY KEY (`C`, `D`)
 );
 
