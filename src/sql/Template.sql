@@ -1,5 +1,3 @@
-use c43;
-
 create table `Template`(
     TemplateID INT NOT NULL AUTO_INCREMENT,
     TemplateName varchar(80),
