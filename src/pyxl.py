@@ -65,8 +65,6 @@ def parse_row(sheet, column, row):
         print("adding:", col+row)
         if (not sheet[col + row].value):
             vals.append("''")
-        elif (isinstance(sheet[col + row].value, str)):
-            vals.append("'" + sheet[col + row].value + "'")
         else:
             vals.append(sheet[col + row].value)
     return vals
@@ -78,41 +76,45 @@ def insert_data_for(template_name, file_name):
 
     # make sure xlsx file has all columns
 
-    try:
-        connection = get_db_connection()
+    connection = get_db_connection()
+    connection.autocommit = False
 
-        cursor = connection.cursor()
+    cursor = connection.cursor()
 
-        sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
-                "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
-                config.database, template_name))
+    sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
+            "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
+            config.database, template_name))
 
-        print("executing:", sql)
+    print("executing:", sql)
 
-        cursor.execute(sql)
-        column = [column_name[0] for column_name in cursor]
-        print(column)
-        column_formatted = ",".join(column)
-        print(column_formatted)
+    cursor.execute(sql)
+    column = [column_name[0] for column_name in cursor]
+    print(column)
 
-        sql = ("INSERT INTO `{}` ({}) VALUES ".format(template_name, column_formatted))
 
-        print(sql)
-        values = []
+    book = openpyxl.load_workbook(filename = file_name, read_only = True)
+    sheet = book.active
 
-        book = openpyxl.load_workbook(filename = file_name, read_only = True)
-        sheet = book.active
+    values = [parse_row(sheet, column, i)
+                  for i in range(4, sheet.max_row + 1)]
 
-        for i in range(4, sheet.max_row+1):
-            values.append("(" + ",".join(parse_row(sheet, column, i)) + "),")
-        for val in values:
-            print(val)
+    column_names = ["`" + column_name + "`" for column_name in column]
+    column_formatted = ",".join(column_names)
 
-        sql = sql + "".join(values)[:-1] + ";"
-        print(sql)
+    tmp = "%s," * len(column_names)
+    sql = ("INSERT INTO `{}` ({}) VALUES ".format(template_name, column_formatted) +
+           "(" + ("%s," * len(column_names))[:-1] + ")"
+          )
 
-    except Exception as e:
-        print(e)
+    print(sql)
+
+    cursor.execute("START TRANSACTION;")
+    for value in values:
+        print("Adding:", value)
+        cursor.execute(sql, value)
+
+    cursor.execute("COMMIT;")
+    print("Data has been successfully added to the database");
 
 def get_iCare_template_names():
 

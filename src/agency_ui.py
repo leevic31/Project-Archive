@@ -105,5 +105,8 @@ class iCareUploadWidget(QWidget):
 
         print("inserting data for", template_name)
 
-        pyxl.insert_data_for(template_name, self.filepaths[0])
-
+        try:
+            pyxl.insert_data_for(template_name, self.filepaths[0])
+            prompt_information("Data has been successfully added to the database")
+        except Exception as e:
+            prompt_error(str(e))
