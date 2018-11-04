@@ -42,7 +42,6 @@ def iCare_print_columns(file_name):
     #    cell = "{}{}".format(openpyxl.utils.get_column_letter(i), row)
         print("`{}` varchar(255),".format(openpyxl.utils.get_column_letter(i)))
 
-
 def add_new_template(name, columnNames, columnTypes):
 
     connection = get_db_connection()
@@ -59,16 +58,65 @@ def add_new_template(name, columnNames, columnTypes):
     finally:
         connection.close()
 
+def parse_row(sheet, column, row):
+    vals = []
+    row = str(row)
+    for col in column:
+        print("adding:", col+row)
+        if (not sheet[col + row].value):
+            vals.append("''")
+        elif (isinstance(sheet[col + row].value, str)):
+            vals.append("'" + sheet[col + row].value + "'")
+        else:
+            vals.append(sheet[col + row].value)
+    return vals
+
 def insert_data_for(template_name, file_name):
     # check whether template_name exists in database
 
     # get a list of columns the template should have
 
     # make sure xlsx file has all columns
-    pass
+
+    try:
+        connection = get_db_connection()
+
+        cursor = connection.cursor()
+
+        sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
+                "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
+                config.database, template_name))
+
+        print("executing:", sql)
+
+        cursor.execute(sql)
+        column = [column_name[0] for column_name in cursor]
+        print(column)
+        column_formatted = ",".join(column)
+        print(column_formatted)
+
+        sql = ("INSERT INTO `{}` ({}) VALUES ".format(template_name, column_formatted))
+
+        print(sql)
+        values = []
+
+        book = openpyxl.load_workbook(filename = file_name, read_only = True)
+        sheet = book.active
+
+        for i in range(4, sheet.max_row+1):
+            values.append("(" + ",".join(parse_row(sheet, column, i)) + "),")
+        for val in values:
+            print(val)
+
+        sql = sql + "".join(values)[:-1] + ";"
+        print(sql)
+
+    except Exception as e:
+        print(e)
 
 def get_iCare_template_names():
 
+    try:
         connection = get_db_connection()
 
         cursor = connection.cursor()
@@ -82,6 +130,9 @@ def get_iCare_template_names():
         connection.commit()
         connection.close()
         return iCare_names
+    except:
+        print("Failed to connect to database")
+        return []
 
 if (__name__ == "__main__"):
     if (len(sys.argv) == 3):

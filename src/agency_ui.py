@@ -98,4 +98,12 @@ class iCareUploadWidget(QWidget):
         if (not self.filepaths):
             prompt_error("Please select an xlsx file")
             return
+        template_name = self.iCare_combobox.currentText()
+        if (not template_name):
+            prompt_error("Please select a type")
+            return
+
+        print("inserting data for", template_name)
+
+        pyxl.insert_data_for(template_name, self.filepaths[0])
 
