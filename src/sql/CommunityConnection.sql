@@ -14,7 +14,7 @@ CREATE TABLE `CommunityConnection`(
 	`M` varchar(255),
 	`N` varchar(255) NOT NULL,
 	`O` varchar(255) NOT NULL,
-	`P` ENUM('Yes', 'No'),
+	`P` varchar(100),
 	`Q` ENUM('Yes', 'No'),
 	`R` ENUM('Yes', 'No'),
 	`S` ENUM('Yes', 'No'),
