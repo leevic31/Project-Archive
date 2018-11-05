@@ -2,7 +2,9 @@ import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
-# used https://pythonspot.com/pyqt5-textbox-example/ as reference
+
+from emailAPI import *
+# used https://pythonspot.com/pyqt5-textbox-example/ as reference to setup the UI
 class Password_Recovery(QMainWindow):
  
     def __init__(self):
@@ -28,14 +30,16 @@ class Password_Recovery(QMainWindow):
         self.button.move(20,80)
  
         # connect button to function on_click
-        #self.button.clicked.connect(self.on_click)
+        self.button.clicked.connect(self.on_click)
         self.show()
  
-    #@pyqtSlot()
-    #def on_click(self):
-        #textboxValue = self.textbox.text()
-        #QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + textboxValue, QMessageBox.Ok, QMessageBox.Ok)
-        #self.textbox.setText("")
+    @pyqtSlot()
+    def on_click(self):
+        textboxValue = self.textbox.text()
+        QMessageBox.question(self, 'Message', "Check " +  textboxValue + " for your login information", QMessageBox.Ok, QMessageBox.Ok)
+        self.textbox.setText("")
+        sendEmail(self, textboxValue)
+        
  
  
 if __name__ == '__main__':
