@@ -21,6 +21,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
+import db
 from gui_helper import (
     prompt_error,
     prompt_information
@@ -65,7 +66,7 @@ class iCareUploadWidget(QWidget):
 
         # widgets
         self.iCare_combobox = QComboBox()
-        self.iCare_types = pyxl.get_iCare_template_names()
+        self.iCare_types = db.get_iCare_template_names()
         for iCare_type in self.iCare_types:
             self.iCare_combobox.addItem(iCare_type)
 
@@ -94,7 +95,6 @@ class iCareUploadWidget(QWidget):
 
     @pyqtSlot()
     def submit_iCare_data(self):
-
         if (not self.filepaths):
             prompt_error("Please select an xlsx file")
             return
@@ -103,7 +103,7 @@ class iCareUploadWidget(QWidget):
             prompt_error("Please select a type")
             return
 
-        print("inserting data for", template_name)
+        print("inserting data for:", template_name)
 
         try:
             pyxl.insert_data_for(template_name, self.filepaths[0])

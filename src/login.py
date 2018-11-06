@@ -3,14 +3,12 @@ from PyQt5.QtWidgets import (
     QApplication,
     QComboBox,
     QDialog,
-    QFileDialog,
     QGridLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
     QMessageBox,
     QPushButton,
-    QTabWidget,
     QVBoxLayout,
     QWidget
     )
