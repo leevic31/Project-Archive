@@ -1,4 +1,5 @@
 import sys
+import query
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QToolTip 
 from PyQt5.QtWidgets import QMessageBox, QStatusBar, QLineEdit
