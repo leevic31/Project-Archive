@@ -2,7 +2,7 @@ import sys
 import query
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QToolTip 
-from PyQt5.QtWidgets import QMessageBox, QStatusBar, QLineEdit
+from PyQt5.QtWidgets import QMessageBox, QStatusBar, QLineEdit, QMenuBar, QAction
 from PyQt5.QtCore import QCoreApplication
 
 class Window(QMainWindow):
@@ -27,6 +27,13 @@ class Window(QMainWindow):
         self.queryButton.move(290, 250)
         self.queryButton.clicked.connect(self.SubmitQuery)
         
+     
+     
+        self.menubar = QMenuBar()
+        self.setMenuBar(self.menubar)
+        mainMenu = self.menubar.addMenu("Options")
+        
+        
         self.InitUI();
         
     def InitUI(self):
@@ -46,9 +53,16 @@ class Window(QMainWindow):
     def SubmitQuery(self):
         textValue = self.query.text()   # on click gives typed in value
 		#########################################################
-		# 	INSERT METHOD HERE TO USE TEXT VALUE AS QUERY		#
+		# 	INSERT METHOD HERE TO USE textValue FOR QUERY		#
 		#########################################################
-        
+        genReport = QMessageBox.question(self, "Generate Report?",
+                                      "Generate Report using query '" + textValue + "'", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if genReport == QMessageBox.Yes:
+             self.close()	            # remove this line after adding generate report
+        #######################
+        #	GENERATE REPORT
+        #######################
+	
 App = QApplication(sys.argv)
 window = Window()
 sys.exit(App.exec())
