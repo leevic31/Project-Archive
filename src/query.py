@@ -3,13 +3,19 @@ import database
 
 
 class query():
-    info = defaultdict(list)
     db = object()
 
     def ConnectDB(connection):
         query.db = connection
 
     def get_DBinfo():
+        """obtain all field names from each table in the database
+
+        Returns:
+            defaultdict -- table name as key, a list of all field names in table as value
+        """
+
+        info = defaultdict(list)
         cursor = query.db.cursor()
         # SQL command to list all table
         cursor.execute("SHOW TABLES")
@@ -22,36 +28,58 @@ class query():
                 columns = cursor.fetchall()
                 for column in columns:
                     # store column names in dictionary with table name as the key
-                    query.info[value].append(column.get("Field"))
+                    info[value].append(column.get("Field"))
+        return info
 
-    def sql_query(selection, table):
-        try:
-            cursor = query.db.cursor()
-            sql = "Select "
-            for item in selection:
-                sql += item + " ,"
-            sql = sql[:len(sql)-1] + "from " + table
-            # execute query
-            cursor.execute(sql)
-            # print(cursor.description)
-            for row in cursor:
-                print(row)
-        finally:
-            query.db.close()
+    def manual_sql_query(command):
+        """Run MySQL query and return the result
 
-    def printDB():
-        for key, values in query.info.items():
+        Arguments:
+            command {String} -- SQL command
+
+        Returns:
+            Dictionary in List -- the list contains all records from query in dictionary format, while column as key and data as vaule in the dictionary 
+        """
+
+        cursor = query.db.cursor()
+        # execute query
+        cursor.execute(command)
+        data = cursor.fetchall()
+        return data
+
+    def sql_query(fields, table, conditions, grouping, sorting):
+        result = dict()
+        cursor = query.db.cursor()
+        command = "Select "
+        for field in fields:
+            command += field + " ,"
+        command = command[:len(command)-1] + "from " + table + "where"
+        for condition in conditions:
+            command += condition
+        # execute query
+        cursor.execute(command)
+        # add query result to dictionary
+        result = cursor
+
+    def printDB(info):
+        for key, values in info.items():
             print("Table Name: " + key)
             print("Field Name: ", end="")
             for value in values:
                 print(value + ", ", end="")
             print()
 
+    def printData(info):
+        for item in info:
+            print(item)
+
 
 if __name__ == "__main__":
     query.ConnectDB(database.get_db_connection("root", "12345678", "world"))
-    query.get_DBinfo()
-    query.printDB()
+    # query.printDB(query.get_DBinfo())
     selection = ["code", "name"]
     table = "country"
-    query.sql_query(selection, table)
+    # query.sql_query(selection, table)
+    results = query.manual_sql_query(
+        "select code, name from country where continent ='Asia'")
+    query.printData(results)
