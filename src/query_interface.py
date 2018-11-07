@@ -45,7 +45,7 @@ class Window(QMainWindow):
         self.show()
         
     def CloseApp(self):
-        reply = QMessageBox.question(self, "Close Message", "Are you sure you want to go back?",
+        reply = QMessageBox.question(self, "Exit Query?", "Are you sure you want to go back?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.close()
@@ -58,10 +58,10 @@ class Window(QMainWindow):
         genReport = QMessageBox.question(self, "Generate Report?",
                                       "Generate Report using query '" + textValue + "'", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if genReport == QMessageBox.Yes:
-             self.close()	            # remove this line after adding generate report
-        #######################
-        #	GENERATE REPORT
-        #######################
+             self.close()	            #!!!!!!!!!! remove this line after adding generate report
+			#######################
+			#	GENERATE REPORT
+			#######################
 	
 App = QApplication(sys.argv)
 window = Window()
