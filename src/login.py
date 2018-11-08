@@ -34,15 +34,15 @@ class loginWidget(QWidget):
         self.submit = QPushButton("Login")
         self.submit.clicked.connect(self.login)
 
-        self.button1 = QPushButton("Recover Password")
-        self.button1.clicked.connect(self.recoverPassword)
+        self.recover_button = QPushButton("Recover Password")
+        self.recover_button.clicked.connect(self.recoverPassword)
 
         self.layout.addWidget(self.username_label, 0, 0)
         self.layout.addWidget(self.username_field, 0, 1)
         self.layout.addWidget(self.password_label, 1, 0)
         self.layout.addWidget(self.password_field, 1, 1)
         self.layout.addWidget(self.submit, 2, 1)
-        self.layout.addWidget(self.button1, 2, 2)
+        self.layout.addWidget(self.recover_button, 3, 1)
         self.setLayout(self.layout)
 
     def set_agency_ui(self):
@@ -52,11 +52,6 @@ class loginWidget(QWidget):
 
     def set_teq_ui(self):
         self.parent.main_widget = teq_ui.teqWidget(self)
-        self.parent.setCentralWidget(self.parent.main_widget)
-        self.parent.show()
-
-    def recover_password(self):
-        self.parent.main_widget = password_recovery_interface.Password_Recovery(self)
         self.parent.setCentralWidget(self.parent.main_widget)
         self.parent.show()
 
@@ -73,4 +68,4 @@ class loginWidget(QWidget):
         
     @pyqtSlot()
     def recoverPassword(self):
-        self.recover_password()
+        password_recovery_interface.Password_Recovery(self)
