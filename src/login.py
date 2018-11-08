@@ -17,7 +17,7 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
-
+import password_recovery_interface
 class loginWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
@@ -30,12 +30,17 @@ class loginWidget(QWidget):
         self.password_field = QLineEdit(self)
         self.submit = QPushButton("Login")
         self.submit.clicked.connect(self.login)
+        
+        self.button1 = QPushButton("Recover Password")
+        self.button1.clicked.connect(self.recoverPassword)
+        
 
         self.layout.addWidget(self.username_label, 0, 0)
         self.layout.addWidget(self.username_field, 0, 1)
         self.layout.addWidget(self.password_label, 1, 0)
         self.layout.addWidget(self.password_field, 1, 1)
         self.layout.addWidget(self.submit, 2, 1)
+        self.layout.addWidget(self.button1, 2, 2)
         self.setLayout(self.layout)
 
     @pyqtSlot()
@@ -44,4 +49,7 @@ class loginWidget(QWidget):
 
         self.parent.set_agency_ui()
         
+    @pyqtSlot()
+    def recoverPassword(self):
+        self.parent.recover_password()
 

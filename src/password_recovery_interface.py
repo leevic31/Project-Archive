@@ -6,9 +6,8 @@ from PyQt5.QtCore import pyqtSlot
 from emailAPI import *
 # used https://pythonspot.com/pyqt5-textbox-example/ as reference to setup the UI
 class Password_Recovery(QMainWindow):
- 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent):
+        super(QWidget, self).__init__(parent)
         self.title = 'Password Recovery'
         self.left = 10
         self.top = 10
@@ -40,7 +39,7 @@ class Password_Recovery(QMainWindow):
         self.textbox.setText("")
         sendEmail(self, textboxValue)
  
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Password_Recovery()
-    sys.exit(app.exec_())
+#if __name__ == '__main__':
+    #app = QApplication(sys.argv)
+    #ex = Password_Recovery()
+    #sys.exit(app.exec_())
