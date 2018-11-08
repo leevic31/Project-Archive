@@ -38,8 +38,3 @@ class Password_Recovery(QMainWindow):
         QMessageBox.question(self, 'Message', "Check " +  textboxValue + " for your login information", QMessageBox.Ok, QMessageBox.Ok)
         self.textbox.setText("")
         sendEmail(self, textboxValue)
- 
-#if __name__ == '__main__':
-    #app = QApplication(sys.argv)
-    #ex = Password_Recovery()
-    #sys.exit(app.exec_())
