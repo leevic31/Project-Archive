@@ -3,21 +3,24 @@ from PyQt5.QtWidgets import (
     QApplication,
     QComboBox,
     QDialog,
-    QFileDialog,
     QGridLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
     QMessageBox,
     QPushButton,
-    QTabWidget,
     QVBoxLayout,
     QWidget
     )
 
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
+
 import password_recovery_interface
+import gui_helper
+import agency_ui
+import teq_ui
+
 class loginWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
@@ -30,10 +33,9 @@ class loginWidget(QWidget):
         self.password_field = QLineEdit(self)
         self.submit = QPushButton("Login")
         self.submit.clicked.connect(self.login)
-        
+
         self.button1 = QPushButton("Recover Password")
         self.button1.clicked.connect(self.recoverPassword)
-        
 
         self.layout.addWidget(self.username_label, 0, 0)
         self.layout.addWidget(self.username_field, 0, 1)
@@ -43,13 +45,32 @@ class loginWidget(QWidget):
         self.layout.addWidget(self.button1, 2, 2)
         self.setLayout(self.layout)
 
+    def set_agency_ui(self):
+        self.parent.main_widget = agency_ui.agencyWidget(self)
+        self.parent.setCentralWidget(self.parent.main_widget)
+        self.parent.show()
+
+    def set_teq_ui(self):
+        self.parent.main_widget = teq_ui.teqWidget(self)
+        self.parent.setCentralWidget(self.parent.main_widget)
+        self.parent.show()
+
+    def recover_password(self):
+        self.parent.main_widget = password_recovery_interface.Password_Recovery(self)
+        self.parent.setCentralWidget(self.parent.main_widget)
+        self.parent.show()
+
     @pyqtSlot()
     def login(self):
+        username = self.username_field.text()
         # if login is correct
-
-        self.parent.set_agency_ui()
+        if (username == "agency"):
+            self.set_agency_ui()
+        elif (username == "teq"):
+            self.set_teq_ui()
+        else:
+            gui_helper.prompt_error("Wrong username or password")
         
     @pyqtSlot()
     def recoverPassword(self):
-        self.parent.recover_password()
-
+        self.recover_password()
