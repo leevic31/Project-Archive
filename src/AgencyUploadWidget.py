@@ -22,6 +22,10 @@ from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
 import database
+import gui_helper
+
+def get_file_name(path : str) -> str:
+    return path[path.rfind("/") + 1:]
 
 class iCareUploadWidget(QWidget):
     def __init__(self):
@@ -68,17 +72,17 @@ class iCareUploadWidget(QWidget):
     @pyqtSlot()
     def submit_iCare_data(self):
         if (not self.filepaths):
-            prompt_error("Please select an xlsx file")
+            gui_helper.prompt_error("Please select an xlsx file")
             return
         template_name = self.iCare_combobox.currentText()
         if (not template_name):
-            prompt_error("Please select a type")
+            gui_helper.prompt_error("Please select a type")
             return
 
         print("inserting data for:", template_name)
 
         try:
-            pyxl.insert_data_for(template_name, self.filepaths[0])
-            prompt_information("Data has been successfully added to the database")
+            database.insert_data_for(template_name, self.filepaths[0])
+            gui_helper.prompt_information("Data has been successfully added to the database")
         except Exception as e:
-            prompt_error(str(e))
+            gui_helper.prompt_error(str(e))

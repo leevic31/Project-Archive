@@ -1,5 +1,6 @@
 import mysql.connector as mysql
 import pandas
+import pyxl
 
 import config
 
@@ -49,9 +50,10 @@ def insert_data_for(template_name, file_name):
         cursor.execute(sql)
         column_names = [column_name[0] for column_name in cursor]
 
-        pyxl.parse_xlsx(file_name, column_names)
+        values = pyxl.parse_xlsx(file_name, column_names)
 
-        column_names_post = ["`" + column_name + "`" for column_name in column]
+        column_names_post = ["`" + column_name + "`"
+                                for column_name in column_names]
         column_formatted = ",".join(column_names_post)
 
         tmp = "%s," * len(column_names_post)

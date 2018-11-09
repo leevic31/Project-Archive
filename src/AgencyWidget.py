@@ -22,9 +22,6 @@ from PyQt5.QtCore import pyqtSlot, Qt
 
 from AgencyUploadWidget import *
 
-def get_file_name(path : str) -> str:
-    return path[path.rfind("/") + 1:]
-
 class agencyWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
