@@ -3,20 +3,22 @@ from PyQt5.QtWidgets import (
     QApplication,
     QComboBox,
     QDialog,
-    QFileDialog,
     QGridLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
     QMessageBox,
     QPushButton,
-    QTabWidget,
     QVBoxLayout,
     QWidget
     )
 
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
+
+import gui_helper
+import agency_ui
+import teq_ui
 
 class loginWidget(QWidget):
     def __init__(self, parent):
@@ -38,10 +40,26 @@ class loginWidget(QWidget):
         self.layout.addWidget(self.submit, 2, 1)
         self.setLayout(self.layout)
 
+    def set_agency_ui(self):
+        self.parent.main_widget = agency_ui.agencyWidget(self)
+        self.parent.setCentralWidget(self.parent.main_widget)
+        self.parent.show()
+
+    def set_teq_ui(self):
+        self.parent.main_widget = teq_ui.teqWidget(self)
+        self.parent.setCentralWidget(self.parent.main_widget)
+        self.parent.show()
+
     @pyqtSlot()
     def login(self):
+        username = self.username_field.text()
         # if login is correct
+        if (username == "agency"):
+            self.set_agency_ui()
+        elif (username == "teq"):
+            self.set_teq_ui()
+        else:
+            gui_helper.prompt_error("Wrong username or password")
 
-        self.parent.set_agency_ui()
-        
+
 
