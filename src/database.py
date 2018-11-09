@@ -17,5 +17,5 @@ def get_db_connection(username, password, database):
                                user=username,
                                password=password,
                                db=database,
-                               cursorclass=mysql.cursors.DictCursor)
+                               )
     return connection
