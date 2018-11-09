@@ -37,4 +37,4 @@ Located under `Deliverable_03/`
  - [openpyxl](https://bitbucket.org/openpyxl/openpyxl)
  - [mysql-connector-python-rf](https://dev.mysql.com/doc/connector-python/en/connector-python-installation.html)
  - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)
-
+ - [PyPika](https://pypika.readthedocs.io/en/latest/1_installation.html)
