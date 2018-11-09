@@ -3,7 +3,9 @@ from PyQt5.QtWidgets import QDialog, QWidget, QPushButton, QAction, QLineEdit, Q
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
+import gui_helper
 from emailAPI import *
+
 # used https://pythonspot.com/pyqt5-textbox-example/ as reference to setup the UI
 class Password_Recovery(QDialog):
     def __init__(self, parent):
@@ -36,6 +38,9 @@ class Password_Recovery(QDialog):
     @pyqtSlot()
     def on_click(self):
         textboxValue = self.textbox.text()
+        if ('@' not in textboxValue or '.' not in textboxValue):
+            gui_helper.prompt_error("Please enter a valid email")
+            return
         QMessageBox.question(self, 'Message', "Check " +  textboxValue + " for your login information", QMessageBox.Ok, QMessageBox.Ok)
         self.textbox.setText("")
         sendEmail(self, textboxValue)

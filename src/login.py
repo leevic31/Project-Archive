@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
-import password_recovery_interface
+import PasswordRecovery
 import gui_helper
 import agency_ui
 import teq_ui
@@ -65,7 +65,7 @@ class loginWidget(QWidget):
             self.set_teq_ui()
         else:
             gui_helper.prompt_error("Wrong username or password")
-        
+
     @pyqtSlot()
     def recoverPassword(self):
-        password_recovery_interface.Password_Recovery(self)
+        PasswordRecovery.Password_Recovery(self)
