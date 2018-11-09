@@ -1,10 +1,13 @@
-import mysql.connector
+import mysql.connector as mysql
+import pandas
 
 import config
 
+from collections import defaultdict
+
 def get_db_connection():
 
-    mydb = mysql.connector.connect(
+    mydb = mysql.connect(
                 host=config.host,
                 database=config.database,
                 user=config.user,
@@ -12,6 +15,25 @@ def get_db_connection():
                 )
 
     return mydb
+
+def get_db_connection_with(database, username, password):
+    '''coonect to the database server
+
+    Args:
+        username (string): username
+        password (string): password
+        database (string): database schemas
+
+    Returns:
+        object: database
+    '''
+
+    connection = mysql.connect(host='localhost',
+                               database=database,
+                               user=username,
+                               password=password
+                               )
+    return connection
 
 def insert_data_for(template_name, file_name):
     connection = get_db_connection()
@@ -80,18 +102,12 @@ def execute_query_result(query):
     finally:
         connection.close()
 
-def execute_query(query):
+def query_to_dataframe(query):
     connection = get_db_connection()
     try:
         cursor = connection.cursor()
         cursor.execute(query)
-        return cursor
+        df = pandas.DataFrame(cursor.fetchall())
+        return df
     finally:
         connection.close()
-
-
-if (__name__ == "__main__"):
-    if (len(sys.argv) == 3):
-        add_new_template(sys.argv[1], sys.argv[2])
-    else:
-        print(iCare_print_columns(sys.argv[1]))

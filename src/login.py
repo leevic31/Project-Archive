@@ -16,10 +16,10 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
-import PasswordRecovery
 import gui_helper
-import agency_ui
-import teq_ui
+import AgencyWidget
+import TeqWidget
+import PasswordRecovery
 
 class loginWidget(QWidget):
     def __init__(self, parent):
@@ -46,12 +46,12 @@ class loginWidget(QWidget):
         self.setLayout(self.layout)
 
     def set_agency_ui(self):
-        self.parent.main_widget = agency_ui.agencyWidget(self)
+        self.parent.main_widget = AgencyWidget.agencyWidget(self)
         self.parent.setCentralWidget(self.parent.main_widget)
         self.parent.show()
 
     def set_teq_ui(self):
-        self.parent.main_widget = teq_ui.teqWidget(self)
+        self.parent.main_widget = TeqWidget.teqWidget(self)
         self.parent.setCentralWidget(self.parent.main_widget)
         self.parent.show()
 
