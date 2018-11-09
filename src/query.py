@@ -45,7 +45,7 @@ def manual_sql_query(connection, command):
         # execute query
         cursor.execute(command)
         # store the query result in dataframe
-        df = pd.DataFrame(cursor.fetchall())
+        df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
         return df
     except:
         return None
