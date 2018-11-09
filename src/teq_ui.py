@@ -22,7 +22,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
-import db
+import database
 from gui_helper import (
     prompt_error,
     prompt_information
@@ -90,14 +90,13 @@ class iCareNewQueryWidget(QWidget):
             query = query + ";"
 
         print("Query:", query)
-        dict_values = db.execute_query_result(query)
+        dict_values = database.execute_query_result(query)
         self.populateTable(dict_values)
         print(dict_values)
 
     def populateTable(self, column_values):
         self.table1.clearContents()
 
-        
         self.table1.setColumnCount(len(column_values))
         for key in column_values:
             self.table1.setRowCount(len(column_values[key]))
@@ -197,7 +196,7 @@ class iCareNewTemplateWidget(QWidget):
 
         columnNames, columnTypes = self.aggregateTableData()
 
-        db.add_new_template(template_name, columnNames, columnTypes)
+        database.add_new_template(template_name, columnNames, columnTypes)
         prompt_information("New template: '{}' has been added"
                             .format(template_name))
 

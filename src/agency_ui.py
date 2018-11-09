@@ -21,7 +21,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
-import db
+import database
 from gui_helper import (
     prompt_error,
     prompt_information
@@ -66,7 +66,7 @@ class iCareUploadWidget(QWidget):
 
         # widgets
         self.iCare_combobox = QComboBox()
-        self.iCare_types = db.get_iCare_template_names()
+        self.iCare_types = database.get_iCare_template_names()
         for iCare_type in self.iCare_types:
             self.iCare_combobox.addItem(iCare_type)
 
