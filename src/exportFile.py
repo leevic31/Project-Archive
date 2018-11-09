@@ -4,7 +4,7 @@ from os import path
 import pandas as pd
 
 
-def exportCSV(save_path, file_name, query_result):
+def exportCSV(file_path, query_result):
     """Export the query result into CSV file
 
     Arguments:
@@ -16,11 +16,9 @@ def exportCSV(save_path, file_name, query_result):
         Boolean -- return true if CSV file is saved successfully
     """
 
-    # setup file location
-    location = path.join(save_path, file_name)
     try:
         # export query to csv file
-        query_result.to_csv(location, index=False)
+        query_result.to_csv(file_path, index=False)
         # return true if CSV file is successfully saved
         return True
     except:

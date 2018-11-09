@@ -23,6 +23,10 @@ from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
 import database
+import exportFile
+import query
+import gui_helper
+
 from gui_helper import (
     prompt_error,
     prompt_information
@@ -41,6 +45,7 @@ class iCareNewQueryWidget(QWidget):
         self.submit1.clicked.connect(self.run_query)
         self.export1 = QPushButton("Export Data")
         self.export1.clicked.connect(self.export_data)
+
         self.table1 = QTableWidget()
 
         # set layouts
@@ -62,13 +67,12 @@ class iCareNewQueryWidget(QWidget):
         if (len(query) == 0):
             prompt_error("Please enter a query")
             return
-        if (not query.endswith(";")):
-            query = query + ";"
-
-        print("Query:", query)
-        dict_values = database.execute_query_result(query)
-        self.populateTable(dict_values)
-        print(dict_values)
+        try:
+            dict_values = database.execute_query_result(query)
+            print(dict_values)
+            self.populateTable(dict_values)
+        except Exception as e:
+            gui_helper.prompt_error(str(e))
 
     def populateTable(self, column_values):
         self.table1.clearContents()
@@ -85,5 +89,24 @@ class iCareNewQueryWidget(QWidget):
 
     @pyqtSlot()
     def export_data(self):
-        pass
+        query = self.query.toPlainText()
+        if (len(query) == 0):
+            prompt_error("Please enter a query")
+            return
+
+        query = self.query.toPlainText()
+        dataframe = database.query_to_dataframe(query)
+        dialog = QFileDialog()
+        dialog.setFileMode(QFileDialog.AnyFile)
+
+        if dialog.exec_():
+            filepaths = dialog.selectedFiles()
+            self.file_save(filepaths[0], dataframe)
+
+    @pyqtSlot()
+    def file_save(self, file_path, dataframe):
+        if (exportFile.exportCSV(file_path, dataframe)):
+            gui_helper.prompt_information("File has been succesfully saved!")
+        else:
+            gui_helper.prompt_error("Failed to save file")
 

@@ -1,6 +1,22 @@
 import mysql.connector as mysql
+import pandas
 
-def get_db_connection(username, password, database):
+import config
+
+from collections import defaultdict
+
+def get_db_connection():
+
+    mydb = mysql.connect(
+                host=config.host,
+                database=config.database,
+                user=config.user,
+                password=config.password
+                )
+
+    return mydb
+
+def get_db_connection_with():
     '''coonect to the database server
 
     Args:
@@ -13,9 +29,9 @@ def get_db_connection(username, password, database):
     '''
 
     connection = mysql.connect(host='localhost',
+                               database=database,
                                user=username,
-                               password=password,
-                               db=database,
+                               password=password
                                )
     return connection
 
@@ -86,11 +102,69 @@ def execute_query_result(query):
     finally:
         connection.close()
 
-def execute_query(query):
+def query_to_dataframe(query):
     connection = get_db_connection()
     try:
         cursor = connection.cursor()
         cursor.execute(query)
-        return cursor
+        df = pandas.DataFrame(cursor.fetchall())
+        return df
     finally:
         connection.close()
+
+def get_DBinfo(connection):
+    """obtain all field names from each table in the database
+
+    Arguments:
+        connection  -- database connection        
+
+    Returns:
+        defaultdict -- table name as key, a list of all field names in table as value
+    """
+    try:
+        info = defaultdict(list)
+        cursor = connection.cursor()
+        # SQL command to list all table
+        cursor.execute("SHOW TABLES")
+        # iterate all tables
+        for tables in cursor.fetchall():
+            for table in tables:
+                # SQL command to show all column names
+                cursor.execute("SHOW COLUMNS FROM " + table)
+                for column in cursor.fetchall():
+                    # store column names in dictionary with table name as the key
+                    info[table].append(column[0])
+        return info
+    finally:
+        connection.close()
+
+
+def manual_sql_query(connection, command):
+    """Run MySQL query and return the result
+
+    Arguments:
+        connection  -- database connection
+        command {String} -- SQL command
+
+    Returns:
+        Dataframe -- contain query result in pandas dataframe format
+    """
+    try:
+        cursor = connection.cursor()
+        # execute query
+        cursor.execute(command)
+        # store the query result in dataframe
+        df = pandas.DataFrame(cursor.fetchall())
+        return df
+    except:
+        return None
+    finally:
+        connection.close()
+
+def printDB(info):
+    for key, values in info.items():
+        print("Table Name: " + key)
+        print("Field Name: ", end="")
+        for value in values:
+            print(value + ", ", end="")
+        print()
