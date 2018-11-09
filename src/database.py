@@ -1,4 +1,4 @@
-import pymysql.cursors
+import mysql.connector as mysql
 
 
 def get_db_connection(username, password, database):
@@ -13,9 +13,9 @@ def get_db_connection(username, password, database):
         object: database
     '''
 
-    connection = pymysql.connect(host='localhost',
-                                 user=username,
-                                 password=password,
-                                 db=database,
-                                 cursorclass=pymysql.cursors.DictCursor)
+    connection = mysql.connect(host='localhost',
+                               user=username,
+                               password=password,
+                               db=database,
+                               cursorclass=mysql.cursors.DictCursor)
     return connection
