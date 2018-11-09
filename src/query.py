@@ -47,20 +47,6 @@ class query():
         data = cursor.fetchall()
         return data
 
-    def sql_query(fields, table, conditions, grouping, sorting):
-        result = dict()
-        cursor = query.db.cursor()
-        command = "Select "
-        for field in fields:
-            command += field + " ,"
-        command = command[:len(command)-1] + "from " + table + "where"
-        for condition in conditions:
-            command += condition
-        # execute query
-        cursor.execute(command)
-        # add query result to dictionary
-        result = cursor
-
     def printDB(info):
         for key, values in info.items():
             print("Table Name: " + key)
@@ -79,7 +65,5 @@ if __name__ == "__main__":
     # query.printDB(query.get_DBinfo())
     selection = ["code", "name"]
     table = "country"
-    # query.sql_query(selection, table)
     results = query.manual_sql_query(
         "select code, name from country where continent ='Asia'")
-    query.printData(results)
