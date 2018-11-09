@@ -12,7 +12,7 @@ def db_connection():
         connection = MySQLConnection(**db_connection)
 
         if connection.is_connected():
-            print('connected to database established.')
+            print('connection to database established.')
         else:
             print('connection failed.')
 

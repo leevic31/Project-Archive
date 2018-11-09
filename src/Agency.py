@@ -1,48 +1,47 @@
-import mysql.connector
-from mysql.connector import MySQLConnection, Error
+import sys
+#from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import QSize
 
+class Agency(QMainWindow):
 
-def add_agency():
-    input_array = []
-    # User inputs the necessary fields needed to create an agency
-    agency_name = input("Please enter the name of the Agency: ")
-    address = input("Please enter the address of the Agency: ")
-    number_of_employees = int(input("Please indicate the number of employees in the Agency: "))
-    iCARE_Temp_choice = input("Please indicate the choice of the ICARE template: ")
-    input_array.append(agency_name)
-    input_array.append(address)
-    input_array.append(number_of_employees)
-    input_array.append(iCARE_Temp_choice)
-    return input_array
+    def __init__(self):
+        super().__init__()
+        self.title = "Enter the information required to add a new Agency"
+        self.setMinimumSize(QSize(500, 500))
+        self.left = 100
+        self.top = 100
+        self.width = 700
+        self.height = 700
+        self.agencyWindow()
 
-def main():
+    def agencyWindow(self):
+        self.name = QLineEdit(self)
+        self.name.setPlaceholderText("Agency Name ...")
+        self.name.setGeometry(200,100,200,30)
 
-    mydb = mysql.connector.connect(user='root', password='newpass123', host='localhost')
-    mycursor = mydb.cursor()
+        self.address = QLineEdit(self)
+        self.address.setPlaceholderText("Agency Address ...")
+        self.address.setGeometry(200,150,200,30)
 
+        self.numEmployees = QLineEdit(self)
+        self.numEmployees.setPlaceholderText("Number of employees ...")
+        self.numEmployees.setGeometry(200,200,200,30)
 
-    # count = 0
-    # while True:
-    #     # Create the table
-    #     mycursor.execute("CREATE DATABASE testdb")
-    #     # Add the necessary columns to the table
-    #     mycursor.execute("CREATE TABLE testdb.Agency (agencyID int NOT NULL, name varchar(100) NOT NULL, address varchar(200), number_of_employees int, iCARE_Temp_choice varchar(100))")
-    #     if count == 0:
-    #         break
+        self.iCareTemplate = QLineEdit(self)
+        self.iCareTemplate.setPlaceholderText("Choice of iCARE template ...")
+        self.iCareTemplate.setGeometry(200,250,200,30)
 
+        self.button = QPushButton("Add", self)
+        self.button.setGeometry(250,300,100,30)
 
-    user_input = add_agency()
-    agency_name = user_input[0]
-    address = user_input[1]
-    number_of_employees = user_input[2]
-    iCARE_Temp_choice = user_input[3]
-
-    mycursor.execute("INSERT INTO testdb.Agency (name, address, number_of_employees, iCARE_Temp_choice) VALUES (Donald, Street, 400, temp) ")
-
-
-
-
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.show()
 
 
 if __name__ == '__main__':
-    main()
+    my_app = QApplication(sys.argv)
+    agency = Agency()
+    sys.exit(my_app.exec_())
