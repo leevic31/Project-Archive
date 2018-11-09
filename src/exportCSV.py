@@ -1,9 +1,7 @@
-import csv
 import database
 import query
 from os import path
 import pandas as pd
-import numpy as np
 
 
 def exportCSV(save_path, file_name, query_result):
