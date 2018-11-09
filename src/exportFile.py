@@ -32,5 +32,5 @@ if __name__ == "__main__":
     connection = database.get_db_connection("root", "12345678", "world")
     # query.printDB(query.get_DBinfo())
     results = query.manual_sql_query(
-        connection, "select * from country")
+        connection, "select Name, District from city")
     exportCSV("E:\project", "test.csv", results)
