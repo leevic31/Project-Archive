@@ -1,85 +1,70 @@
 from collections import defaultdict
+import pandas as pd
 import database
 
 
-class query():
-    db = object()
+def get_DBinfo(connection):
+    """obtain all field names from each table in the database
 
-    def ConnectDB(connection):
-        query.db = connection
+    Arguments:
+        connection  -- database connection        
 
-    def get_DBinfo():
-        """obtain all field names from each table in the database
-
-        Returns:
-            defaultdict -- table name as key, a list of all field names in table as value
-        """
-
+    Returns:
+        defaultdict -- table name as key, a list of all field names in table as value
+    """
+    try:
         info = defaultdict(list)
-        cursor = query.db.cursor()
+        cursor = connection.cursor()
         # SQL command to list all table
         cursor.execute("SHOW TABLES")
-        results = cursor.fetchall()
         # iterate all tables
-        for result in results:
-            for key, value in result.items():
+        for tables in cursor.fetchall():
+            for table in tables:
                 # SQL command to show all column names
-                cursor.execute("SHOW COLUMNS FROM " + value)
-                columns = cursor.fetchall()
-                for column in columns:
+                cursor.execute("SHOW COLUMNS FROM " + table)
+                for column in cursor.fetchall():
                     # store column names in dictionary with table name as the key
-                    info[value].append(column.get("Field"))
+                    info[table].append(column[0])
         return info
+    finally:
+        connection.close()
 
-    def manual_sql_query(command):
-        """Run MySQL query and return the result
 
-        Arguments:
-            command {String} -- SQL command
+def manual_sql_query(connection, command):
+    """Run MySQL query and return the result
 
-        Returns:
-            Dictionary in List -- the list contains all records from query in dictionary format, while column as key and data as vaule in the dictionary 
-        """
+    Arguments:
+        connection  -- database connection
+        command {String} -- SQL command
 
-        cursor = query.db.cursor()
+    Returns:
+        Dataframe -- contain query result in pandas dataframe format
+    """
+    try:
+        cursor = connection.cursor()
         # execute query
         cursor.execute(command)
-        data = cursor.fetchall()
-        return data
+        # store the query result in dataframe
+        df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
+        return df
+    except:
+        return None
+    finally:
+        connection.close()
 
-    def sql_query(fields, table, conditions, grouping, sorting):
-        result = dict()
-        cursor = query.db.cursor()
-        command = "Select "
-        for field in fields:
-            command += field + " ,"
-        command = command[:len(command)-1] + "from " + table + "where"
-        for condition in conditions:
-            command += condition
-        # execute query
-        cursor.execute(command)
-        # add query result to dictionary
-        result = cursor
 
-    def printDB(info):
-        for key, values in info.items():
-            print("Table Name: " + key)
-            print("Field Name: ", end="")
-            for value in values:
-                print(value + ", ", end="")
-            print()
-
-    def printData(info):
-        for item in info:
-            print(item)
+def printDB(info):
+    for key, values in info.items():
+        print("Table Name: " + key)
+        print("Field Name: ", end="")
+        for value in values:
+            print(value + ", ", end="")
+        print()
 
 
 if __name__ == "__main__":
-    query.ConnectDB(database.get_db_connection("root", "12345678", "world"))
-    # query.printDB(query.get_DBinfo())
-    selection = ["code", "name"]
-    table = "country"
-    # query.sql_query(selection, table)
-    results = query.manual_sql_query(
-        "select code, name from country where continent ='Asia'")
-    query.printData(results)
+    connection = database.get_db_connection("root", "12345678", "world")
+    # printDB(get_DBinfo(connection))
+    results = manual_sql_query(
+        connection, "select code, name from country where continent ='Asia'")
+    print(results)

@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
-import pyxl
 import login
 
 class App(QMainWindow):
@@ -26,6 +25,7 @@ class App(QMainWindow):
         self.main_widget = login.loginWidget(self)
 
         self.setCentralWidget(self.main_widget)
+
         self.show()
 
 if __name__ == '__main__':

@@ -14,7 +14,7 @@ def sendEmail(self, to_address):
     msg['Subject'] = "TEQ Login Information"
     # username is the agency employees email
     # password is the agency employees name
-    body = "Welcome to the TEQ database application. Below is your username and password. Click on the link if you wish to change your password.\nUsername: "+ to_address + "\nPassword:\n"
+    body = "Welcome to the TEQ database application. Below is your username and password.\nUsername: "+ to_address + "\nPassword:\n"
     msg.attach(MIMEText(body, 'plain'))
      
     server = smtplib.SMTP('smtp.gmail.com', 587)

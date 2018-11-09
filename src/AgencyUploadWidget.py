@@ -21,35 +21,11 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import pyxl
-import db
-from gui_helper import (
-    prompt_error,
-    prompt_information
-    )
+import database
+import gui_helper
 
 def get_file_name(path : str) -> str:
     return path[path.rfind("/") + 1:]
-
-class agencyWidget(QWidget):
-    def __init__(self, parent):
-        super(QWidget, self).__init__(parent)
-        self.layout = QGridLayout(self)
-
-        # Initialize tab screen
-        self.tab_widget = QTabWidget()
-#        self.tabs = [iCareNewTemplateWidget(), iCareUploadWidget()]
-
-#        self.tab_widget.addTab(self.tabs[0], "Add New Template")
-#        self.tab_widget.addTab(self.tabs[1], "Upload iCare Data")
-
-        self.tabs = [iCareUploadWidget()]
-
-        self.tab_names = ["Upload iCare Data"]
-        for i in range(len(self.tabs)):
-            self.tab_widget.addTab(self.tabs[i], self.tab_names[i])
-
-        self.layout.addWidget(self.tab_widget)
-        self.setLayout(self.layout)
 
 class iCareUploadWidget(QWidget):
     def __init__(self):
@@ -66,7 +42,7 @@ class iCareUploadWidget(QWidget):
 
         # widgets
         self.iCare_combobox = QComboBox()
-        self.iCare_types = db.get_iCare_template_names()
+        self.iCare_types = database.get_iCare_template_names()
         for iCare_type in self.iCare_types:
             self.iCare_combobox.addItem(iCare_type)
 
@@ -96,17 +72,17 @@ class iCareUploadWidget(QWidget):
     @pyqtSlot()
     def submit_iCare_data(self):
         if (not self.filepaths):
-            prompt_error("Please select an xlsx file")
+            gui_helper.prompt_error("Please select an xlsx file")
             return
         template_name = self.iCare_combobox.currentText()
         if (not template_name):
-            prompt_error("Please select a type")
+            gui_helper.prompt_error("Please select a type")
             return
 
         print("inserting data for:", template_name)
 
         try:
-            pyxl.insert_data_for(template_name, self.filepaths[0])
-            prompt_information("Data has been successfully added to the database")
+            database.insert_data_for(template_name, self.filepaths[0])
+            gui_helper.prompt_information("Data has been successfully added to the database")
         except Exception as e:
-            prompt_error(str(e))
+            gui_helper.prompt_error(str(e))
