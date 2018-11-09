@@ -89,19 +89,23 @@ class iCareNewQueryWidget(QWidget):
 
     @pyqtSlot()
     def export_data(self):
-        query = self.query.toPlainText()
-        if (len(query) == 0):
+        query_text = self.query.toPlainText()
+        if (len(query_text) == 0):
             prompt_error("Please enter a query")
             return
 
-        query = self.query.toPlainText()
-        dataframe = database.query_to_dataframe(query)
-        dialog = QFileDialog()
-        dialog.setFileMode(QFileDialog.AnyFile)
+        try:
+            conn = database.get_db_connection()
+            dataframe = query.manual_sql_query(conn, query_text)
+            dialog = QFileDialog()
+            dialog.setFileMode(QFileDialog.AnyFile)
 
-        if dialog.exec_():
-            filepaths = dialog.selectedFiles()
-            self.file_save(filepaths[0], dataframe)
+            if dialog.exec_():
+                filepaths = dialog.selectedFiles()
+                self.file_save(filepaths[0], dataframe)
+        except Exception as e:
+            gui_helper.prompt_error(str(e))
+
 
     @pyqtSlot()
     def file_save(self, file_path, dataframe):
