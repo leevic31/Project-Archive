@@ -11,7 +11,12 @@ from PyQt5.QtWidgets import (
     )
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-
+import exportFile
+import exportPDF
+import database
+import query
+from os import path
+import pandas as pd
 class presetQueriesInterface(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
@@ -33,7 +38,7 @@ class presetQueriesInterface(QWidget):
         
         # connect button to function on_click
         #TODO: generate report when click
-        #self.button.clicked.connect(self.on_click)
+        self.button.clicked.connect(self.on_click)
         self.setWindowModality(Qt.ApplicationModal)
         #self.exec_()
         
@@ -48,15 +53,16 @@ class presetQueriesInterface(QWidget):
         
         self.setLayout(layout)
     
-    #@pyqtSlot()
-    #def on_click(self):
-        # if CSV
-        #if b1.isChecked() == True:
-            # export to CSV
-        # else if PDF
-        #else if b2.isChecked() == True:
-            # export to PDF
-
+    @pyqtSlot()
+    def on_click(self):      
+        # if select CSV
+        if self.b1.isChecked() == True:
+            # export to CSV file
+            exportFile.exportCSV(file_path, query_result)
+        # else if select PDF
+        elif self.b2.isChecked() == True:
+            # export to PDF file
+            exportPDF.exportToPDF(file_path, query_result)
         
 def main():
     app = QApplication(sys.argv)
