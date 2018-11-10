@@ -1,4 +1,4 @@
-host = localhost
-database = testdb
-user = root
-password = newpass123
+host = 'localhost'
+database = 'testdb'
+user = 'root'
+password = 'newpass123'
