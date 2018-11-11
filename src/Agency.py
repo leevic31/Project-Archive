@@ -62,7 +62,7 @@ class Agency(QWidget):
         try:
             my_cursor = mydb_conn.cursor()
             my_cursor.execute("USE testdb")
-            my_cursor.execute("INSERT INTO Agency(AgencyName, AgencyAddress, NumberOfEmployees, iCARETemplateChoice) VALUES('%s, %s, %s, %s')" % ( ''.join(self.name.text()) , ''.join(self.address.text()), ''.join(self.numEmployees.text()), ''.join(self.iCareTemplate.text())) )
+            my_cursor.execute("INSERT INTO Agency(AgencyName,AgencyAddress,NumberOfEmployees,iCARETemplateChoice) VALUES('%s, %s, %s, %s') % ( ''.join(self.name.text()) , ''.join(self.address.text()), ''.join(self.numEmployees.text()), ''.join(self.iCareTemplate.text())) )
             QMessageBox.about(self, 'Connection', "Agency Added!")
         except Error as error:
             print(error)
