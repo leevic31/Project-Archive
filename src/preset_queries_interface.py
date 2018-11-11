@@ -20,7 +20,6 @@ import database
 import query
 from os import path
 import pandas as pd
-import NameReport
 class presetQueriesInterface(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
@@ -60,10 +59,9 @@ class presetQueriesInterface(QWidget):
             # export to CSV file
             exportFile.exportCSV(file_name, query_result)
         # else if select PDF
-        elif self.b2.isChecked() == True:
-          
+        elif self.b2.isChecked() == True:          
             # export to PDF file
-            exportPDF.exportToPDF(file_name + '', query_result)
+            exportPDF.exportToPDF(file_name + '.pdf', query_result)
 
         
 def main():
