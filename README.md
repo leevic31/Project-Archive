@@ -46,6 +46,7 @@ Located under `Deliverable_04/`
 #### Instructions
  - source code located under `Deliverable_04/src/`
  - prerequisites
+    - edit `src/config.py` to have the correct database configuration to connect to the database
     - Please make sure to run the following sqls on a database schema
 ```
 CommunityConnection.sql
@@ -58,7 +59,6 @@ NeedAssessmentReferrals.sql
 
 Template.sql
 ```
-    - edit `src/config.py` to have the correct database configuration to connect to the database
 
  - to run:
 ```
