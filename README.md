@@ -31,9 +31,44 @@ Located under `Deliverable_03/`
 ~ $ make
 ```
 
+### Project Deliverable 4
+Located under `Deliverable_04/`
+#### Sprint 3
+ - [plan.csv]()
+ - [execution.csv]()
+ - [sprint report]()
+
+#### Sprint 4
+ - [plan.csv]()
+ - [execution.csv]()
+ - [sprint report]()
+
+#### Instructions
+ - source code located under `Deliverable_04/src/`
+ - prerequisites
+    - Please make sure to run the following sqls on a database schema
+```
+CommunityConnection.sql
+Employment.sql
+InformationAndOrientation.sql
+LanguageTrainingEnrolment.sql
+LanguageTrainingExit.sql
+LanguageTrainingSetup.sql
+NeedAssessmentReferrals.sql
+
+Template.sql
+```
+    - edit `src/config.py` to have the correct database configuration to connect to the database
+
+ - to run:
+```
+~ $ cd Deliverable_04/
+~ $ make
+```
+
 ### Dependencies
  - [python3](https://www.python.org/)
-  - [pip](https://pypi.org/project/pip/)
+    - [pip](https://pypi.org/project/pip/)
  - [openpyxl](https://bitbucket.org/openpyxl/openpyxl)
  - [mysql-connector-python-rf](https://dev.mysql.com/doc/connector-python/en/connector-python-installation.html)
  - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)

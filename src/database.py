@@ -17,7 +17,7 @@ def get_db_connection():
 
     return mydb
 
-def get_db_connection_with(database, username, password):
+def get_db_connection_with(username, password, database):
     '''coonect to the database server
 
     Args:
