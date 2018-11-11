@@ -2,8 +2,13 @@ import smtplib
 import email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+# used https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email as reference to create sendEmail function
 def sendEmail(self, to_address):
+    """Send email with login information to agency employee
+    
+    Arguments:
+        to_address {String} -- email address to send login information to
+    """
 
     from_address = "c01group12@gmail.com"
     # to_addr is the agency employee's email
@@ -16,7 +21,7 @@ def sendEmail(self, to_address):
     # password is the agency employees name
     body = "Welcome to the TEQ database application. Below is your username and password.\nUsername: "+ to_address + "\nPassword:\n"
     msg.attach(MIMEText(body, 'plain'))
-     
+    # establish server so that emails from a google email address can be sent
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
     server.login(from_address, "group1100")
