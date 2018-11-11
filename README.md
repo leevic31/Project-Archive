@@ -65,6 +65,9 @@ Template.sql
 ~ $ cd Deliverable_04/
 ~ $ make
 ```
+ - Testing:
+    - under src/test are UI tests
+
 
 ### Dependencies
  - [python3](https://www.python.org/)
