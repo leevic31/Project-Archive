@@ -18,18 +18,45 @@ import exportFile
 import exportPDF
 import database
 import query
+import presetquery
 from os import path
 import pandas as pd
 class presetQueriesInterface(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
-    
+        
+        conn = database.get_db_connection()
+        if conn.is_connected():
+            print('Connected to MySQL database')
+        else:
+            print('Not connected to MySQL database')
+       
         self.layout = QGridLayout(self)
         self.queries_label = QLabel('Preset Queries')
         self.cb = QComboBox()
-        # TODO: add preset queries to QComboBox
-        self.cb.addItem("option1")
-        self.cb.addItem("option2")
+        
+        # NOTE THIS INTERFACE USES FUNCTIONALITY FROM PRESETQUERY.PY
+        # TO RUN THIS INTERFACE YOU MUST CREATE A TABLE AS DESCRIBED
+        # IN PRESETQUERY.PY AND EDIT CONFIG.PY SO THAT DATABASE CONNECTION
+        # OBJECTS POINTS TO THE DATABASE CONTAINING THAT QUERY
+        
+        # finding number of preset queries
+        cursor = conn.cursor()
+        quer = "SELECT MAX(id) FROM Presets"
+        cursor.execute(quer)
+        row = cursor.fetchone()
+        strrow = str(row)[1:-2]
+        numvals = int(strrow)
+        # looping through preset queries and adding them to combobox
+        j = 1
+        while j <= numvals:
+            optioni = (presetquery.get_descriptin(conn, j))
+            self.cb.addItem(str(j) + ") " + str(optioni))
+            j += 1
+        
+        conn.close()
+        
+        # adding other elements
         
         self.b1 = QRadioButton("CSV")
         self.b1.setChecked(True)        
@@ -54,12 +81,18 @@ class presetQueriesInterface(QWidget):
     @pyqtSlot()
     def on_click(self):
         file_name = self.fileName_field.text()
+        # getting respective query based on num in description
+        key = (self.cb.currentText())[:1]
+        conn = database.get_db_connection()
+        quer = presetquery.get_preset(conn, key)
+        query_result = query.manual_sql_query(conn, quer)
+        conn.close()
         # if select CSV
         if self.b1.isChecked() == True:
             # export to CSV file
             exportFile.exportCSV(file_name, query_result)
         # else if select PDF
-        elif self.b2.isChecked() == True:          
+        elif self.b2.isChecked() == True:
             # export to PDF file
             exportPDF.exportToPDF(file_name + '.pdf', query_result)
 
