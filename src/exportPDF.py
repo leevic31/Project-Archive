@@ -5,6 +5,9 @@ from os import path
 import pandas as pd
 import pdfkit
 import os
+import query
+
+query_result = query.manual_sql_query(connection, command)
 
 def exportToPDF(file_name, query_result):
     try:
@@ -14,10 +17,3 @@ def exportToPDF(file_name, query_result):
         return True
     except:
         return False
-    
-if __name__ == "__main__":
-    connection = database.get_db_connection_with("world", "root", "")
-    results = query.manual_sql_query(
-        connection, "select Name, District from city")
-    exportToPDF("result.pdf", results)
-
