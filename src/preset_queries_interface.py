@@ -90,11 +90,11 @@ class presetQueriesInterface(QWidget):
         # if select CSV
         if self.b1.isChecked() == True:
             # export to CSV file
-            exportFile.exportCSV(file_name, query_result)
+            print("save as csv ", exportFile.exportCSV(file_name, query_result))
         # else if select PDF
         elif self.b2.isChecked() == True:
             # export to PDF file
-            exportPDF.exportToPDF(file_name + '.pdf', query_result)
+            print("save as pdf ", exportPDF.exportToPDF(file_name + '.pdf', query_result))
 
         
 def main():
