@@ -44,7 +44,7 @@ class teqWidget(QWidget):
 
         # Initialize tab screen
         self.tabs = [iCareNewQueryWidget()]
-        self.tab_names = ["Add New Template"]
+        self.tab_names = ["Run custom query"]
         self.tab_widget = QTabWidget()
 
         for i in range(len(self.tabs)):

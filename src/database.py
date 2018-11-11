@@ -17,7 +17,7 @@ def get_db_connection():
 
     return mydb
 
-def get_db_connection_with(database, username, password):
+def get_db_connection_with(username, password, database):
     '''coonect to the database server
 
     Args:
@@ -96,11 +96,12 @@ def execute_query_result(query):
     try:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
-        values = { i[0]: [] for i in cursor.description }
-        for row in cursor:
-            for value in row:
-                values[value].append(row[value])
-        return values
+        if (cursor.description):
+            values = { i[0]: [] for i in cursor.description }
+            for row in cursor:
+                for value in row:
+                    values[value].append(row[value])
+            return values
     finally:
         connection.close()
 

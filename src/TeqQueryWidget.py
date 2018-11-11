@@ -69,8 +69,9 @@ class iCareNewQueryWidget(QWidget):
             return
         try:
             dict_values = database.execute_query_result(query)
-            print(dict_values)
-            self.populateTable(dict_values)
+            if (dict_values):
+                self.populateTable(dict_values)
+            gui_helper.prompt_information("query executed successfully")
         except Exception as e:
             gui_helper.prompt_error(str(e))
 

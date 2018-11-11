@@ -1,0 +1,14 @@
+Step 1: execute `make`
+Result: app opens and runs
+
+Step 2: login as username=agency
+Result: user is taken to the UI for agency employees
+
+Step 3: select a template type from the drop down.
+Result: nothing
+
+Step 4: select an xlsx file with iCare data.
+Result: file is selected and text has changed to the name of the selected file
+
+Step 5: click submit
+Result: the iCare data are in the database
