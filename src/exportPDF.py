@@ -7,9 +7,6 @@ import pdfkit
 import os
 import query
 
-# obtain query result using manual_sql_query function
-query_result = query.manual_sql_query(connection, command)
-
 def exportToPDF(file_name, query_result):
     """Export the query result into PDF file
     
