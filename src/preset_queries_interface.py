@@ -7,7 +7,10 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QPushButton,
     QMessageBox,
-    QRadioButton
+    QRadioButton,
+    QGridLayout,
+    QLabel,
+    QLineEdit
     )
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -17,52 +20,51 @@ import database
 import query
 from os import path
 import pandas as pd
+import NameReport
 class presetQueriesInterface(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
-        
-        layout = QHBoxLayout()
+    
+        self.layout = QGridLayout(self)
+        self.queries_label = QLabel('Preset Queries')
         self.cb = QComboBox()
-        # TODO: ANDREI connect to preset quries api to add to drop down menu
-        #current text method 
+        # TODO: add preset queries to QComboBox
         self.cb.addItem("option1")
         self.cb.addItem("option2")
         
-        layout.addWidget(self.cb)
-        self.setLayout(layout)
-        self.setWindowTitle("Preset Queries")
-        
-        # create button to generate the selected query
-        self.button = QPushButton("Generate", self)
-        self.button.move(600, 500)
-        
-        # connect button to function on_click
-        #TODO: generate report when click
-        self.button.clicked.connect(self.on_click)
-        self.setWindowModality(Qt.ApplicationModal)
-        #self.exec_()
-        
         self.b1 = QRadioButton("CSV")
-        self.b1.setChecked(True)
-        #self.b1.toggled.connect(lambda:self.btnstate(self.b1))
-        layout.addWidget(self.b1)
+        self.b1.setChecked(True)        
         
         self.b2 = QRadioButton("PDF")
-        #self.b2.toggled.connect(lambda:self.btnstate(self.b2))
-        layout.addWidget(self.b2)
         
-        self.setLayout(layout)
+        self.fileName_label = QLabel("Save file name as:")
+        self.fileName_field = QLineEdit(self)
+        
+        self.generate = QPushButton("Generate", self)
+        self.generate.clicked.connect(self.on_click)
+
+        self.layout.addWidget(self.queries_label, 0, 0)
+        self.layout.addWidget(self.cb, 0, 1)
+        self.layout.addWidget(self.b1, 1, 0)
+        self.layout.addWidget(self.b2, 1, 1)        
+        self.layout.addWidget(self.fileName_label, 2, 0)
+        self.layout.addWidget(self.fileName_field, 2, 1)
+        self.layout.addWidget(self.generate, 3, 1)
+        self.setLayout(self.layout)
     
     @pyqtSlot()
-    def on_click(self):      
+    def on_click(self):
+        file_name = self.fileName_field.text()
         # if select CSV
         if self.b1.isChecked() == True:
             # export to CSV file
-            exportFile.exportCSV(file_path, query_result)
+            exportFile.exportCSV(file_name, query_result)
         # else if select PDF
         elif self.b2.isChecked() == True:
+          
             # export to PDF file
-            exportPDF.exportToPDF(file_path, query_result)
+            exportPDF.exportToPDF(file_name + '', query_result)
+
         
 def main():
     app = QApplication(sys.argv)
