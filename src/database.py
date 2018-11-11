@@ -96,11 +96,12 @@ def execute_query_result(query):
     try:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
-        values = { i[0]: [] for i in cursor.description }
-        for row in cursor:
-            for value in row:
-                values[value].append(row[value])
-        return values
+        if (cursor.description):
+            values = { i[0]: [] for i in cursor.description }
+            for row in cursor:
+                for value in row:
+                    values[value].append(row[value])
+            return values
     finally:
         connection.close()
 
