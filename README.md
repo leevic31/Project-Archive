@@ -34,13 +34,13 @@ Located under `Deliverable_03/`
 ### Project Deliverable 4
 Located under `Deliverable_04/`
 #### Sprint 3
- - [plan.csv]()
- - [execution.csv]()
+ - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/plan.csv)
+ - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/execution.csv)
  - [sprint report]()
 
 #### Sprint 4
- - [plan.csv]()
- - [execution.csv]()
+ - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/plan.csv)
+ - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/execution.csv)
  - [sprint report]()
 
 #### Instructions
@@ -66,7 +66,8 @@ Template.sql
 ~ $ make
 ```
  - Testing:
-    - under src/test are UI tests
+    - unittests are named with `_test`
+    - acceptance tests are under `src/test`
 
 
 ### Dependencies
