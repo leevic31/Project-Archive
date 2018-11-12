@@ -47,7 +47,7 @@ Located under `Deliverable_04/`
  - source code located under `Deliverable_04/src/`
  - prerequisites
     - edit `src/config.py` to have the correct database configuration to connect to the database
-    - Please make sure to run the following sqls on a database schema
+    - Please make sure to run the following sqls on a mysql database schema
 ```
 CommunityConnection.sql
 Employment.sql
