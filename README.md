@@ -37,11 +37,14 @@ Located under `Deliverable_04/`
  - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/plan.csv)
  - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/execution.csv)
  - [sprint report]()
+ - [Personas v1](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/personas_v1.pdf)
+ - [User Stories v1](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/user_stories_v1.pdf)
 
 #### Sprint 4
  - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/plan.csv)
  - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/execution.csv)
  - [sprint report]()
+ - [User Stories v2](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/user_stories_v2.pdf)
 
 #### Instructions
  - source code located under `Deliverable_04/src/`
