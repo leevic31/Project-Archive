@@ -21,6 +21,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 from AgencyUploadWidget import *
+from preset_queries_interface import *
 
 class agencyWidget(QWidget):
     def __init__(self, parent):
@@ -29,16 +30,14 @@ class agencyWidget(QWidget):
 
         # Initialize tab screen
         self.tab_widget = QTabWidget()
-#        self.tabs = [iCareNewTemplateWidget(), iCareUploadWidget()]
 
-#        self.tab_widget.addTab(self.tabs[0], "Add New Template")
-#        self.tab_widget.addTab(self.tabs[1], "Upload iCare Data")
+        self.tabs = [
+                     (iCareUploadWidget(), "Upload iCare Data"),
+                    # (presetQueriesInterface(), "Run Reports")
+                    ]
 
-        self.tabs = [iCareUploadWidget()]
-
-        self.tab_names = ["Upload iCare Data"]
-        for i in range(len(self.tabs)):
-            self.tab_widget.addTab(self.tabs[i], self.tab_names[i])
+        for (widget, name) in self.tabs:
+            self.tab_widget.addTab(widget, name)
 
         self.layout.addWidget(self.tab_widget)
         self.setLayout(self.layout)

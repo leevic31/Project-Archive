@@ -21,16 +21,11 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
-import pyxl
 import database
-import exportFile
+import exportCSV
+import exportPDF
 import query
 import gui_helper
-
-from gui_helper import (
-    prompt_error,
-    prompt_information
-    )
 
 class iCareNewQueryWidget(QWidget):
     def __init__(self):
@@ -41,10 +36,20 @@ class iCareNewQueryWidget(QWidget):
         self.query = QTextEdit(self)
         self.label1 = QLabel("Query:")
         self.label2 = QLabel("Output:")
+
         self.submit1 = QPushButton("Execute Query")
         self.submit1.clicked.connect(self.run_query)
+
         self.export1 = QPushButton("Export Data")
         self.export1.clicked.connect(self.export_data)
+
+        self.export_options = {
+                "csv": exportCSV.ExportCSV(),
+                "pdf": exportPDF.ExportPDF()
+                }
+        self.export_combobox = QComboBox()
+        for key in self.export_options:
+            self.export_combobox.addItem(key)
 
         self.table1 = QTableWidget()
 
@@ -57,6 +62,9 @@ class iCareNewQueryWidget(QWidget):
         self.layout.addWidget(self.query, 1, 0)
         self.layout.addWidget(self.submit1, 1, 1)
         self.layout.addWidget(self.label2, 2, 0)
+
+        self.layout.addWidget(self.export_combobox, 2, 1)
+
         self.layout.addWidget(self.table1, 3, 0)
         self.layout.addWidget(self.export1, 3, 1)
         self.setLayout(self.layout)
@@ -65,7 +73,7 @@ class iCareNewQueryWidget(QWidget):
     def run_query(self):
         query = self.query.toPlainText()
         if (len(query) == 0):
-            prompt_error("Please enter a query")
+            gui_helper.prompt_error("Please enter a query")
             return
         try:
             dict_values = database.execute_query_result(query)
@@ -73,7 +81,7 @@ class iCareNewQueryWidget(QWidget):
                 self.populateTable(dict_values)
             gui_helper.prompt_information("query executed successfully")
         except Exception as e:
-            gui_helper.prompt_error(str(e))
+            gui_helper.prompt_error("Failed to run Query: " + str(e))
 
     def populateTable(self, column_values):
         self.table1.clearContents()
@@ -92,26 +100,17 @@ class iCareNewQueryWidget(QWidget):
     def export_data(self):
         query_text = self.query.toPlainText()
         if (len(query_text) == 0):
-            prompt_error("Please enter a query")
+            gui_helper.prompt_error("Please enter a query")
             return
+        export_option = self.export_options[self.export_combobox.currentText()]
 
-        try:
-            conn = database.get_db_connection()
-            dataframe = query.manual_sql_query(conn, query_text)
-            dialog = QFileDialog()
-            dialog.setFileMode(QFileDialog.AnyFile)
-
-            if dialog.exec_():
-                filepaths = dialog.selectedFiles()
-                self.file_save(filepaths[0], dataframe)
-        except Exception as e:
-            gui_helper.prompt_error(str(e))
-
-
-    @pyqtSlot()
-    def file_save(self, file_path, dataframe):
-        if (exportFile.exportCSV(file_path, dataframe)):
-            gui_helper.prompt_information("File has been succesfully saved!")
-        else:
-            gui_helper.prompt_error("Failed to save file")
+        dialog = QFileDialog()
+        dialog.setFileMode(QFileDialog.AnyFile)
+        if dialog.exec_():
+            filepaths = dialog.selectedFiles()
+            try:
+                export_option.export(filepaths[0], query_text)
+                gui_helper.prompt_information("Data has been succesfully exported!")
+            except Exception as e:
+                gui_helper.prompt_error("Failed to export data: " + str(e))
 
