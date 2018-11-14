@@ -27,6 +27,6 @@ def parse_xlsx(file_name, column_names, row_start, row_end):
 
     values = []
     for row in range(row_start, row_end):
-        values.append([cell.value for cell in sheet[row_start]])
+        values.append([cell.value for cell in sheet[row]])
 
     return values
