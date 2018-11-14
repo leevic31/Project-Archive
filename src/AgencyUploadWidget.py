@@ -49,12 +49,12 @@ class iCareUploadWidget(QWidget):
         self.minbound_label = QLabel("start row number:")
         self.minbound = QSpinBox()
         self.minbound.setValue(4)
-        self.minbound.setMinimum(0)
+        self.minbound.setMinimum(1)
 
         self.maxbound_label = QLabel("stop row number:")
         self.maxbound = QSpinBox()
         self.maxbound.setValue(5)
-        self.maxbound.setMinimum(0)
+        self.maxbound.setMinimum(1)
 
         # widgets
         self.iCare_combobox = QComboBox()
@@ -98,10 +98,13 @@ class iCareUploadWidget(QWidget):
             gui_helper.prompt_error("Please select a type")
             return
 
+        row_start = self.minbound.value()
+        row_end = self.maxbound.value()
+
         print("inserting data for:", template_name)
 
         try:
-            database.insert_data_for(template_name, self.filepaths[0])
+            database.insert_data_for(template_name, self.filepaths[0], row_start, row_end)
             gui_helper.prompt_information("Data has been successfully added to the database")
         except Exception as e:
             gui_helper.prompt_error(str(e))

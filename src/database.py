@@ -36,21 +36,29 @@ def get_db_connection_with(username, password, database):
                                )
     return connection
 
-def insert_data_for(template_name, file_name):
+def get_template_attributes(template_name):
+    connection = get_db_connection()
+
+    cursor = connection.cursor()
+    # get column names
+    sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
+            "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
+            config.database, template_name))
+    cursor.execute(sql)
+    cursor.next()
+    column_names = [column_name[0] for column_name in cursor]
+    connection.close()
+    return column_names
+
+def insert_data_for(template_name, file_name, row_start, row_end):
     connection = get_db_connection()
     try:
-        connection.autocommit = False
+        column_names = get_template_attributes(template_name)
 
+        connection.autocommit = False
         cursor = connection.cursor()
 
-        sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
-                "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
-                config.database, template_name))
-
-        cursor.execute(sql)
-        column_names = [column_name[0] for column_name in cursor]
-
-        values = pyxl.parse_xlsx(file_name, column_names)
+        values = pyxl.parse_xlsx(file_name, column_names, row_start, row_end)
 
         column_names_post = ["`" + column_name + "`"
                                 for column_name in column_names]

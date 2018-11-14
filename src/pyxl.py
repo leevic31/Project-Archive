@@ -17,20 +17,16 @@ def iCare_parse_columns(file_name):
 
     return columns
 
-def parse_row(sheet, column, row):
-    vals = []
-    row = str(row)
-    for col in column:
-        if (not sheet[col + row].value):
-            vals.append("''")
-        else:
-            vals.append(sheet[col + row].value)
-    return vals
+def parse_xlsx(file_name, column_names, row_start, row_end):
+    column_len = len(column_names)
+    if (column_len < 0):
+        return []
 
-def parse_xlsx(file_name, column_names):
     book = openpyxl.load_workbook(filename = file_name, read_only = True)
     sheet = book.active
 
-    values = [parse_row(sheet, column_names, i)
-                      for i in range(4, sheet.max_row + 1)]
+    values = []
+    for row in range(row_start, row_end):
+        values.append([cell.value for cell in sheet[row_start]])
+
     return values
