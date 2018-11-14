@@ -1,4 +1,5 @@
-CREATE TABLE `LanguageTrainingSetup`(
+CREATE TABLE IF NOT EXISTS `LanguageTrainingSetup`(
+	`TimeStamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
 	`A` varchar(255),		-- Processing Details
 	`B` BIGINT(8),			-- Update record ID
 	`C` varchar(255) NOT NULL,	-- Course Code

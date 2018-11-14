@@ -1,4 +1,5 @@
-CREATE TABLE `Employment`(
+CREATE TABLE IF NOT EXISTS `Employment`(
+	`TimeStamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
 	`A` varchar(255),		-- Processing Details
 	`B` BIGINT(8),			-- Update Record ID
 	`C` varchar(255) NOT NULL,	-- Unique Identifier
