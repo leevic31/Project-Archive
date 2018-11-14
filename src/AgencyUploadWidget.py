@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QPushButton,
+    QSpinBox,
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
@@ -37,14 +38,7 @@ class iCareUploadWidget(QWidget):
         # set layouts
         self.layout = QGridLayout(self)
         self.layout.setColumnStretch(0, 1)
-        self.layout.setColumnStretch(1, 3)
-
-
-        # widgets
-        self.iCare_combobox = QComboBox()
-        self.iCare_types = database.get_iCare_template_names()
-        for iCare_type in self.iCare_types:
-            self.iCare_combobox.addItem(iCare_type)
+        self.layout.setColumnStretch(2, 3)
 
         self.file_upload_label = QLabel("No File Chosen")
         self.upload1 = QPushButton("Select Data")
@@ -52,11 +46,36 @@ class iCareUploadWidget(QWidget):
         self.submit1 = QPushButton("Submit Data")
         self.submit1.clicked.connect(self.submit_iCare_data)
 
+        self.minbound_label = QLabel("start row number:")
+        self.minbound = QSpinBox()
+        self.minbound.setValue(4)
+        self.minbound.setMinimum(0)
+
+        self.maxbound_label = QLabel("stop row number:")
+        self.maxbound = QSpinBox()
+        self.maxbound.setValue(5)
+        self.maxbound.setMinimum(0)
+
+        # widgets
+        self.iCare_combobox = QComboBox()
+        try:
+            self.iCare_types = database.get_iCare_template_names()
+            for iCare_type in self.iCare_types:
+                self.iCare_combobox.addItem(iCare_type)
+        except Exception as e:
+            gui_helper.prompt_error("Failed to get Templates: " + str(e))
+
+
         self.layout.addWidget(QLabel("iCare format data for:"), 0, 0)
-        self.layout.addWidget(self.iCare_combobox, 0, 1)
+        self.layout.addWidget(self.iCare_combobox, 0, 1, 1, 5)
         self.layout.addWidget(self.upload1, 1, 0)
         self.layout.addWidget(self.file_upload_label, 1, 1)
-        self.layout.addWidget(self.submit1, 2, 0)
+        self.layout.addWidget(self.minbound_label, 2, 0)
+        self.layout.addWidget(self.minbound, 2, 1)
+        self.layout.addWidget(self.maxbound_label, 3, 0)
+        self.layout.addWidget(self.maxbound, 3, 1)
+        self.layout.addWidget(self.submit1, 4, 0)
+
         self.setLayout(self.layout)
 
     @pyqtSlot()
