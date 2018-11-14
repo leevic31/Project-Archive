@@ -81,4 +81,4 @@ Template.sql
  - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)
  - [PyPika](https://pypika.readthedocs.io/en/latest/1_installation.html)
  - [pdfkit](https://github.com/JazzCore/python-pdfkit)
- - [wkhtmltopdf](https://github.com/JazzCore/python-pdfkit)
+    - [wkhtmltopdf](https://github.com/JazzCore/python-pdfkit)
