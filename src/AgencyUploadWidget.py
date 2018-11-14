@@ -101,8 +101,6 @@ class iCareUploadWidget(QWidget):
         row_start = self.minbound.value()
         row_end = self.maxbound.value()
 
-        print("inserting data for:", template_name)
-
         try:
             database.insert_data_for(template_name, self.filepaths[0], row_start, row_end)
             gui_helper.prompt_information("Data has been successfully added to the database")
