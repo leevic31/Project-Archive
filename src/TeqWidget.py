@@ -28,7 +28,7 @@ from gui_helper import (
     prompt_information
     )
 from TeqQueryWidget import *
-from preset_queries_interface import *
+from PresetQueryWidget import *
 
 def get_file_name(path : str) -> str:
     return path[path.rfind("/") + 1:]
