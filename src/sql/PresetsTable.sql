@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `Presets` (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    querval VARCHAR(999) NOT NULL, 
+    querval VARCHAR(999) NOT NULL,
     description VARCHAR(200) NOT NULL
     );
 

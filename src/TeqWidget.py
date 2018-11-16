@@ -28,6 +28,7 @@ from gui_helper import (
     prompt_information
     )
 from TeqQueryWidget import *
+from preset_queries_interface import *
 
 def get_file_name(path : str) -> str:
     return path[path.rfind("/") + 1:]
@@ -39,7 +40,8 @@ class teqWidget(QWidget):
 
         # Initialize tab screen
         self.tabs = [
-                     (iCareNewQueryWidget(), "Run custom query")
+                     (iCareNewQueryWidget(), "Run custom query"),
+                     (presetQueriesInterface(), "Run Reports")
                     ]
         self.tab_widget = QTabWidget()
 

@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
     QWidget,
+    QFileDialog,
     QHBoxLayout,
     QComboBox,
     QPushButton,
@@ -20,6 +21,7 @@ from os import path
 import exportCSV
 import exportPDF
 import database
+import gui_helper
 import query
 import presetquery
 import pandas as pd
@@ -28,82 +30,61 @@ class presetQueriesInterface(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
 
-        conn = database.get_db_connection()
-        if conn.is_connected():
-            print('Connected to MySQL database')
-        else:
-            print('Not connected to MySQL database')
-
         self.layout = QGridLayout(self)
+        self.layout.setColumnStretch(0, 1)
+        self.layout.setColumnStretch(1, 3)
+
         self.queries_label = QLabel('Preset Queries')
         self.cb = QComboBox()
 
-        # NOTE THIS INTERFACE USES FUNCTIONALITY FROM PRESETQUERY.PY
-        # TO RUN THIS INTERFACE YOU MUST CREATE A TABLE AS DESCRIBED
-        # IN PRESETQUERY.PY AND EDIT CONFIG.PY SO THAT DATABASE CONNECTION
-        # OBJECTS POINTS TO THE DATABASE CONTAINING THAT QUERY
-
-        # finding number of preset queries
-        cursor = conn.cursor()
-        quer = "SELECT MAX(id) FROM Presets"
-        cursor.execute(quer)
-        row = cursor.fetchone()
-        strrow = str(row)[1:-2]
-        numvals = int(strrow)
-        # looping through preset queries and adding them to combobox
-        j = 1
-        while j <= numvals:
-            optioni = (presetquery.get_descriptin(conn, j))
-            self.cb.addItem(str(j) + ") " + str(optioni))
-            j += 1
-
-        conn.close()
+        self.preset_queries = database.get_preset_queries()
+        for _id, query, desc in self.preset_queries:
+            self.cb.addItem(desc)
 
         # adding other elements
 
-        self.b1 = QRadioButton("CSV")
-        self.b1.setChecked(True)
-
-        self.b2 = QRadioButton("PDF")
-
-        self.fileName_label = QLabel("Save file name as:")
-        self.fileName_field = QLineEdit(self)
+        self.export_options = {
+                "csv": exportCSV.ExportCSV(),
+                "pdf": exportPDF.ExportPDF()
+                }
+        self.export_combobox = QComboBox()
+        for key in self.export_options:
+            self.export_combobox.addItem(key)
 
         self.generate = QPushButton("Generate", self)
         self.generate.clicked.connect(self.on_click)
 
         self.layout.addWidget(self.queries_label, 0, 0)
         self.layout.addWidget(self.cb, 0, 1)
-        self.layout.addWidget(self.b1, 1, 0)
-        self.layout.addWidget(self.b2, 1, 1)
-        self.layout.addWidget(self.fileName_label, 2, 0)
-        self.layout.addWidget(self.fileName_field, 2, 1)
+        self.layout.addWidget(self.export_combobox, 1, 1)
         self.layout.addWidget(self.generate, 3, 1)
         self.setLayout(self.layout)
 
     @pyqtSlot()
     def on_click(self):
-        file_name = self.fileName_field.text()
-        # getting respective query based on num in description
-        key = (self.cb.currentText())[:1]
-        conn = database.get_db_connection()
-        quer = presetquery.get_preset(conn, key)
-        query_result = query.manual_sql_query(conn, quer)
-        conn.close()
-        # if select CSV
-        if self.b1.isChecked() == True:
-            # export to CSV file
-            print("save as csv ", exportCSV.exportCSV(file_name, query_result))
-        # else if select PDF
-        elif self.b2.isChecked() == True:
-            # export to PDF file
-            print("save as pdf ", exportPDF.exportToPDF(file_name + '.pdf', query_result))
+        # show file dialog for user to name their file
+        dialog = QFileDialog()
+        dialog.setFileMode(QFileDialog.AnyFile)
+        if dialog.exec_():
+            filepaths = dialog.selectedFiles()
+            file_name = filepaths[0]
 
-def main():
+            # get the index of selected preset query
+            index = self.cb.currentIndex()
+            # get query at that index
+            quer = self.preset_queries[index][1]
+
+            # get selected export option
+            export_option = self.export_options[self.export_combobox.currentText()]
+
+            try:
+                export_option.export(file_name, quer)
+                gui_helper.prompt_information("Data has been succesfully exported!")
+            except Exception as e:
+                gui_helper.prompt_error("Failed to export data: " + str(e))
+
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = presetQueriesInterface()
     ex.show()
     sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()

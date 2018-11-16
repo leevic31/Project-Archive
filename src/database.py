@@ -122,3 +122,16 @@ def query_to_dataframe(query):
         return df
     finally:
         connection.close()
+
+def get_preset_queries():
+    conn = get_db_connection()
+
+    # finding number of preset queries
+    cursor = conn.cursor()
+    quer = "SELECT * FROM Presets"
+    cursor.execute(quer)
+
+    results = [row for row in cursor]
+    conn.close()
+
+    return results

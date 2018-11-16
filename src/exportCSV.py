@@ -9,7 +9,6 @@ class ExportCSV:
         dataframe = query.manual_sql_query(conn, query_text)
         dataframe.to_csv(file_path, index=False)
 
-
 def exportCSV(file_path, query_result):
     """Export the query result into CSV file
 
