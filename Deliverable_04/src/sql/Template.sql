@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS `Template`(
+create table `Template`(
     TemplateID INT NOT NULL AUTO_INCREMENT,
     TemplateName varchar(80),
     PRIMARY KEY(TemplateID)
     );
 
-INSERT INTO `Template` (TemplateName) VALUES
+insert into `Template` (TemplateName) values
 ('NeedAssessmentReferrals'),
 ('CommunityConnection'),
 ('InformationAndOrientation'),

@@ -36,29 +36,21 @@ def get_db_connection_with(username, password, database):
                                )
     return connection
 
-def get_template_attributes(template_name):
-    connection = get_db_connection()
-
-    cursor = connection.cursor()
-    # get column names
-    sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
-            "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
-            config.database, template_name))
-    cursor.execute(sql)
-    cursor.next()
-    column_names = [column_name[0] for column_name in cursor]
-    connection.close()
-    return column_names
-
-def insert_data_for(template_name, file_name, row_start, row_end):
+def insert_data_for(template_name, file_name):
     connection = get_db_connection()
     try:
-        column_names = get_template_attributes(template_name)
-
         connection.autocommit = False
+
         cursor = connection.cursor()
 
-        values = pyxl.parse_xlsx(file_name, column_names, row_start, row_end)
+        sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
+                "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
+                config.database, template_name))
+
+        cursor.execute(sql)
+        column_names = [column_name[0] for column_name in cursor]
+
+        values = pyxl.parse_xlsx(file_name, column_names)
 
         column_names_post = ["`" + column_name + "`"
                                 for column_name in column_names]
@@ -122,16 +114,3 @@ def query_to_dataframe(query):
         return df
     finally:
         connection.close()
-
-def get_preset_queries():
-    conn = get_db_connection()
-
-    # finding number of preset queries
-    cursor = conn.cursor()
-    quer = "SELECT * FROM Presets"
-    cursor.execute(quer)
-
-    results = [row for row in cursor]
-    conn.close()
-
-    return results

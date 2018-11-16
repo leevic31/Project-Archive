@@ -10,7 +10,6 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QPushButton,
-    QSpinBox,
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
@@ -38,7 +37,14 @@ class iCareUploadWidget(QWidget):
         # set layouts
         self.layout = QGridLayout(self)
         self.layout.setColumnStretch(0, 1)
-        self.layout.setColumnStretch(2, 3)
+        self.layout.setColumnStretch(1, 3)
+
+
+        # widgets
+        self.iCare_combobox = QComboBox()
+        self.iCare_types = database.get_iCare_template_names()
+        for iCare_type in self.iCare_types:
+            self.iCare_combobox.addItem(iCare_type)
 
         self.file_upload_label = QLabel("No File Chosen")
         self.upload1 = QPushButton("Select Data")
@@ -46,36 +52,11 @@ class iCareUploadWidget(QWidget):
         self.submit1 = QPushButton("Submit Data")
         self.submit1.clicked.connect(self.submit_iCare_data)
 
-        self.minbound_label = QLabel("start row number:")
-        self.minbound = QSpinBox()
-        self.minbound.setValue(4)
-        self.minbound.setMinimum(1)
-
-        self.maxbound_label = QLabel("stop row number:")
-        self.maxbound = QSpinBox()
-        self.maxbound.setValue(5)
-        self.maxbound.setMinimum(1)
-
-        # widgets
-        self.iCare_combobox = QComboBox()
-        try:
-            self.iCare_types = database.get_iCare_template_names()
-            for iCare_type in self.iCare_types:
-                self.iCare_combobox.addItem(iCare_type)
-        except Exception as e:
-            gui_helper.prompt_error("Failed to get Templates: " + str(e))
-
-
         self.layout.addWidget(QLabel("iCare format data for:"), 0, 0)
-        self.layout.addWidget(self.iCare_combobox, 0, 1, 1, 5)
+        self.layout.addWidget(self.iCare_combobox, 0, 1)
         self.layout.addWidget(self.upload1, 1, 0)
         self.layout.addWidget(self.file_upload_label, 1, 1)
-        self.layout.addWidget(self.minbound_label, 2, 0)
-        self.layout.addWidget(self.minbound, 2, 1)
-        self.layout.addWidget(self.maxbound_label, 3, 0)
-        self.layout.addWidget(self.maxbound, 3, 1)
-        self.layout.addWidget(self.submit1, 4, 0)
-
+        self.layout.addWidget(self.submit1, 2, 0)
         self.setLayout(self.layout)
 
     @pyqtSlot()
@@ -98,11 +79,10 @@ class iCareUploadWidget(QWidget):
             gui_helper.prompt_error("Please select a type")
             return
 
-        row_start = self.minbound.value()
-        row_end = self.maxbound.value()
+        print("inserting data for:", template_name)
 
         try:
-            database.insert_data_for(template_name, self.filepaths[0], row_start, row_end)
+            database.insert_data_for(template_name, self.filepaths[0])
             gui_helper.prompt_information("Data has been successfully added to the database")
         except Exception as e:
             gui_helper.prompt_error(str(e))

@@ -31,7 +31,6 @@ class loginWidget(QWidget):
         self.username_field = QLineEdit(self)
         self.password_label = QLabel("Password:")
         self.password_field = QLineEdit(self)
-        self.password_field.setEchoMode(QLineEdit.Password)
         self.submit = QPushButton("Login")
         self.submit.clicked.connect(self.login)
 

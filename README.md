@@ -34,20 +34,23 @@ Located under `Deliverable_03/`
 ### Project Deliverable 4
 Located under `Deliverable_04/`
 #### Sprint 3
- - [plan.csv]()
- - [execution.csv]()
- - [sprint report]()
+ - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/plan.csv)
+ - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/execution.csv)
+ - [sprint report](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/sprint_report_03.pdf)
+ - [Personas v1](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/personas_v1.pdf)
+ - [User Stories v1](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint03/user_stories_v1.pdf)
 
 #### Sprint 4
- - [plan.csv]()
- - [execution.csv]()
- - [sprint report]()
+ - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/plan.csv)
+ - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/execution.csv)
+ - [sprint report](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/sprint_report_04.pdf)
+ - [User Stories v2](https://github.com/CSCC01/Team12/blob/master/Deliverable_04/backlog/sprint04/user_stories_v2.pdf)
 
 #### Instructions
  - source code located under `Deliverable_04/src/`
  - prerequisites
     - edit `src/config.py` to have the correct database configuration to connect to the database
-    - Please make sure to run the following sqls on a database schema
+    - Please make sure to run the following sqls on a mysql database schema
 ```
 CommunityConnection.sql
 Employment.sql
@@ -65,6 +68,10 @@ Template.sql
 ~ $ cd Deliverable_04/
 ~ $ make
 ```
+ - Testing:
+    - unittests are named with `_test`
+    - acceptance tests are under `src/test`
+
 
 ### Dependencies
  - [python3](https://www.python.org/)
@@ -74,4 +81,4 @@ Template.sql
  - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)
  - [PyPika](https://pypika.readthedocs.io/en/latest/1_installation.html)
  - [pdfkit](https://github.com/JazzCore/python-pdfkit)
- - [wkhtmltopdf](https://github.com/JazzCore/python-pdfkit)
+    - [wkhtmltopdf](https://github.com/JazzCore/python-pdfkit)

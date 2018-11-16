@@ -1,16 +1,15 @@
-CREATE TABLE IF NOT EXISTS `NeedAssessmentReferrals`(
-	`TimeStamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE `NeedAssessmentReferrals`(
 	`A` varchar(255),		-- Processing Details
-	`B` BIGINT(8),			-- Update Record ID
-	`C` varchar(255) NOT NULL,	-- Unique Identifier
+	`B` BIGINT(8),		-- Update Record ID
+	`C` varchar(255) NOT NULL,		-- Unique Identifier
 	`D` BIGINT(8) NOT NULL,		-- Unique Identifier Value
 	`E` DATE NOT NULL,		-- Date of Birth (YYYY-MM-DD)
 	`F` char(6) NOT NULL,		-- Postal Code where the service was received
 	`G` DATE NOT NULL,		-- Start Date of Assessment (YYYY-MM-DD)
-	`H` varchar(255) NOT NULL,	-- Language of Service
-	`I` varchar(255) NOT NULL,	-- Official Language of Preference
-	`J` varchar(255) NOT NULL,	-- Type of Institution/Organization Where Client Received Services
-	`K` varchar(255) NOT NULL,	-- Referred By
+	`H` varchar(255) NOT NULL,		-- Language of Service
+	`I` varchar(255) NOT NULL,		-- Official Language of Preference
+	`J` varchar(255) NOT NULL,		-- Type of Institution/Organization Where Client Received Services
+	`K` varchar(255) NOT NULL,		-- Referred By
 	`L` ENUM('Yes', 'No'),		-- Increase knowledge of: Life in Canada
 	`M` ENUM('Yes', 'No'),		-- Increase knowledge of: Life in Canada Referrals
 	`N` ENUM('Yes', 'No'),		-- Increase knowledge of: Community and Government Services
@@ -37,18 +36,17 @@ CREATE TABLE IF NOT EXISTS `NeedAssessmentReferrals`(
 	`AI` ENUM('Yes', 'No'),		-- Find employment Referrals
 	`AJ` varchar(255),		-- Find employment: TimeFrame
 	`AK` varchar(255),		-- Find employment: Minimum one year's work experience?
-	`AL` varchar(255),		-- Find employment: Intends to work in an occupation
-					-- 	corresponding to which National Occupation Classification skill level?
+	`AL` varchar(255),		-- Find employment: Intends to work in an occupation corresponding to which National Occupation Classification skill level?
 	`AM` varchar(255),		-- Find employment: Intends to obtain credential recognition or obtain license to work in Canada?
 	`AN` ENUM('Yes', 'No', 'Unknown/Not sure') NOT NULL,		-- Client intends to become a Canadian citizen?
-	`AO` ENUM('Yes', 'No') NOT NULL,-- Support services may be required
+	`AO` ENUM('Yes', 'No') NOT NULL,		-- Support services may be required
 	`AP` varchar(255),		-- Care for Newcomer Children
 	`AQ` ENUM('Yes', 'No'),		-- Transportation
 	`AR` ENUM('Yes', 'No'),		-- Provisions for Disabilities
 	`AS` ENUM('Yes', 'No'),		-- Translation
 	`AT` ENUM('Yes', 'No'),		-- Interpretation
 	`AU` ENUM('Yes', 'No'),		-- Crisis Counselling
-	`AV` ENUM('Yes', 'No') NOT NULL,-- Non-IRCC program services needed
+	`AV` ENUM('Yes', 'No') NOT NULL,		-- Non-IRCC program services needed
 	`AW` ENUM('Yes', 'No'),		-- Food/Clothing/Other Material Needs
 	`AX` ENUM('Yes', 'No'),		-- Food/Clothing/Other Material Needs Referrals
 	`AY` ENUM('Yes', 'No'),		-- Housing/Accommodation
@@ -69,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `NeedAssessmentReferrals`(
 	`BN` ENUM('Yes', 'No'),		-- Legal Information and Services Referrals
 	`BO` ENUM('Yes', 'No'),		-- Community Services
 	`BP` ENUM('Yes', 'No'),		-- Community Services Referrals
-	`BQ` ENUM('Yes', 'No') NOT NULL,-- Support Services Received
+	`BQ` ENUM('Yes', 'No') NOT NULL,		-- Support Services Received
 	`BR` ENUM('Yes', 'No'),		-- Care for Newcomer Children
 	`BS` varchar(40),		-- Child 1: Age
 	`BT` varchar(40),		-- Child 1: Type of Care
@@ -90,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `NeedAssessmentReferrals`(
 	`CI` varchar(255),		-- Between
 	`CJ` varchar(255),		-- And
 	`CK` ENUM('Yes', 'No'),		-- Crisis Counselling
-	`CL` ENUM('Yes', 'No') NOT NULL,-- Settlement Plan completed and shared with client
+	`CL` ENUM('Yes', 'No') NOT NULL,		-- Settlement Plan completed and shared with client
 	`CM` DATE NOT NULL,		-- End Date of Assessment (YYYY-MM-DD)
 	`CN` varchar(255),		-- Reason for update
 		-- 

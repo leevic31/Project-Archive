@@ -29,13 +29,16 @@ class agencyWidget(QWidget):
 
         # Initialize tab screen
         self.tab_widget = QTabWidget()
+#        self.tabs = [iCareNewTemplateWidget(), iCareUploadWidget()]
 
-        self.tabs = [
-                     (iCareUploadWidget(), "Upload iCare Data"),
-                    ]
+#        self.tab_widget.addTab(self.tabs[0], "Add New Template")
+#        self.tab_widget.addTab(self.tabs[1], "Upload iCare Data")
 
-        for (widget, name) in self.tabs:
-            self.tab_widget.addTab(widget, name)
+        self.tabs = [iCareUploadWidget()]
+
+        self.tab_names = ["Upload iCare Data"]
+        for i in range(len(self.tabs)):
+            self.tab_widget.addTab(self.tabs[i], self.tab_names[i])
 
         self.layout.addWidget(self.tab_widget)
         self.setLayout(self.layout)

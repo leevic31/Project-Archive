@@ -22,9 +22,10 @@ class App(QMainWindow):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        # set up main window and widget
         self.main_widget = login.loginWidget(self)
+
         self.setCentralWidget(self.main_widget)
+
         self.show()
 
 if __name__ == '__main__':

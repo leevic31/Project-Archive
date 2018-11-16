@@ -1,5 +1,4 @@
-CREATE TABLE IF NOT EXISTS `LanguageTrainingEnrolment`(
-	`TimeStamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE `LanguageTrainingEnrolment`(
 	`A` varchar(255),		-- Processing Details
 	`B` BIGINT(8),			-- Update record ID
 	`C` varchar(255) NOT NULL,	-- Unique Identifier Type
