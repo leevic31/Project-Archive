@@ -101,6 +101,7 @@ def get_iCare_template_names():
 
 def execute_query_result(query):
     connection = get_db_connection()
+    connection.autocommit = True
     try:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
