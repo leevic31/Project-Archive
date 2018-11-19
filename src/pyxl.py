@@ -18,8 +18,11 @@ def iCare_parse_columns(file_name):
     return columns
 
 def parse_xlsx(file_name, column_names, row_start, row_end):
+    '''(str, list of str, int, int) -> list of list of str
+    
+    '''
     column_len = len(column_names)
-    if (column_len < 0):
+    if (column_len <= 0):
         return []
 
     book = openpyxl.load_workbook(filename = file_name, read_only = True)
