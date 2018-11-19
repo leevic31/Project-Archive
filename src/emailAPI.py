@@ -4,10 +4,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 # used https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email as reference to create sendEmail function
 def sendEmail(self, to_address):
-    """Send email with login information to agency employee
-    
+    """(sendEmail, str) -> None
+    Send email with login information to agency employee
+
     Arguments:
-        to_address {String} -- email address to send login information to
+        to_address {str} -- email address to send login information to
     """
 
     from_address = "c01group12@gmail.com"
@@ -27,4 +28,4 @@ def sendEmail(self, to_address):
     server.login(from_address, "group1100")
     text = msg.as_string()
     server.sendmail(from_address, to_address, text)
-    server.quit() 
+    server.quit()

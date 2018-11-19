@@ -7,6 +7,9 @@ import config
 from collections import defaultdict
 
 def get_db_connection():
+    '''() -> connection
+    get and return the database connection
+    '''
 
     mydb = mysql.connect(
                 host=config.host,
@@ -37,6 +40,11 @@ def get_db_connection_with(username, password, database):
     return connection
 
 def get_template_attributes(template_name):
+    '''(str) -> list of str
+    Given the name of a Template name, return the column names associated
+    to that template in the database
+
+    '''
     connection = get_db_connection()
 
     cursor = connection.cursor()
@@ -51,13 +59,20 @@ def get_template_attributes(template_name):
     return column_names
 
 def insert_data_for(template_name, file_name, row_start, row_end):
+    '''(str, str, int, int) -> None
+    Insert template values into the database for the specific template
+    from row_start to row_end.
+
+    '''
     connection = get_db_connection()
     try:
+        # get the column names for this Template
         column_names = get_template_attributes(template_name)
 
         connection.autocommit = False
         cursor = connection.cursor()
 
+        # get all the row values in the xlsx file
         values = pyxl.parse_xlsx(file_name, column_names, row_start, row_end)
 
         column_names_post = ["`" + column_name + "`"
@@ -101,6 +116,7 @@ def get_iCare_template_names():
 
 def execute_query_result(query):
     connection = get_db_connection()
+    connection.autocommit = True
     try:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)

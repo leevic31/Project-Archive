@@ -5,31 +5,21 @@ import pandas as pd
 
 class ExportCSV:
     def export(self, file_path, query_text):
+        '''(ExportCSV, str, str) -> None
+        Given a file path and sql query, export the data from that sql query
+        into a csv format.
+
+        Arguments:
+            file_path {str}  -- CSV file name
+            query_text {str} -- query string
+
+        Returns:
+            None
+        '''
         conn = database.get_db_connection()
+        # export query to csv file
         dataframe = query.manual_sql_query(conn, query_text)
         dataframe.to_csv(file_path, index=False)
-
-def exportCSV(file_path, query_result):
-    """Export the query result into CSV file
-
-    Arguments:
-        save_path {String} -- the path where CSV file is saved
-        file_name {String} -- CSV file name
-        query_result {List} -- query result
-
-    Returns:
-        Boolean -- return true if CSV file is saved successfully
-    """
-
-    try:
-        # export query to csv file
-        query_result.to_csv(file_path, index=False)
-        # return true if CSV file is successfully saved
-        return True
-    except:
-        # return false if fail to save the file
-        return False
-
 
 if __name__ == "__main__":
     connection = database.get_db_connection("root", "12345678", "world")
