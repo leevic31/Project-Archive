@@ -21,6 +21,8 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
+import sys
+
 import database
 import exportCSV
 import exportPDF
@@ -113,4 +115,10 @@ class iCareNewQueryWidget(QWidget):
                 gui_helper.prompt_information("Data has been succesfully exported!")
             except Exception as e:
                 gui_helper.prompt_error("Failed to export data: " + str(e))
+
+if (__name__ == "__main__"):
+    app = QApplication(sys.argv)
+    ex = iCareNewQueryWidget()
+    ex.show()
+    sys.exit(app.exec_())
 

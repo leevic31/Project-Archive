@@ -21,6 +21,8 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
+import sys
+
 import pyxl
 import database
 import gui_helper
@@ -106,3 +108,10 @@ class iCareUploadWidget(QWidget):
             gui_helper.prompt_information("Data has been successfully added to the database")
         except Exception as e:
             gui_helper.prompt_error(str(e))
+
+if (__name__ == "__main__"):
+    app = QApplication(sys.argv)
+    ex = iCareUploadWidget()
+    ex.show()
+    sys.exit(app.exec_())
+
