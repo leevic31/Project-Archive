@@ -7,7 +7,7 @@ def get_DBinfo(connection):
     """obtain all field names from each table in the database
 
     Arguments:
-        connection  -- database connection        
+        connection  -- database connection
 
     Returns:
         defaultdict -- table name as key, a list of all field names in table as value
