@@ -41,7 +41,12 @@ class Password_Recovery(QDialog):
         if ('@' not in textboxValue or '.' not in textboxValue):
             gui_helper.prompt_error("Please enter a valid email")
             return
+        # check if given email exists in agency db
+        password = database.get_user_password
+        if(password is None):
+            gui_helper.prompt_error("Please enter a valid email")
+            return
         QMessageBox.question(self, 'Message', "Check " +  textboxValue + " for your login information", QMessageBox.Ok, QMessageBox.Ok)
         self.textbox.setText("")
-        sendEmail(self, textboxValue)
+        sendEmail(self, textboxValue, password)
         self.done(0)

@@ -54,6 +54,22 @@ def get_user_type(useremail, password) -> str:
 
     finally:
         connection.close()
+        
+def get_user_password(useremail):
+    connection = get_db_connection()
+    connection.autocommit = True
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT UserPassword FROM User WHERE UserEmail = %s " 
+                       , (useremail))
+        row = cursor.fetchone()
+        if (row is None):
+            return None
+        else:
+            return row[0]
+
+    finally:
+        connection.close()    
 
 def get_db_connection_with(username, password, database):
     '''coonect to the database server
