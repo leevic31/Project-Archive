@@ -1,6 +1,5 @@
 from collections import defaultdict
 import pandas as pd
-import database
 
 
 def get_DBinfo(connection):
@@ -51,20 +50,3 @@ def manual_sql_query(connection, command):
         return None
     finally:
         connection.close()
-
-
-def printDB(info):
-    for key, values in info.items():
-        print("Table Name: " + key)
-        print("Field Name: ", end="")
-        for value in values:
-            print(value + ", ", end="")
-        print()
-
-
-if __name__ == "__main__":
-    connection = database.get_db_connection("root", "12345678", "world")
-    # printDB(get_DBinfo(connection))
-    results = manual_sql_query(
-        connection, "select code, name from country where continent ='Asia'")
-    print(results)

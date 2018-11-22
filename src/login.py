@@ -17,9 +17,13 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import gui_helper
-import AgencyWidget
 import TeqWidget
 import PasswordRecovery
+import database
+
+from AgencyUploadWidget import *
+from TeqQueryWidget import *
+from PresetQueryWidget import *
 
 class loginWidget(QWidget):
     def __init__(self, parent):
@@ -46,26 +50,47 @@ class loginWidget(QWidget):
         self.layout.addWidget(self.recover_button, 3, 1)
         self.setLayout(self.layout)
 
-    def set_agency_ui(self):
-        self.parent.main_widget = AgencyWidget.agencyWidget(self)
+    def set_main_widget(self, widget):
+        self.parent.main_widget = widget
         self.parent.setCentralWidget(self.parent.main_widget)
         self.parent.show()
 
-    def set_teq_ui(self):
-        self.parent.main_widget = TeqWidget.teqWidget(self)
-        self.parent.setCentralWidget(self.parent.main_widget)
-        self.parent.show()
+    def set_agency_ui(self):
+        widget = TeqWidget.teqWidget(self)
+        widget.add_widget(iCareUploadWidget(), "Upload iCare Data")
+        self.set_main_widget(widget)
+
+    def set_teqhigh_ui(self):
+        widget = TeqWidget.teqWidget(self)
+        widget.add_widget(iCareNewQueryWidget(), "Run custom query")
+        widget.add_widget(presetQueriesInterface(), "Run Reports")
+        self.set_main_widget(widget)
+
+    def set_teqlow_ui(self):
+        widget = TeqWidget.teqWidget(self)
+        widget.add_widget(presetQueriesInterface(), "Run Reports")
+        self.set_main_widget(widget)
+
 
     @pyqtSlot()
     def login(self):
         username = self.username_field.text()
-        # if login is correct
-        if (username == "agency"):
-            self.set_agency_ui()
-        elif (username == "teq"):
-            self.set_teq_ui()
-        else:
-            gui_helper.prompt_error("Wrong username or password")
+        password = self.password_field.text()
+        # get user type
+        user_type = None
+
+        try:
+            user_type = database.get_user_type(username, password)
+            if (user_type == "Agency"):
+                self.set_agency_ui()
+            elif (username == "TEQHigh"):
+                self.set_teqhigh_ui()
+            elif (username == "TEQLow"):
+                self.set_teqlow_ui()
+            else:
+                gui_helper.prompt_error("Wrong username or password")
+        except Exception as e:
+                gui_helper.prompt_error(repr(e))
 
     @pyqtSlot()
     def recoverPassword(self):

@@ -2,8 +2,6 @@ from PyQt5.QtWidgets import (
     QAction,
     QApplication,
     QComboBox,
-    QDialog,
-    QFileDialog,
     QGridLayout,
     QLabel,
     QLineEdit,
@@ -45,13 +43,7 @@ class iCareNewQueryWidget(QWidget):
         self.export1 = QPushButton("Export Data")
         self.export1.clicked.connect(self.export_data)
 
-        self.export_options = {
-                "csv": exportCSV.ExportCSV(),
-                "pdf": exportPDF.ExportPDF()
-                }
-        self.export_combobox = QComboBox()
-        for key in self.export_options:
-            self.export_combobox.addItem(key)
+        self._setup_export_combobox()
 
         self.table1 = QTableWidget()
         
@@ -86,6 +78,15 @@ class iCareNewQueryWidget(QWidget):
         self.layout.addWidget(self.export1, 4, 1)
         self.setLayout(self.layout)
 
+    def _setup_export_combobox(self):
+        self.export_options = {
+                "csv": exportCSV.ExportCSV(),
+                "pdf": exportPDF.ExportPDF()
+                }
+        self.export_combobox = QComboBox()
+        for key in self.export_options:
+            self.export_combobox.addItem(key)
+
     @pyqtSlot()
     def run_query(self):
         query = self.query.toPlainText()
@@ -119,17 +120,15 @@ class iCareNewQueryWidget(QWidget):
         if (len(query_text) == 0):
             gui_helper.prompt_error("Please enter a query")
             return
-        export_option = self.export_options[self.export_combobox.currentText()]
 
-        dialog = QFileDialog()
-        dialog.setFileMode(QFileDialog.AnyFile)
-        if dialog.exec_():
-            filepaths = dialog.selectedFiles()
-            try:
-                export_option.export(filepaths[0], query_text)
-                gui_helper.prompt_information("Data has been succesfully exported!")
-            except Exception as e:
-                gui_helper.prompt_error("Failed to export data: " + str(e))
+        export_option = self.export_options[self.export_combobox.currentText()]
+        filepath = gui_helper.prompt_file_save()
+
+        try:
+            export_option.export(filepath, query_text)
+            gui_helper.prompt_information("Data has been succesfully exported!")
+        except Exception as e:
+            gui_helper.prompt_error("Failed to export data: " + str(e))
 
 if (__name__ == "__main__"):
     app = QApplication(sys.argv)
