@@ -8,6 +8,9 @@ from collections import defaultdict
 
 
 def get_db_connection():
+    '''() -> connection
+    get and return the database connection
+    '''
 
     mydb = mysql.connect(
         host=config.host,
@@ -40,6 +43,11 @@ def get_db_connection_with(username, password, database):
 
 
 def get_template_attributes(template_name):
+    '''(str) -> list of str
+    Given the name of a Template name, return the column names associated
+    to that template in the database
+
+    '''
     connection = get_db_connection()
 
     cursor = connection.cursor()
@@ -55,13 +63,20 @@ def get_template_attributes(template_name):
 
 
 def insert_data_for(template_name, file_name, row_start, row_end):
+    '''(str, str, int, int) -> None
+    Insert template values into the database for the specific template
+    from row_start to row_end.
+
+    '''
     connection = get_db_connection()
     try:
+        # get the column names for this Template
         column_names = get_template_attributes(template_name)
 
         connection.autocommit = False
         cursor = connection.cursor()
 
+        # get all the row values in the xlsx file
         values = pyxl.parse_xlsx(file_name, column_names, row_start, row_end)
 
         column_names_post = ["`" + column_name + "`"
@@ -107,6 +122,7 @@ def get_iCare_template_names():
 
 def execute_query_result(query):
     connection = get_db_connection()
+    connection.autocommit = True
     try:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
@@ -131,49 +147,15 @@ def query_to_dataframe(query):
         connection.close()
 
 
-def get_DBinfo():
-    """obtain all field names from each table in the database    
+def get_preset_queries():
+    conn = get_db_connection()
 
-    Returns:
-        defaultdict -- table name as key, a list of all field names in table as value
-    """
-    connection = get_db_connection()
-    try:
-        info = defaultdict(list)
-        cursor = connection.cursor()
-        # SQL command to list all table
-        cursor.execute("SHOW TABLES")
-        # iterate all tables
-        for tables in cursor.fetchall():
-            for table in tables:
-                # SQL command to show all column names
-                cursor.execute("SHOW COLUMNS FROM " + table)
-                for column in cursor.fetchall():
-                    # store column names in dictionary with table name as the key
-                    info[table].append(column[0])
-        return info
-    finally:
-        connection.close()
+    # finding number of preset queries
+    cursor = conn.cursor()
+    quer = "SELECT * FROM Presets"
+    cursor.execute(quer)
 
+    results = [row for row in cursor]
+    conn.close()
 
-def manual_sql_query(query):
-    """Run MySQL query and return the result
-
-    Arguments:
-        query {String} -- SQL command
-
-    Returns:
-        Dataframe -- contain query result in pandas dataframe format
-    """
-    connection = get_db_connection()
-    try:
-        cursor = connection.cursor()
-        # execute query
-        cursor.execute(query)
-        # store the query result in dataframe
-        df = pandas.DataFrame(cursor.fetchall(), columns=cursor.column_names)
-        return df
-    except:
-        return None
-    finally:
-        connection.close()
+    return results

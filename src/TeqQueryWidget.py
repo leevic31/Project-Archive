@@ -21,6 +21,8 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
+import sys
+
 import database
 import exportCSV
 import exportPDF
@@ -52,21 +54,36 @@ class iCareNewQueryWidget(QWidget):
             self.export_combobox.addItem(key)
 
         self.table1 = QTableWidget()
-
+        
+        self.export_graph_options = {
+                "bar",
+                "line",
+                "pie"
+                }
+        self.export_combobox2 = QComboBox()
+        for key in self.export_graph_options:
+            self.export_combobox2.addItem(key)
+            
         # set layouts
         self.layout = QGridLayout(self)
         self.layout.setColumnStretch(0, 3)
 
-        # add widgets
+        # add "Query" label
         self.layout.addWidget(self.label1, 0, 0)
+        # add query textbox 
         self.layout.addWidget(self.query, 1, 0)
+        # add "Execute Query" button
         self.layout.addWidget(self.submit1, 1, 1)
+        # add "Output" label
         self.layout.addWidget(self.label2, 2, 0)
-
+        # add file option combobox
         self.layout.addWidget(self.export_combobox, 2, 1)
-
+        # add query output result table
         self.layout.addWidget(self.table1, 3, 0)
-        self.layout.addWidget(self.export1, 3, 1)
+        # add graph option combobox
+        self.layout.addWidget(self.export_combobox2, 3, 1)
+        # add "Export Data" button
+        self.layout.addWidget(self.export1, 4, 1)
         self.setLayout(self.layout)
 
     @pyqtSlot()
@@ -113,4 +130,10 @@ class iCareNewQueryWidget(QWidget):
                 gui_helper.prompt_information("Data has been succesfully exported!")
             except Exception as e:
                 gui_helper.prompt_error("Failed to export data: " + str(e))
+
+if (__name__ == "__main__"):
+    app = QApplication(sys.argv)
+    ex = iCareNewQueryWidget()
+    ex.show()
+    sys.exit(app.exec_())
 

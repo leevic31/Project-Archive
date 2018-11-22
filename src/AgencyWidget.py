@@ -21,7 +21,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 from AgencyUploadWidget import *
-from preset_queries_interface import *
 
 class agencyWidget(QWidget):
     def __init__(self, parent):
@@ -33,7 +32,6 @@ class agencyWidget(QWidget):
 
         self.tabs = [
                      (iCareUploadWidget(), "Upload iCare Data"),
-                    # (presetQueriesInterface(), "Run Reports")
                     ]
 
         for (widget, name) in self.tabs:
