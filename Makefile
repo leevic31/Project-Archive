@@ -10,6 +10,7 @@ dependencies:
 	python3 -m pip install pdfkit
 	python3 -m pip install wkhtmltopdf
 	python3 -m pip install matplotlib
+	python3 -m pip install numpy
 
 run:
 	python3 src/app.py
