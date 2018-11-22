@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS User(
 INSERT INTO User
 (AgencyName, AgencyAddress, UserEmail, UserPassword, UserName, UserType)
 VALUES
-('ABC', '101 Grovein Street', 'agency01@agency.ca', 'password', 'Bob', 'Agency'),
+('ABC', '101 Grovein Street', 'c01group12@gmail.com', 'password', 'Bob', 'Agency'),
 ('ABC', '101 Grovein Street', 'agency02@agency.ca', 'password', 'Mary', 'Agency'),
 ('TEQLIP', '120 Beetle Street', 'teq01@teq.ca', 'password', 'Alice', 'TEQHigh'),
 ('TEQLIP', '120 Beetle Street', 'teq02@teq.ca', 'password', 'Charlie', 'TEQLow');
