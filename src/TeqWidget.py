@@ -27,8 +27,6 @@ from gui_helper import (
     prompt_error,
     prompt_information
     )
-from TeqQueryWidget import *
-from PresetQueryWidget import *
 
 def get_file_name(path : str) -> str:
     return path[path.rfind("/") + 1:]
@@ -38,16 +36,11 @@ class teqWidget(QWidget):
         super(QWidget, self).__init__(parent)
         self.layout = QGridLayout(self)
 
-        # Initialize tab screen
-        self.tabs = [
-                     (iCareNewQueryWidget(), "Run custom query"),
-                     (presetQueriesInterface(), "Run Reports")
-                    ]
         self.tab_widget = QTabWidget()
-
-        for (widget, name) in self.tabs:
-            self.tab_widget.addTab(widget, name)
 
         self.layout.addWidget(self.tab_widget)
         self.setLayout(self.layout)
+
+    def add_widget(self, widget, name):
+        self.tab_widget.addTab(widget, name)
 

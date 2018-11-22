@@ -21,6 +21,10 @@ import AgencyWidget
 import TeqWidget
 import PasswordRecovery
 
+from AgencyUploadWidget import *
+from TeqQueryWidget import *
+from PresetQueryWidget import *
+
 class loginWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
@@ -46,19 +50,28 @@ class loginWidget(QWidget):
         self.layout.addWidget(self.recover_button, 3, 1)
         self.setLayout(self.layout)
 
-    def set_agency_ui(self):
-        self.parent.main_widget = AgencyWidget.agencyWidget(self)
+    def set_main_widget(self, widget):
+        self.parent.main_widget = widget
         self.parent.setCentralWidget(self.parent.main_widget)
         self.parent.show()
 
+    def set_agency_ui(self):
+        widget = AgencyWidget.agencyWidget(self)
+        widget.add_widget(iCareUploadWidget(), "Upload iCare Data")
+        self.set_main_widget(widget)
+
     def set_teq_ui(self):
-        self.parent.main_widget = TeqWidget.teqWidget(self)
-        self.parent.setCentralWidget(self.parent.main_widget)
-        self.parent.show()
+        widget = TeqWidget.teqWidget(self)
+        widget.add_widget(iCareNewQueryWidget(), "Run custom query")
+        widget.add_widget(presetQueriesInterface(), "Run Reports")
+        self.set_main_widget(widget)
+
 
     @pyqtSlot()
     def login(self):
         username = self.username_field.text()
+        # get user type
+        user_type = None
         # if login is correct
         if (username == "agency"):
             self.set_agency_ui()
