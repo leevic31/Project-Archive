@@ -83,9 +83,9 @@ class loginWidget(QWidget):
             user_type = database.get_user_type(username, password)
             if (user_type == "Agency"):
                 self.set_agency_ui()
-            elif (username == "TEQHigh"):
+            elif (user_type == "TEQHigh"):
                 self.set_teqhigh_ui()
-            elif (username == "TEQLow"):
+            elif (user_type == "TEQLow"):
                 self.set_teqlow_ui()
             else:
                 gui_helper.prompt_error("Wrong username or password")
