@@ -19,6 +19,7 @@ from PyQt5.QtCore import pyqtSlot, Qt
 import gui_helper
 import TeqWidget
 import PasswordRecovery
+import database
 
 from AgencyUploadWidget import *
 from TeqQueryWidget import *
@@ -74,17 +75,22 @@ class loginWidget(QWidget):
     @pyqtSlot()
     def login(self):
         username = self.username_field.text()
+        password = self.password_field.text()
         # get user type
         user_type = None
-        # if login is correct
-        if (username == "agency"):
-            self.set_agency_ui()
-        elif (username == "teqhigh"):
-            self.set_teqhigh_ui()
-        elif (username == "teqlow"):
-            self.set_teqlow_ui()
-        else:
-            gui_helper.prompt_error("Wrong username or password")
+
+        try:
+            user_type = database.get_user_type(username, password)
+            if (user_type == "Agency"):
+                self.set_agency_ui()
+            elif (username == "TEQHigh"):
+                self.set_teqhigh_ui()
+            elif (username == "TEQLow"):
+                self.set_teqlow_ui()
+            else:
+                gui_helper.prompt_error("Wrong username or password")
+        except Exception as e:
+                gui_helper.prompt_error(repr(e))
 
     @pyqtSlot()
     def recoverPassword(self):
