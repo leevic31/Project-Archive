@@ -17,7 +17,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
 import gui_helper
-import AgencyWidget
 import TeqWidget
 import PasswordRecovery
 
@@ -56,13 +55,18 @@ class loginWidget(QWidget):
         self.parent.show()
 
     def set_agency_ui(self):
-        widget = AgencyWidget.agencyWidget(self)
+        widget = TeqWidget.teqWidget(self)
         widget.add_widget(iCareUploadWidget(), "Upload iCare Data")
         self.set_main_widget(widget)
 
-    def set_teq_ui(self):
+    def set_teqhigh_ui(self):
         widget = TeqWidget.teqWidget(self)
         widget.add_widget(iCareNewQueryWidget(), "Run custom query")
+        widget.add_widget(presetQueriesInterface(), "Run Reports")
+        self.set_main_widget(widget)
+
+    def set_teqlow_ui(self):
+        widget = TeqWidget.teqWidget(self)
         widget.add_widget(presetQueriesInterface(), "Run Reports")
         self.set_main_widget(widget)
 
@@ -75,8 +79,10 @@ class loginWidget(QWidget):
         # if login is correct
         if (username == "agency"):
             self.set_agency_ui()
-        elif (username == "teq"):
-            self.set_teq_ui()
+        elif (username == "teqhigh"):
+            self.set_teqhigh_ui()
+        elif (username == "teqlow"):
+            self.set_teqlow_ui()
         else:
             gui_helper.prompt_error("Wrong username or password")
 
