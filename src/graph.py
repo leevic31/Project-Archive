@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import query
 import database
 import textwrap
 
@@ -75,18 +76,21 @@ def bar_chart(title, query):
         [plot] -- the generated plot
     """
     try:
+        # wrap the tile to display in appropriate length
         title = textwrap.fill(title)
+        # set the first column as index
         query = query.set_index(query.columns.values[0])
-        graph = query.plot.bar(title=title)
-        graph.locator_params(integer=True)
-
+        # plot and assign title to the graph
+        graph = query.plot.bar(title=title, rot=0)
+        # return the graph
+        return plt
     except:
+        # return None if error
         return None
 
 
 if __name__ == "__main__":
-    result = database.manual_sql_query(
-        "Select case when Month(date) between 1 and 2 then '20-24' when Month(date) between 3 and 4 then '25-29' else 'other' end as `age group`, count(*) as Count from test group by `age group` order by `age group`")
-    pie_chart("percentage of the people that are being referred to employment services in different age groups", result).show()
-    result2 = database.manual_sql_query(
-        "select continent from country")
+    connection = database.get_db_connection()
+    result = query.manual_sql_query(
+        connection, "select Name, Population from country where continent = 'North America' and GovernmentForm = 'Republic'")
+    bar_chart("123", result).show()
