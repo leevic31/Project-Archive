@@ -96,6 +96,5 @@ CREATE TABLE IF NOT EXISTS `InformationAndOrientation`(
 	`CP` varchar(255) NOT NULL,	-- End Date of Service (YYYY-MM-DD)
 	`CQ` varchar(255),		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 

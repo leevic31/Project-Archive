@@ -70,6 +70,5 @@ CREATE TABLE IF NOT EXISTS `Employment`(
 	`BP` int unsigned,		-- Time Spent With Client/Addressing Client's Employment Needs: Minutes
 	`BQ` varchar(255),		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 

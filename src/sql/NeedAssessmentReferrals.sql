@@ -94,6 +94,5 @@ CREATE TABLE IF NOT EXISTS `NeedAssessmentReferrals`(
 	`CM` DATE NOT NULL,		-- End Date of Assessment (YYYY-MM-DD)
 	`CN` varchar(255),		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 
