@@ -46,7 +46,7 @@ class iCareNewQueryWidget(QWidget):
         self._setup_export_combobox()
 
         self.table1 = QTableWidget()
-        
+
         self.export_graph_options = {
                 "bar",
                 "line",
@@ -55,14 +55,14 @@ class iCareNewQueryWidget(QWidget):
         self.export_combobox2 = QComboBox()
         for key in self.export_graph_options:
             self.export_combobox2.addItem(key)
-            
+
         # set layouts
         self.layout = QGridLayout(self)
         self.layout.setColumnStretch(0, 3)
 
         # add "Query" label
         self.layout.addWidget(self.label1, 0, 0)
-        # add query textbox 
+        # add query textbox
         self.layout.addWidget(self.query, 1, 0)
         # add "Execute Query" button
         self.layout.addWidget(self.submit1, 1, 1)
@@ -135,4 +135,3 @@ if (__name__ == "__main__"):
     ex = iCareNewQueryWidget()
     ex.show()
     sys.exit(app.exec_())
-

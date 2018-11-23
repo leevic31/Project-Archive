@@ -237,7 +237,9 @@ class RemoveQueryWidget(QWidget):
     def removeClicked(self):
         try:
             conn = database.get_db_connection()
-            editid = str(self.cb.currentText())[:1]
+            index = self.cb.currentIndex()
+            editid = self.preset_queries[index][0]
+
             presetquery.remove_preset(conn, editid)
             conn.close()
             gui_helper.prompt_information("query removed successfully")

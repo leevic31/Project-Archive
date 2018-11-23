@@ -1,10 +1,11 @@
 import mysql.connector as mysql
 import pandas
 import pyxl
-
 import config
+from collections import defaultdict
 
 from collections import defaultdict
+
 
 def get_db_connection():
     '''() -> connection
@@ -12,16 +13,16 @@ def get_db_connection():
     '''
 
     mydb = mysql.connect(
-                host=config.host,
-                database=config.database,
-                user=config.user,
-                password=config.password
-                )
+        host=config.host,
+        database=config.database,
+        user=config.user,
+        password=config.password
+    )
 
     return mydb
 
-def add_agency(agency_name, agency_address, employee_name,
-        employee_email, employee_password):
+def add_user(agency_name, agency_address, user_name,
+        user_email, user_password):
 
     connection = get_db_connection()
     connection.autocommit = True
@@ -30,7 +31,7 @@ def add_agency(agency_name, agency_address, employee_name,
             my_cursor = connection.cursor()
             my_cursor.execute("INSERT INTO User (AgencyName, AgencyAddress, UserEmail, UserPassword, UserName, UserType) VALUES (?, ?, ?, ?, ?, ?)",
                 (agency_name, agency_address,
-                 employee_name, employee_email, employee_password))
+                 user_email, user_password, user_name))
 
         except Error as error:
             print(error)
@@ -39,7 +40,7 @@ def add_agency(agency_name, agency_address, employee_name,
             connection.close()
 
 def get_user_type(useremail, password) -> str:
-    
+
     connection = get_db_connection()
     connection.autocommit = True
     try:
@@ -54,7 +55,7 @@ def get_user_type(useremail, password) -> str:
 
     finally:
         connection.close()
-        
+
 def get_user_password(useremail):
     connection = get_db_connection()
     connection.autocommit = True
@@ -89,6 +90,7 @@ def get_db_connection_with(username, password, database):
                                )
     return connection
 
+
 def get_template_attributes(template_name):
     '''(str) -> list of str
     Given the name of a Template name, return the column names associated
@@ -100,8 +102,8 @@ def get_template_attributes(template_name):
     cursor = connection.cursor()
     # get column names
     sql = ("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
-            "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
-            config.database, template_name))
+           "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
+               config.database, template_name))
     cursor.execute(sql)
 
     # do not return non template attributes
@@ -115,7 +117,6 @@ def get_template_attributes(template_name):
 def insert_iCare_data(template_name, file_name):
     '''(str, str, int, int) -> None
     Insert template values into the database for the specific template
-
     '''
     connection = get_db_connection()
     try:
@@ -129,12 +130,12 @@ def insert_iCare_data(template_name, file_name):
         values = pyxl.parse_xlsx(file_name, column_names)
 
         column_names_post = ["`" + column_name + "`"
-                                for column_name in column_names]
+                             for column_name in column_names]
         column_formatted = ",".join(column_names_post)
 
         tmp = "%s," * len(column_names_post)
         sql = ("INSERT INTO `{}` ({}) VALUES ".format(template_name,
-               column_formatted) + "(" + ("%s," * len(column_names_post))[:-1] +
+                                                      column_formatted) + "(" + ("%s," * len(column_names_post))[:-1] +
                ")")
 
         cursor.execute("START TRANSACTION;")
@@ -147,6 +148,7 @@ def insert_iCare_data(template_name, file_name):
 
     finally:
         connection.close()
+
 
 def get_iCare_template_names():
     try:
@@ -187,13 +189,14 @@ def execute_query_result(query):
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
         if (cursor.description):
-            values = { i[0]: [] for i in cursor.description }
+            values = {i[0]: [] for i in cursor.description}
             for row in cursor:
                 for value in row:
                     values[value].append(row[value])
             return values
     finally:
         connection.close()
+
 
 def query_to_dataframe(query):
     connection = get_db_connection()
