@@ -61,8 +61,7 @@ def get_user_password(useremail):
     connection.autocommit = True
     try:
         cursor = connection.cursor()
-        cursor.execute("SELECT UserPassword FROM User WHERE UserEmail = %s " 
-                       , (useremail))
+        cursor.execute("SELECT UserPassword FROM User WHERE UserEmail ='" + useremail + "'")
         row = cursor.fetchone()
         if (row is None):
             return None
@@ -139,12 +138,11 @@ def insert_iCare_data(template_name, file_name):
                                                       column_formatted) + "(" + ("%s," * len(column_names_post))[:-1] +
                ")")
 
-        cursor.execute("START TRANSACTION;")
+        cursor.execute("START TRANSACTION")
         for value in values:
-            print("Adding:", value)
             cursor.execute(sql, value)
 
-        cursor.execute("COMMIT;")
+        cursor.execute("COMMIT")
         print("Data has been successfully added to the database")
 
     finally:

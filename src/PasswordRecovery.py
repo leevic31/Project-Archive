@@ -49,5 +49,5 @@ class Password_Recovery(QDialog):
             return
         QMessageBox.question(self, 'Message', "Check " +  textboxValue + " for your login information", QMessageBox.Ok, QMessageBox.Ok)
         self.textbox.setText("")
-        sendEmail(self, textboxValue, password)
+        sendEmail(textboxValue, password)
         self.done(0)

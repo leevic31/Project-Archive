@@ -30,8 +30,7 @@ CREATE TABLE IF NOT EXISTS `LanguageTrainingEnrolment`(
 	`AB` varchar(255),		-- Between
 	`AC` varchar(255),		-- And
 	`AD` ENUM('Yes', 'No'),		-- Crisis Counselling
-	`AE` varchar(255),		-- Reason for update
+	`AE` varchar(255)		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 
