@@ -19,6 +19,8 @@ class ExportCSV:
         conn = database.get_db_connection()
         # export query to csv file
         dataframe = query.manual_sql_query(conn, query_text)
+        if (not file_path.endswith(".csv")):
+            file_path += ".csv"
         dataframe.to_csv(file_path, index=False)
 
 if __name__ == "__main__":

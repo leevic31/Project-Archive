@@ -27,6 +27,8 @@ class ExportPDF:
         # export query result to html
         dataframe.to_html('tmp.html')
         # convert query result from html to pdf
+        if (not file_path.endswith(".pdf")):
+            file_path += ".pdf"
         pdfkit.from_file('tmp.html', file_path)
         # delete the saved html
         os.remove('tmp.html')
