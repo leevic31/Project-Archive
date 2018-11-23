@@ -139,12 +139,11 @@ def insert_iCare_data(template_name, file_name):
                                                       column_formatted) + "(" + ("%s," * len(column_names_post))[:-1] +
                ")")
 
-        cursor.execute("START TRANSACTION;")
+        cursor.execute("START TRANSACTION")
         for value in values:
-            print("Adding:", value)
             cursor.execute(sql, value)
 
-        cursor.execute("COMMIT;")
+        cursor.commit()
         print("Data has been successfully added to the database")
 
     finally:
