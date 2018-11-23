@@ -8,6 +8,9 @@ from mysql.connector import MySQLConnection, Error
 # from dbsetup import db_connection, add_agency
 import gui_helper
 
+import emailAPI
+
+
 class Agency(QWidget):
 
     def __init__(self):
@@ -86,6 +89,7 @@ class Agency(QWidget):
             # Add agency information to the database
             my_cursor.execute("INSERT INTO User(AgencyName, AgencyAddress, UserEmail, UserPassword, UserName, UserType) VALUES('%s', '%s', '%s', '%s', '%s', '%s')" % (''.join(self.agencyName.text()), ''.join(self.agencyAddress.text()), ''.join(self.userEmail.text()),''.join(self.userPassword.text()), ''.join(self.userName.text()), ''.join(self.userType.text()))   )
             # QMessageBox.about(self, 'Connection', "Agency Added!")
+            emailAPI.sendEmail(self.userEmail.text(), self.userPassword.text())
             gui_helper.prompt_information("User has been added")
         except Error as error:
             print(error)
