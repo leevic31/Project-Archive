@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `InformationAndOrientation`(
 	`CN` varchar(255),		-- And
 	`CO` ENUM('Yes', 'No'),		-- Crisis Counselling
 	`CP` varchar(255) NOT NULL,	-- End Date of Service (YYYY-MM-DD)
-	`CQ` varchar(255),		-- Reason for update
+	`CQ` varchar(255)		-- Reason for update
 		-- 
 );
 
