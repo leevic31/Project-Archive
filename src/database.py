@@ -61,8 +61,7 @@ def get_user_password(useremail):
     connection.autocommit = True
     try:
         cursor = connection.cursor()
-        cursor.execute("SELECT UserPassword FROM User WHERE UserEmail = %s " 
-                       , (useremail))
+        cursor.execute("SELECT UserPassword FROM User WHERE UserEmail ='" + useremail + "'")
         row = cursor.fetchone()
         if (row is None):
             return None
