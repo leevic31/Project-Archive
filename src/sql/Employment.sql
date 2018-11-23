@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `Employment`(
 	`BN` ENUM('Yes', 'No'),		-- Crisis Counselling
 	`BO` int unsigned,		-- Time Spent With Client/Addressing Client's Employment Needs: Hours
 	`BP` int unsigned,		-- Time Spent With Client/Addressing Client's Employment Needs: Minutes
-	`BQ` varchar(255),		-- Reason for update
+	`BQ` varchar(255)		-- Reason for update
 		-- 
 );
 

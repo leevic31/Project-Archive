@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `LanguageTrainingSetup`(
 	`DK` varchar(8),		-- Writing Skill Level 14
 	`DL` varchar(8),		-- Writing Skill Level 15
 	`DM` varchar(8),		-- Writing Skill Level 16
-	`DN` varchar(8),		-- Writing Skill Level 17
+	`DN` varchar(8)			-- Writing Skill Level 17
 		-- 
 );
 
