@@ -187,7 +187,7 @@ class EditQueryWidget(QWidget):
             conn = database.get_db_connection()
             editid = str(self.cb.currentText())[:1]
             print(editid)
-            presetquery.edit_preset(conn, editid, str(self.query.toPlainText()), str(self.descrip.toPlainText()))
+            presetquery.edit_preset(conn, editid, str(self.query.toPlainText()), str(self.description.toPlainText()))
             gui_helper.prompt_information("query edited successfully")
             conn.close()
             self._populate_preset_combobox()
@@ -237,7 +237,9 @@ class RemoveQueryWidget(QWidget):
     def removeClicked(self):
         try:
             conn = database.get_db_connection()
-            editid = str(self.cb.currentText())[:1]
+            index = self.cb.currentIndex()
+            editid = self.preset_queries[index][0]
+
             presetquery.remove_preset(conn, editid)
             conn.close()
             gui_helper.prompt_information("query removed successfully")

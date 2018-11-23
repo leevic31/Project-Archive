@@ -1,5 +1,3 @@
-import sys
-
 import openpyxl
 import openpyxl.utils
 
@@ -21,7 +19,7 @@ def iCare_parse_columns(file_name):
 
 def parse_xlsx(file_name, column_names):
     '''(str, list of str, int, int) -> list of list of str
-    
+
     '''
     column_len = len(column_names)
     if (column_len <= 0):

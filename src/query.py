@@ -39,14 +39,11 @@ def manual_sql_query(connection, command):
     Returns:
         Dataframe -- contain query result in pandas dataframe format
     """
-    try:
-        cursor = connection.cursor()
-        # execute query
-        cursor.execute(command)
-        # store the query result in dataframe
-        df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
-        return df
-    except:
-        return None
-    finally:
-        connection.close()
+    cursor = connection.cursor()
+    # execute query
+    cursor.execute(command)
+    # store the query result in dataframe
+    df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
+    return df
+
+

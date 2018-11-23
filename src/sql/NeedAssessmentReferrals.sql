@@ -92,8 +92,7 @@ CREATE TABLE IF NOT EXISTS `NeedAssessmentReferrals`(
 	`CK` ENUM('Yes', 'No'),		-- Crisis Counselling
 	`CL` ENUM('Yes', 'No') NOT NULL,-- Settlement Plan completed and shared with client
 	`CM` DATE NOT NULL,		-- End Date of Assessment (YYYY-MM-DD)
-	`CN` varchar(255),		-- Reason for update
+	`CN` varchar(255)		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 

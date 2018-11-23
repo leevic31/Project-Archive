@@ -67,8 +67,7 @@ CREATE TABLE IF NOT EXISTS `CommunityConnection`(
 	`BM` ENUM('Yes', 'No'),		-- Crisis Counselling
 	`BN` varchar(255),		-- Total Length of Service: Hours
 	`BO` varchar(255),		-- Total Length of Service: Minutes
-	`BP` varchar(255),		-- Reason for update
+	`BP` varchar(255)		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 
