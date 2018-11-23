@@ -39,6 +39,5 @@ CREATE TABLE IF NOT EXISTS `LanguageTrainingExit`(
 	`AK` ENUM('Yes', 'No'),		-- Crisis Counselling
 	`AL` varchar(255),		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 

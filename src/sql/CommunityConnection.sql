@@ -69,6 +69,5 @@ CREATE TABLE IF NOT EXISTS `CommunityConnection`(
 	`BO` varchar(255),		-- Total Length of Service: Minutes
 	`BP` varchar(255),		-- Reason for update
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 

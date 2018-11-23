@@ -119,6 +119,5 @@ CREATE TABLE IF NOT EXISTS `LanguageTrainingSetup`(
 	`DM` varchar(8),		-- Writing Skill Level 16
 	`DN` varchar(8),		-- Writing Skill Level 17
 		-- 
-	PRIMARY KEY (`C`, `D`)
 );
 
