@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # used https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email as reference to create sendEmail function
-def sendEmail(self, to_address, password):
+def sendEmail(to_address, password):
     """(sendEmail, str) -> None
     Send email with login information to agency employee
 
