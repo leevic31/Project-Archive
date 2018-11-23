@@ -24,6 +24,9 @@ def prompt_information(message, title="Notice"):
     messagebox.exec_()
 
 def prompt_file_chooser():
+    '''() -> [list of str]
+    Prompts the user for files to select
+    '''
     dialog = QFileDialog()
     dialog.setFileMode(QFileDialog.ExistingFiles)
     dialog.setNameFilter("xlsx (*.xlsx)")
@@ -33,6 +36,9 @@ def prompt_file_chooser():
     return []
 
 def prompt_file_save():
+    '''() -> str
+    Prompts the user for a filename to save as
+    '''
     dialog = QFileDialog()
     dialog.setFileMode(QFileDialog.AnyFile)
     if dialog.exec_():
