@@ -1,3 +1,7 @@
+'''
+Unused file; kept for future reference
+'''
+
 import mysql.connector
 from mysql.connector import MySQLConnection, Error
 import db_config
@@ -13,6 +17,9 @@ def add_agency():
         try:
             my_cursor = connection.cursor()
             my_cursor.execute("USE testdb")
+            my_cursor.execute("INSERT INTO Agency(AgencyName, AgencyAddress, NumberOfEmployees, iCARETemplateChoice)"
+                              "VALUES('%s, %s, %s, %s')" % (''.join(self.))
+            )
 
         except Error as error:
             print(error)

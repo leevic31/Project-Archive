@@ -50,18 +50,18 @@ class Agency(QWidget):
         self.address.setGeometry(200,250,200,30)
 
         # Data entry for the number of employees in an agency
-        self.numEmployees = QLineEdit(self)
-        self.numEmployees.setPlaceholderText("Number of employees...")
-        self.numEmployees.setGeometry(200,300,200,30)
+        # self.numEmployees = QLineEdit(self)
+        # self.numEmployees.setPlaceholderText("Number of employees...")
+        # self.numEmployees.setGeometry(200,300,200,30)
 
         # Data entry for the choice of the iCareTemplate used by agency
         self.iCareTemplate = QLineEdit(self)
         self.iCareTemplate.setPlaceholderText("Choice of iCARE template...")
-        self.iCareTemplate.setGeometry(200,350,200,30)
+        self.iCareTemplate.setGeometry(200,300,200,30)
 
         # Button to add the agency to db
         self.button = QPushButton("Add", self)
-        self.button.setGeometry(250,400,100,30)
+        self.button.setGeometry(250,350,100,30)
         self.button.clicked.connect(self.add_agency)
 
 
@@ -74,7 +74,7 @@ class Agency(QWidget):
             my_cursor = mydb_conn.cursor()
             my_cursor.execute("USE testdb")
             # Add agency information to the database
-            my_cursor.execute("INSERT INTO Agency(AgencyName, AgencyAddress, NumberOfEmployees, iCARETemplateChoice, EmployeeName, EmployeePassword) VALUES('%s', '%s', '%s', '%s', '%s', '%s')" % (''.join(self.name.text()), ''.join(self.address.text()), ''.join(self.numEmployees.text()), ''.join(self.iCareTemplate.text()), ''.join(self.employeeName.text()), ''.join(self.employeePassword.text()))   )
+            my_cursor.execute("INSERT INTO Agency(AgencyName, AgencyAddress, iCARETemplateChoice, EmployeeName, EmployeePassword) VALUES('%s', '%s', '%s', '%s', '%s')" % (''.join(self.name.text()), ''.join(self.address.text()), ''.join(self.iCareTemplate.text()), ''.join(self.employeeName.text()), ''.join(self.employeePassword.text()))   )
             # QMessageBox.about(self, 'Connection', "Agency Added!")
         except Error as error:
             print(error)
