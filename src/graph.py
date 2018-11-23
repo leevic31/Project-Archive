@@ -79,7 +79,7 @@ def bar_chart(title, query):
         query = query.set_index(query.columns.values[0])
         graph = query.plot.bar(title=title)
         graph.locator_params(integer=True)
-
+        return plt
     except:
         return None
 
