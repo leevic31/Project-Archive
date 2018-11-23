@@ -142,7 +142,7 @@ def insert_iCare_data(template_name, file_name):
         for value in values:
             cursor.execute(sql, value)
 
-        cursor.commit()
+        cursor.execute("COMMIT")
         print("Data has been successfully added to the database")
 
     finally:
