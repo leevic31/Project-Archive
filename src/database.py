@@ -21,6 +21,56 @@ def get_db_connection():
 
     return mydb
 
+def add_user(agency_name, agency_address, user_name,
+        user_email, user_password):
+
+    connection = get_db_connection()
+    connection.autocommit = True
+    with connection:
+        try:
+            my_cursor = connection.cursor()
+            my_cursor.execute("INSERT INTO User (AgencyName, AgencyAddress, UserEmail, UserPassword, UserName, UserType) VALUES (?, ?, ?, ?, ?, ?)",
+                (agency_name, agency_address,
+                 user_email, user_password, user_name))
+
+        except Error as error:
+            print(error)
+
+        finally:
+            connection.close()
+
+def get_user_type(useremail, password) -> str:
+
+    connection = get_db_connection()
+    connection.autocommit = True
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT UserType FROM User WHERE UserEmail = %s " +
+                          "AND UserPassword = %s", (useremail, password))
+        row = cursor.fetchone()
+        if (row is None):
+            return None
+        else:
+            return row[0]
+
+    finally:
+        connection.close()
+
+def get_user_password(useremail):
+    connection = get_db_connection()
+    connection.autocommit = True
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT UserPassword FROM User WHERE UserEmail = %s " 
+                       , (useremail))
+        row = cursor.fetchone()
+        if (row is None):
+            return None
+        else:
+            return row[0]
+
+    finally:
+        connection.close()
 
 def get_db_connection_with(username, password, database):
     '''coonect to the database server
@@ -56,17 +106,18 @@ def get_template_attributes(template_name):
            "WHERE `TABLE_SCHEMA`='{}' AND `TABLE_NAME`='{}'".format(
                config.database, template_name))
     cursor.execute(sql)
+
+    # do not return non template attributes
     cursor.next()
+
+
     column_names = [column_name[0] for column_name in cursor]
     connection.close()
     return column_names
 
-
-def insert_data_for(template_name, file_name, row_start, row_end):
+def insert_iCare_data(template_name, file_name):
     '''(str, str, int, int) -> None
     Insert template values into the database for the specific template
-    from row_start to row_end.
-
     '''
     connection = get_db_connection()
     try:
@@ -77,7 +128,7 @@ def insert_data_for(template_name, file_name, row_start, row_end):
         cursor = connection.cursor()
 
         # get all the row values in the xlsx file
-        values = pyxl.parse_xlsx(file_name, column_names, row_start, row_end)
+        values = pyxl.parse_xlsx(file_name, column_names)
 
         column_names_post = ["`" + column_name + "`"
                              for column_name in column_names]
@@ -119,6 +170,18 @@ def get_iCare_template_names():
         print("Failed to connect to database")
         return []
 
+def get_preset_queries():
+    conn = get_db_connection()
+
+    # finding number of preset queries
+    cursor = conn.cursor()
+    quer = "SELECT * FROM Presets"
+    cursor.execute(quer)
+
+    results = [row for row in cursor]
+    conn.close()
+
+    return results
 
 def execute_query_result(query):
     connection = get_db_connection()
@@ -145,17 +208,3 @@ def query_to_dataframe(query):
         return df
     finally:
         connection.close()
-
-
-def get_preset_queries():
-    conn = get_db_connection()
-
-    # finding number of preset queries
-    cursor = conn.cursor()
-    quer = "SELECT * FROM Presets"
-    cursor.execute(quer)
-
-    results = [row for row in cursor]
-    conn.close()
-
-    return results

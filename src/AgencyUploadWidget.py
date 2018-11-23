@@ -2,8 +2,6 @@ from PyQt5.QtWidgets import (
     QAction,
     QApplication,
     QComboBox,
-    QDialog,
-    QFileDialog,
     QGridLayout,
     QLabel,
     QLineEdit,
@@ -48,47 +46,29 @@ class iCareUploadWidget(QWidget):
         self.submit1 = QPushButton("Submit Data")
         self.submit1.clicked.connect(self.submit_iCare_data)
 
-        self.minbound_label = QLabel("start row number:")
-        self.minbound = QSpinBox()
-        self.minbound.setValue(4)
-        self.minbound.setMinimum(1)
+        self._setup_template_combobox()
 
-        self.maxbound_label = QLabel("stop row number:")
-        self.maxbound = QSpinBox()
-        self.maxbound.setValue(5)
-        self.maxbound.setMinimum(1)
+        self.layout.addWidget(QLabel("iCare format data for:"), 0, 0)
+        self.layout.addWidget(self.iCare_combobox, 0, 1, 1, 5)
+        self.layout.addWidget(self.upload1, 1, 0)
+        self.layout.addWidget(self.file_upload_label, 1, 1)
+        self.layout.addWidget(self.submit1, 4, 0)
 
-        # widgets
+        self.setLayout(self.layout)
+
+    def _setup_template_combobox(self):
         self.iCare_combobox = QComboBox()
         try:
             self.iCare_types = database.get_iCare_template_names()
             for iCare_type in self.iCare_types:
                 self.iCare_combobox.addItem(iCare_type)
         except Exception as e:
-            gui_helper.prompt_error("Failed to get Templates: " + str(e))
-
-
-        self.layout.addWidget(QLabel("iCare format data for:"), 0, 0)
-        self.layout.addWidget(self.iCare_combobox, 0, 1, 1, 5)
-        self.layout.addWidget(self.upload1, 1, 0)
-        self.layout.addWidget(self.file_upload_label, 1, 1)
-        self.layout.addWidget(self.minbound_label, 2, 0)
-        self.layout.addWidget(self.minbound, 2, 1)
-        self.layout.addWidget(self.maxbound_label, 3, 0)
-        self.layout.addWidget(self.maxbound, 3, 1)
-        self.layout.addWidget(self.submit1, 4, 0)
-
-        self.setLayout(self.layout)
+            gui_helper.prompt_error("Failed to get Templates: " + repr(e))
 
     @pyqtSlot()
     def file_select(self):
-        dialog = QFileDialog()
-        dialog.setFileMode(QFileDialog.AnyFile)
-        dialog.setNameFilter("xlsx (*.xlsx)")
-
-        if dialog.exec_():
-            self.filepaths = dialog.selectedFiles()
-            self.file_upload_label.setText(get_file_name(self.filepaths[0]))
+        self.filepaths = gui_helper.prompt_file_chooser()
+        self.file_upload_label.setText("{} files selected".format(len(self.filepaths)))
 
     @pyqtSlot()
     def submit_iCare_data(self):
@@ -100,18 +80,17 @@ class iCareUploadWidget(QWidget):
             gui_helper.prompt_error("Please select a type")
             return
 
-        row_start = self.minbound.value()
-        row_end = self.maxbound.value()
+        for filepath in self.filepaths:
+            try:
+                database.insert_iCare_data(template_name, filepath)
+            except Exception as e:
+                gui_helper.prompt_error(repr(e))
+                return
 
-        try:
-            database.insert_data_for(template_name, self.filepaths[0], row_start, row_end)
-            gui_helper.prompt_information("Data has been successfully added to the database")
-        except Exception as e:
-            gui_helper.prompt_error(str(e))
+        gui_helper.prompt_information("Data has been successfully added to the database")
 
 if (__name__ == "__main__"):
     app = QApplication(sys.argv)
     ex = iCareUploadWidget()
     ex.show()
     sys.exit(app.exec_())
-

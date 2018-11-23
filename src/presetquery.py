@@ -8,8 +8,8 @@ from pypika import MySQLQuery, Table, Field
 	# UNSIGNED AUTO_INCREMENT PRIMARY KEY labeled 'id'
 	# and the second column is a VARCHAR NOT NULL labeled 'querval'
 	# and the third column is a VARCHAR NOT NULL labeled 'description'
-	
-def write_preset(conn, queryin, descriptin):	
+
+def write_preset(conn, queryin, descriptin):
 	# to use this method you must pass in a connection,
 	# a preset query, and a description of what the query achieves
 	# it will automatically write it to the bottom of the table
@@ -18,20 +18,20 @@ def write_preset(conn, queryin, descriptin):
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
+
 	extable = Table('Presets')
 	q = MySQLQuery.into(extable).columns("querval", "description").insert(queryin, descriptin)
 	print(q)
 	quer = str(q)
-	
+
 	cursor.execute(quer)
-	
+
 	quer = "ALTER TABLE Presets DROP COLUMN id;"
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
-def edit_preset(conn, key, queryin, descriptin):	
+
+def edit_preset(conn, key, queryin, descriptin):
 	# to use this method you must pass in a connection,
 	# the id of a preset query,
 	# a preset query, and a description of what the query achieves
@@ -42,20 +42,20 @@ def edit_preset(conn, key, queryin, descriptin):
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
+
 	if (queryin != "NA"):
 		quer = "UPDATE Presets SET querval='"+queryin+"' WHERE id="+str(key)+";"
 		cursor.execute(quer)
 	if (descriptin != "NA"):
 		quer = "UPDATE Presets SET description='"+descriptin+"' WHERE id="+str(key)+";"
 		cursor.execute(quer)
-	
+
 	quer = "ALTER TABLE Presets DROP COLUMN id;"
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
-def remove_preset(conn, key):	
+
+def remove_preset(conn, key):
 	# to use this method you must pass in a connection, and
 	# what number the preset's id is
 	cursor = conn.cursor()
@@ -63,16 +63,15 @@ def remove_preset(conn, key):
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
+
 	quer = "DELETE FROM Presets WHERE id = " +key;
 	cursor.execute(quer)
-	
-	
+
 	quer = "ALTER TABLE Presets DROP COLUMN id;"
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
+
 def get_preset(conn, key):
 	# to use this method you must pass in a connection
 	# and the id for the corresponding querval to return
@@ -83,7 +82,7 @@ def get_preset(conn, key):
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
+
 	extable = Table('Presets')
 	q = MySQLQuery.from_(extable).select(
 		extable.querval
@@ -94,12 +93,12 @@ def get_preset(conn, key):
 	quer = str(q)
 
 	cursor.execute(quer)
-	
+
 	row = cursor.fetchone()
 	strrow = str(row)
-	
+
 	return (strrow[2:-3])
-	
+
 def get_descriptin(conn, key):
 	# to use this method you must pass in a connection
 	# and the id for the corresponding description to return
@@ -109,7 +108,7 @@ def get_descriptin(conn, key):
 	cursor.execute(quer)
 	quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST;"
 	cursor.execute(quer)
-	
+
 	extable = Table('Presets')
 	q = MySQLQuery.from_(extable).select(
 		extable.description
@@ -120,9 +119,8 @@ def get_descriptin(conn, key):
 	quer = str(q)
 
 	cursor.execute(quer)
-	
+
 	row = cursor.fetchone()
 	strrow = str(row)
-	
+
 	return (strrow[2:-3])
-	
