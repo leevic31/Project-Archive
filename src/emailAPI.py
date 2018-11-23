@@ -9,9 +9,9 @@ def sendEmail(self, to_address, password):
 
     Arguments:
         to_address {str} -- email address to send login information to
+        password {str} -- agency employee password
     """
-    # if given email exists, retrieve password from agency db given the email
-    
+
     from_address = "c01group12@gmail.com"
     # to_addr is the agency employee's email
     to_address = to_address

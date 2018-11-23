@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDialog, QWidget, QPushButton, QAction, QLineEdit, Q
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
 
+import database
 import gui_helper
 from emailAPI import *
 
@@ -42,7 +43,7 @@ class Password_Recovery(QDialog):
             gui_helper.prompt_error("Please enter a valid email")
             return
         # check if given email exists in agency db
-        password = database.get_user_password
+        password = database.get_user_password(textboxValue)
         if(password is None):
             gui_helper.prompt_error("Please enter a valid email")
             return
