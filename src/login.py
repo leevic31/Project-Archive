@@ -24,6 +24,7 @@ import database
 from AgencyUploadWidget import *
 from TeqQueryWidget import *
 from PresetQueryWidget import *
+from ModifyPresetQueryWidget import *
 
 class loginWidget(QWidget):
     def __init__(self, parent):
@@ -63,6 +64,7 @@ class loginWidget(QWidget):
     def set_teqhigh_ui(self):
         widget = TeqWidget.teqWidget(self)
         widget.add_widget(iCareNewQueryWidget(), "Run custom query")
+        widget.add_widget(ModifyPresetQueryWidget(), "Preset queries")
         widget.add_widget(presetQueriesInterface(), "Run Reports")
         self.set_main_widget(widget)
 

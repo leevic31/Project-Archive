@@ -99,7 +99,7 @@ class iCareNewQueryWidget(QWidget):
                 self.populateTable(dict_values)
             gui_helper.prompt_information("query executed successfully")
         except Exception as e:
-            gui_helper.prompt_error("Failed to run Query: " + str(e))
+            gui_helper.prompt_error("Failed to run Query: " + repr(e))
 
     def populateTable(self, column_values):
         self.table1.clearContents()
@@ -128,7 +128,7 @@ class iCareNewQueryWidget(QWidget):
             export_option.export(filepath, query_text)
             gui_helper.prompt_information("Data has been succesfully exported!")
         except Exception as e:
-            gui_helper.prompt_error("Failed to export data: " + str(e))
+            gui_helper.prompt_error("Failed to export data: " + repr(e))
 
 if (__name__ == "__main__"):
     app = QApplication(sys.argv)
