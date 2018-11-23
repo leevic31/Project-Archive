@@ -6,13 +6,14 @@ import db_config
 import mysql.connector
 from mysql.connector import MySQLConnection, Error
 # from dbsetup import db_connection, add_agency
+import gui_helper
 
 class Agency(QWidget):
 
     def __init__(self):
         super().__init__()
         # Window title
-        self.title = "Enter the information required to add a new Agency"
+        self.title = "Enter the information required to add a new User"
         # Window dimensions for the min size
         self.setMinimumSize(QSize(500, 500))
         # Actual dimensions of window
@@ -29,40 +30,49 @@ class Agency(QWidget):
         # Set the geometry of the window as defined in in __init__
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        # Data entry for Agency Name
-        self.name = QLineEdit(self)
-        self.name.setPlaceholderText("Agency Name...")
-        self.name.setGeometry(200,100,200,30)
+        # Data entry for AgencyName
+        self.agencyName = QLineEdit(self)
+        self.agencyName.setPlaceholderText("Agency Name...")
+        self.agencyName.setGeometry(200,100,200,30)
 
-        # Employee name for an agency
-        self.employeeName = QLineEdit(self)
-        self.employeeName.setPlaceholderText("Employee Name...")
-        self.employeeName.setGeometry(200,150,200,30)
+        # Data entry for AgencyAddress
+        self.agencyAddress = QLineEdit(self)
+        self.agencyAddress.setPlaceholderText("Agency Address...")
+        self.agencyAddress.setGeometry(200,150,200,30)
 
-        # Employee password for an agency employee
-        self.employeePassword = QLineEdit(self)
-        self.employeePassword.setPlaceholderText("Password...")
-        self.employeePassword.setGeometry(200,200,200,30)
+        # Data entry for UserEmail
+        self.userEmail = QLineEdit(self)
+        self.userEmail.setPlaceholderText("User Email...")
+        self.userEmail.setGeometry(200,200,200,30)
 
-        # Data entry for Agency Address
-        self.address = QLineEdit(self)
-        self.address.setPlaceholderText("Agency Address...")
-        self.address.setGeometry(200,250,200,30)
+        # Password for an agency employee
+        self.userPassword = QLineEdit(self)
+        self.userPassword.setPlaceholderText("Password...")
+        self.userPassword.setGeometry(200,250,200,30)
+
+
+        # UserName for the employee
+        self.userName = QLineEdit(self)
+        self.userName.setPlaceholderText("User Name...")
+        self.userName.setGeometry(200,300,200,30)
+
+        # Data entry for the choice of the iCareTemplate used by agency
+        self.userType = QLineEdit(self)
+        self.userType.setPlaceholderText("User Type...")
+        self.userType.setGeometry(200,350,200,30)
 
         # Data entry for the number of employees in an agency
         # self.numEmployees = QLineEdit(self)
         # self.numEmployees.setPlaceholderText("Number of employees...")
         # self.numEmployees.setGeometry(200,300,200,30)
 
-        # Data entry for the choice of the iCareTemplate used by agency
-        self.iCareTemplate = QLineEdit(self)
-        self.iCareTemplate.setPlaceholderText("Choice of iCARE template...")
-        self.iCareTemplate.setGeometry(200,300,200,30)
-
         # Button to add the agency to db
         self.button = QPushButton("Add", self)
-        self.button.setGeometry(250,350,100,30)
+        self.button.setGeometry(250,400,100,30)
         self.button.clicked.connect(self.add_agency)
+
+
+
 
 
         self.show()
@@ -74,8 +84,9 @@ class Agency(QWidget):
             my_cursor = mydb_conn.cursor()
             my_cursor.execute("USE testdb")
             # Add agency information to the database
-            my_cursor.execute("INSERT INTO Agency(AgencyName, AgencyAddress, iCARETemplateChoice, EmployeeName, EmployeePassword) VALUES('%s', '%s', '%s', '%s', '%s')" % (''.join(self.name.text()), ''.join(self.address.text()), ''.join(self.iCareTemplate.text()), ''.join(self.employeeName.text()), ''.join(self.employeePassword.text()))   )
+            my_cursor.execute("INSERT INTO User(AgencyName, AgencyAddress, UserEmail, UserPassword, UserName, UserType) VALUES('%s', '%s', '%s', '%s', '%s', '%s')" % (''.join(self.agencyName.text()), ''.join(self.agencyAddress.text()), ''.join(self.userEmail.text()),''.join(self.userPassword.text()), ''.join(self.userName.text()), ''.join(self.userType.text()))   )
             # QMessageBox.about(self, 'Connection', "Agency Added!")
+            gui_helper.prompt_information("User has been added")
         except Error as error:
             print(error)
         finally:
