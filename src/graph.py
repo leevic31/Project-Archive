@@ -62,6 +62,28 @@ def line_chart(title, query):
         return None
 
 
+def bar_chart(title, query):
+    """
+    Generate a bar chart that displays changes over time
+
+    Arguments:
+        title {String} -- the plot title
+        query {Dataframe} -- the query result (independent variable is the
+        first field in query, dependent variable is second field in query)
+
+    Return:
+        [plot] -- the generated plot
+    """
+    try:
+        title = textwrap.fill(title)
+        query = query.set_index(query.columns.values[0])
+        graph = query.plot.bar(title=title)
+        graph.locator_params(integer=True)
+
+    except:
+        return None
+
+
 if __name__ == "__main__":
     result = database.manual_sql_query(
         "Select case when Month(date) between 1 and 2 then '20-24' when Month(date) between 3 and 4 then '25-29' else 'other' end as `age group`, count(*) as Count from test group by `age group` order by `age group`")
