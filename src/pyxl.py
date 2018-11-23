@@ -1,5 +1,3 @@
-import sys
-
 import openpyxl
 import openpyxl.utils
 
