@@ -13,6 +13,8 @@ def write_preset(query_text, query_desc):
     conn = database.get_db_connection()
     conn.autocommit = True
 
+    cursor = conn.cursor()
+
     extable = Table('Presets')
     q = MySQLQuery.into(extable).columns("querval", "description").insert(query_text, query_desc)
     quer = str(q)
