@@ -165,12 +165,13 @@ class EditQueryWidget(QWidget):
         self.layout.addWidget(self.submit, 5, 1)
 
         self.setLayout(self.layout)
+        self.populateTextBoxes()
 
     def _populate_preset_combobox(self):
         self.cb.clear()
         self.preset_queries = database.get_preset_queries()
         for _id, query, desc in self.preset_queries:
-            self.cb.addItem("{}; {}".format(_id, query, desc))
+            self.cb.addItem("{}; {}".format(query, desc))
 
     @pyqtSlot()
     def editClicked(self):
@@ -227,7 +228,7 @@ class RemoveQueryWidget(QWidget):
         self.cb.clear()
         self.preset_queries = database.get_preset_queries()
         for _id, query, desc in self.preset_queries:
-            self.cb.addItem("{}; {}".format(_id, query, desc))
+            self.cb.addItem("{}; {}".format(query, desc))
 
     @pyqtSlot()
     def removeClicked(self):
