@@ -28,9 +28,6 @@ from gui_helper import (
     prompt_information
     )
 
-def get_file_name(path : str) -> str:
-    return path[path.rfind("/") + 1:]
-
 class teqWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
