@@ -30,37 +30,24 @@ def edit_preset(query_id, query_text, description):
     # if queryin or descriptin = "NA" then it will not update the values written so
 
     conn = database.get_db_connection()
-    conn.autocommit = False
+    conn.autocommit = True
 
     cursor = conn.cursor()
-    # quer = "ALTER TABLE Presets DROP COLUMN id"
-    # cursor.execute(quer)
-    # quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST"
-    # cursor.execute(quer)
 
-    quer = "UPDATE Presets SET querval=%s AND description=%s WHERE id=%s"
+    quer = "UPDATE Presets SET querval=%s, description=%s WHERE id=%s"
     cursor.execute(quer, (query_text, description, query_id))
-
-    # quer = "ALTER TABLE Presets DROP COLUMN id"
-    # cursor.execute(quer)
-    # quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST"
-    # cursor.execute(quer)
 
     conn.close()
 
-def remove_preset(conn, key):
+def remove_preset(query_id):
     # to use this method you must pass in a connection, and
     # what number the preset's id is
+    conn = database.get_db_connection()
+    conn.autocommit = True
+
     cursor = conn.cursor()
-    quer = "ALTER TABLE Presets DROP COLUMN id"
-    cursor.execute(quer)
-    quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST"
-    cursor.execute(quer)
 
     quer = "DELETE FROM Presets WHERE id = %s"
-    cursor.execute(quer, (key,))
+    cursor.execute(quer, (query_id,))
 
-    quer = "ALTER TABLE Presets DROP COLUMN id"
-    cursor.execute(quer)
-    quer = "ALTER TABLE Presets ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY NOT NULL FIRST"
-    cursor.execute(quer)
+    conn.close()

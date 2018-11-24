@@ -28,7 +28,6 @@ import sys
 import database
 import exportCSV
 import exportPDF
-import query
 import gui_helper
 import presetquery
 
@@ -128,10 +127,8 @@ class AddPresetQueryWidget(QWidget):
             return
 
         try:
-            conn = database.get_db_connection()
-            presetquery.write_preset(conn, query_text, description_text)
+            presetquery.write_preset(query_text, description_text)
             gui_helper.prompt_information("query added successfully")
-            conn.close()
         except Exception as e:
             gui_helper.prompt_error("Failed to add preset query: " + repr(e))
 
@@ -173,7 +170,7 @@ class EditQueryWidget(QWidget):
         self.cb.clear()
         self.preset_queries = database.get_preset_queries()
         for _id, query, desc in self.preset_queries:
-            self.cb.addItem("{}. {}; {}".format(_id, query, desc))
+            self.cb.addItem("{}; {}".format(_id, query, desc))
 
     @pyqtSlot()
     def editClicked(self):
@@ -184,15 +181,14 @@ class EditQueryWidget(QWidget):
             return
 
         try:
-            conn = database.get_db_connection()
-            editid = str(self.cb.currentText())[:1]
-            print(editid)
-            presetquery.edit_preset(conn, editid, str(self.query.toPlainText()), str(self.description.toPlainText()))
+            index = self.cb.currentIndex()
+            editid = self.preset_queries[index][0]
+
+            presetquery.edit_preset(editid, self.query.toPlainText(), self.description.toPlainText())
             gui_helper.prompt_information("query edited successfully")
-            conn.close()
             self._populate_preset_combobox()
         except Exception as e:
-            gui_helper.prompt_error("Failed to add preset query: " + repr(e))
+            gui_helper.prompt_error("Failed to edit preset query: " + repr(e))
 
     @pyqtSlot()
     def populateTextBoxes(self):
@@ -231,21 +227,20 @@ class RemoveQueryWidget(QWidget):
         self.cb.clear()
         self.preset_queries = database.get_preset_queries()
         for _id, query, desc in self.preset_queries:
-            self.cb.addItem("{}. {}; {}".format(_id, query, desc))
+            self.cb.addItem("{}; {}".format(_id, query, desc))
 
     @pyqtSlot()
     def removeClicked(self):
         try:
-            conn = database.get_db_connection()
             index = self.cb.currentIndex()
             editid = self.preset_queries[index][0]
 
-            presetquery.remove_preset(conn, editid)
-            conn.close()
+            presetquery.remove_preset(editid)
+
             gui_helper.prompt_information("query removed successfully")
             self._populate_preset_combobox()
         except Exception as e:
-            gui_helper.prompt_error("Failed to add preset query: " + repr(e))
+            gui_helper.prompt_error("Failed to remove preset query: " + repr(e))
 
 if (__name__ == "__main__"):
     app = QApplication(sys.argv)
