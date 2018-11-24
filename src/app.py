@@ -23,7 +23,10 @@ class App(QMainWindow):
         self.setGeometry(self.left, self.top, self.width, self.height)
 
         # set up main window and widget
-        self.main_widget = login.loginWidget(self)
+        self.set_main_widget(login.loginWidget(self))
+
+    def set_main_widget(self, widget):
+        self.main_widget = widget
         self.setCentralWidget(self.main_widget)
         self.show()
 

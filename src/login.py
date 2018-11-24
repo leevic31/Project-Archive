@@ -25,6 +25,7 @@ from AgencyUploadWidget import *
 from TeqQueryWidget import *
 from PresetQueryWidget import *
 from ModifyPresetQueryWidget import *
+from AdministrativeWidget import *
 
 class loginWidget(QWidget):
     def __init__(self, parent):
@@ -51,28 +52,26 @@ class loginWidget(QWidget):
         self.layout.addWidget(self.recover_button, 3, 1)
         self.setLayout(self.layout)
 
-    def set_main_widget(self, widget):
-        self.parent.main_widget = widget
-        self.parent.setCentralWidget(self.parent.main_widget)
-        self.parent.show()
-
     def set_agency_ui(self):
         widget = TeqWidget.teqWidget(self)
+        widget.add_widget(AdministrativeWidget(self.parent), "Administrative")
         widget.add_widget(iCareUploadWidget(), "Upload iCare Data")
-        self.set_main_widget(widget)
+        self.parent.set_main_widget(widget)
 
     def set_teqhigh_ui(self):
         widget = TeqWidget.teqWidget(self)
-        widget.add_widget(iCareNewQueryWidget(), "Run custom query")
+        widget.add_widget(AdministrativeWidget(self.parent), "Administrative")
+        widget.add_widget(TeqCustomQueryWidget(), "Custom query")
+        widget.add_widget(TeqGraphGenerationWidget(), "Graph Generation")
         widget.add_widget(ModifyPresetQueryWidget(), "Preset queries")
         widget.add_widget(presetQueriesInterface(), "Run Reports")
-        self.set_main_widget(widget)
+        self.parent.set_main_widget(widget)
 
     def set_teqlow_ui(self):
         widget = TeqWidget.teqWidget(self)
+        widget.add_widget(AdministrativeWidget(self.parent), "Administrative")
         widget.add_widget(presetQueriesInterface(), "Run Reports")
-        self.set_main_widget(widget)
-
+        self.parent.set_main_widget(widget)
 
     @pyqtSlot()
     def login(self):
