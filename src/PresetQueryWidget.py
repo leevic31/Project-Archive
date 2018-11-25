@@ -56,6 +56,7 @@ class presetQueriesInterface(QWidget):
 
         self.layout.addWidget(self.queries_label, 0, 0)
         self.layout.addWidget(self.cb, 0, 1)
+        self.layout.addWidget(QLabel('File Format'), 1, 0)
         self.layout.addWidget(self.export_combobox, 1, 1)
         self.layout.addWidget(self.generate, 3, 1)
         self.setLayout(self.layout)
