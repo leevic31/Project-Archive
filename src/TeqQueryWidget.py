@@ -113,38 +113,21 @@ class TeqCustomQueryWidget(QWidget):
             return
 
         export_option = self.export_options[self.export_combobox.currentText()]
-        filepath = gui_helper.prompt_file_save()
+        file_path = gui_helper.prompt_file_save()
         if (not file_path):
             return
 
         try:
-            export_option.export(filepath, query_text)
+            export_option.export(file_path, query_text)
             gui_helper.prompt_information("Data has been succesfully exported!")
         except Exception as e:
             gui_helper.prompt_error("Failed to export data: " + repr(e))
-
-        with PdfPages(filepath) as pdf:
-            conn = database.get_db_connection()
-            for i in range(self.report_table.rowCount()):
-                query_text = self.report_table.item(i, 1).text()
-                graph_type = self.report_table.item(i, 0).text()
-
-                dict_values = query.manual_sql_query(conn, query_text)
-                try:
-                    plt = self.export_graph_options[graph_type](graph_type, dict_values)
-
-                    fig = plt.gcf()
-                    pdf.savefig()
-                    plt.close(fig)
-                except Exception as e:
-                    gui_helper.prompt_error("Failed to export graph {}: ".format(i) + repr(e))
-            conn.close()
 
     @pyqtSlot()
     def add_graph(self):
         graph_type = self.export_combobox.currentText()
         query_text = self.query.toPlainText()
-        
+
         if (len(query_text) == 0):
             gui_helper.prompt_error("Please enter a query")
             return
@@ -254,7 +237,7 @@ class TeqGraphGenerationWidget(QWidget):
     def add_graph(self):
         graph_type = self.export_combobox.currentText()
         query_text = self.query.toPlainText()
-        
+
         if (len(query_text) == 0):
             gui_helper.prompt_error("Please enter a query")
             return
