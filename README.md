@@ -92,7 +92,7 @@ Located under [`Deliverable_05/`](https://github.com/CSCC01/Team12/tree/master/D
 #### Instructions
  - source code located under [`src/`](https://github.com/CSCC01/Team12/tree/master/src)
  - prerequisites
-    - edit `src/config.py` to have the correct database configuration to connect to the database
+    - edit [`src/config.py`](https://github.com/CSCC01/Team12/blob/master/src/config.py) to have the correct database configuration to connect to the database
     - Please make sure to run the following sql scripts located under [`src/sql`](https://github.com/CSCC01/Team12/tree/master/src/sql) on a mysql database schema
 ```
 iCare Template Tables
