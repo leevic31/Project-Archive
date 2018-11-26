@@ -125,7 +125,7 @@ password: password
 
 High level TEQ user
 ======================
-username: teq02@teq.ca
+username: teq01@teq.ca
 password: password
 
 Another Agency User
@@ -135,7 +135,7 @@ password: password
 
 Low level TEQ user
 ======================
-username: teq01@teq.ca
+username: teq02@teq.ca
 password: password
 ```
 
