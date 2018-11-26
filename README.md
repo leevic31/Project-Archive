@@ -74,6 +74,7 @@ Template.sql
 
 ### Project Deliverable 5
 [Project Video](https://youtu.be/RD6kpNoGNas): https://youtu.be/RD6kpNoGNas
+
 Located under `Deliverable_05/`
 #### Sprint 5
  - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/plan.csv)
