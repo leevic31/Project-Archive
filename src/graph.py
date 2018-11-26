@@ -5,6 +5,7 @@ import query
 import database
 import textwrap
 
+
 def pie_chart(title, query):
     """Generate pie chart to display percentage of data
 
@@ -74,9 +75,3 @@ def bar_chart(title, query):
     graph = query.plot.bar(title=title, rot=0)
     # return the graph
     return plt
-
-if __name__ == "__main__":
-    connection = database.get_db_connection()
-    result = query.manual_sql_query(
-        connection, "select Name, Population from country where continent = 'North America' and GovernmentForm = 'Republic'")
-    bar_chart("123", result).show()
