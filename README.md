@@ -72,6 +72,48 @@ Template.sql
     - unittests are named with `_test`
     - acceptance tests are under `src/test`
 
+### Project Deliverable 5
+Located under `Deliverable_05/`
+#### Sprint 5
+ - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/plan.csv)
+ - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/execution.csv)
+ - [sprint report](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/sprint_report_05.pdf)
+ - [User Stories v3](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/user_stories_v3.pdf)
+
+#### Sprint 6
+ - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/plan.csv)
+ - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/execution.csv)
+ - [code review](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/code_review.pdf)
+ - [sprint report]()
+
+#### Instructions
+ - source code located under `src/`
+ - prerequisites
+    - edit `src/config.py` to have the correct database configuration to connect to the database
+    - Please make sure to run the following sqls on a mysql database schema
+```
+CommunityConnection.sql
+Employment.sql
+InformationAndOrientation.sql
+LanguageTrainingEnrolment.sql
+LanguageTrainingExit.sql
+LanguageTrainingSetup.sql
+NeedAssessmentReferrals.sql
+
+User.sql
+Template.sql
+PresetsTable.sql
+```
+
+ - to run:
+```
+~ $ make	# to install dependencies
+~ $ make run	# if dependencies are all installed
+```
+ - Testing:
+    - unittests are named with suffix `_test`
+    - acceptance tests are under `src/test`
+
 
 ### Dependencies
  - [python3](https://www.python.org/)
