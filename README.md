@@ -84,7 +84,7 @@ Located under `Deliverable_05/`
  - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/plan.csv)
  - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/execution.csv)
  - [code review](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/code_review.pdf)
- - [sprint report]()
+ - [sprint report](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/sprint_report_06.pdf)
 
 #### Instructions
  - source code located under `src/`
@@ -92,6 +92,8 @@ Located under `Deliverable_05/`
     - edit `src/config.py` to have the correct database configuration to connect to the database
     - Please make sure to run the following sqls on a mysql database schema
 ```
+iCare Template Tables
+=======================
 CommunityConnection.sql
 Employment.sql
 InformationAndOrientation.sql
@@ -100,6 +102,8 @@ LanguageTrainingExit.sql
 LanguageTrainingSetup.sql
 NeedAssessmentReferrals.sql
 
+Administrative Tables
+=======================
 User.sql
 Template.sql
 PresetsTable.sql
@@ -110,6 +114,29 @@ PresetsTable.sql
 ~ $ make	# to install dependencies
 ~ $ make run	# if dependencies are all installed
 ```
+Login information:
+```
+Agency User
+======================
+username: agency02@agency.ca
+password: password
+
+High level TEQ user
+======================
+username: teq02@teq.ca
+password: password
+
+Another Agency User
+======================
+username: c01group12@gmail.com
+password: password
+
+Low level TEQ user
+======================
+username: teq01@teq.ca
+password: password
+```
+
  - Testing:
     - unittests are named with suffix `_test`
     - acceptance tests are under `src/test`
@@ -118,9 +145,14 @@ PresetsTable.sql
 ### Dependencies
  - [python3](https://www.python.org/)
     - [pip](https://pypi.org/project/pip/)
- - [openpyxl](https://bitbucket.org/openpyxl/openpyxl)
+
  - [mysql-connector-python-rf](https://dev.mysql.com/doc/connector-python/en/connector-python-installation.html)
+ - [openpyxl](https://bitbucket.org/openpyxl/openpyxl)
+
  - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)
+
+ - [matplotlib](https://matplotlib.org/)
+ - [numpy](https://www.numpy.org)
  - [PyPika](https://pypika.readthedocs.io/en/latest/1_installation.html)
  - [pdfkit](https://github.com/JazzCore/python-pdfkit)
     - [wkhtmltopdf](https://github.com/JazzCore/python-pdfkit)
