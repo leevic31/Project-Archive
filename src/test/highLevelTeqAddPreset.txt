@@ -1,0 +1,18 @@
+Step 0: ensure the sql schemas in /src/sql are run
+
+Step 1: execute `make`
+Result: app opens and runs
+
+Step 2: login as 
+	username='teq01@teq.ca'
+	password='password' 
+	(no '')
+Result: user is taken to administrative tab UI for high level teq employees
+
+Step 3: go to the run preset query tab and ensure "add a preset query" is pressed
+Result: shows the user a textbox for query and one for description, as well as the options to edit and remove a preset, and an add preset button at the bottom.
+
+Step 4: type in "SELECT * FROM Presets;" and let description be "Return the Presets table", and then go to the edit preset query. Select "SELECT * FROM Presets;; Return the Presets table" if it is not already selected.
+Result: The query "SELECT * FROM Presets;" exists in the query box and "Return the Presets table" exists in the description box.
+
+If this final result is true then the acceptance test has succeeded.

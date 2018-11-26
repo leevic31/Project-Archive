@@ -1,0 +1,26 @@
+Step 0: ensure the sql schemas in /src/sql are run
+	and that highLevelTeqAddPreset.txt acceptance test has been 		run before so that the preset query "SELECT * FROM Presets;" 		exists in the presets
+
+Step 1: login with username = teq01@teq.ca and password = password
+result: logged into high level teq administrative interface
+
+Step 2: click on the Preset Query tab and ensure the add a preset and query option is selected
+result: user is presented with the option of query and description
+
+Step 3: in the query box write "SELECT description, id FROM Presets;" and in description write "Select description and corresponding id". Then click the edit a preset query
+result: user should see the preset they just added in the table
+
+Step 4: go to administrative tab and logout.
+result: user should be back at the login menu
+
+Step 5: login with username = teq02@teq.ca and password = password
+result: logged into low level teq administrative interface
+
+Step 6: click graph generation tab, and make sure "SELECT description, id FROM Presets;" is selected in the preset query list. Press execute query.
+result: user will see in the query output tab the result of the query, and it should return a set of AT LEAST two descriptions and their ids, that being the description from the preset query from the  highLevelTeqAddPreset.txt acceptance test, and the description you added in this acceptance test.
+
+Step 7: ensure the bar/line/pie menu selects pie. Click "add graph to reports". Change the menu to select bar and press the button again. Change the menu to select line and press the button again.
+result: inside the "in current report" box the same query should show up three times, one as pie, one as line, and one as bar
+
+Step 8: press export graphs, and name the resulting graph "graphGenAcceptTest.pdf"
+result: inside the folder where the pdf was saved, there should be a pdf. There should be a pie, line, and bar chart inside, where each description is on the bottom axis and the y axis has the value of its corresponding id. In the case of pie, the description with the bigger id should have more of the circle. If this is true, the acceptance test has passed.
