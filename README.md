@@ -74,8 +74,9 @@ Template.sql
 
 ### Project Deliverable 5
 [Project Video](https://youtu.be/RD6kpNoGNas): https://youtu.be/RD6kpNoGNas
+ - queries ran in video located in [`src/sql/Queries.sql`](https://github.com/CSCC01/Team12/blob/master/src/sql/Queries.sql)
 
-Located under `Deliverable_05/`
+Located under [`Deliverable_05/`](https://github.com/CSCC01/Team12/tree/master/Deliverable_05/backlog)
 #### Sprint 5
  - [plan.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/plan.csv)
  - [execution.csv](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint05/execution.csv)
@@ -89,10 +90,10 @@ Located under `Deliverable_05/`
  - [sprint report](https://github.com/CSCC01/Team12/blob/master/Deliverable_05/backlog/sprint06/sprint_report_06.pdf)
 
 #### Instructions
- - source code located under `src/`
+ - source code located under [`src/`](https://github.com/CSCC01/Team12/tree/master/src)
  - prerequisites
     - edit `src/config.py` to have the correct database configuration to connect to the database
-    - Please make sure to run the following sqls on a mysql database schema
+    - Please make sure to run the following sql scripts located under [`src/sql`](https://github.com/CSCC01/Team12/tree/master/src/sql) on a mysql database schema
 ```
 iCare Template Tables
 =======================
