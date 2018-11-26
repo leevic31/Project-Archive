@@ -45,6 +45,9 @@ class iCareUploadWidget(QWidget):
         self.upload1.clicked.connect(self.file_select)
         self.submit1 = QPushButton("Submit Data")
         self.submit1.clicked.connect(self.submit_iCare_data)
+        
+        self.date_upload = QLineEdit()
+        self.date_label = QLabel("Numerical Month/Year of Submission Data")
 
         self._setup_template_combobox()
 
@@ -52,6 +55,8 @@ class iCareUploadWidget(QWidget):
         self.layout.addWidget(self.iCare_combobox, 0, 1, 1, 5)
         self.layout.addWidget(self.upload1, 1, 0)
         self.layout.addWidget(self.file_upload_label, 1, 1)
+        self.layout.addWidget(self.date_upload, 1, 3)
+        self.layout.addWidget(self.date_label, 1, 4)
         self.layout.addWidget(self.submit1, 4, 0)
 
         self.setLayout(self.layout)
@@ -83,6 +88,7 @@ class iCareUploadWidget(QWidget):
         for filepath in self.filepaths:
             try:
                 database.insert_iCare_data(template_name, filepath)
+                
             except Exception as e:
                 gui_helper.prompt_error(repr(e))
                 return

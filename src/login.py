@@ -26,6 +26,7 @@ from TeqQueryWidget import *
 from PresetQueryWidget import *
 from ModifyPresetQueryWidget import *
 from AdministrativeWidget import *
+from LowTeqGraphingWidget import *
 
 class loginWidget(QWidget):
     def __init__(self, parent):
@@ -71,6 +72,7 @@ class loginWidget(QWidget):
         widget = TeqWidget.teqWidget(self)
         widget.add_widget(AdministrativeWidget(self.parent), "Administrative")
         widget.add_widget(presetQueriesInterface(), "Run Reports")
+        widget.add_widget(LowTeqGraphGenerationWidget(), "Graph Generation")
         self.parent.set_main_widget(widget)
 
     @pyqtSlot()
